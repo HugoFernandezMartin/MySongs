@@ -1,15 +1,15 @@
 import sqlite3 from "sqlite3";
+import fs from "fs";
 
-export async function initDB() {
-  return new Promise((resolve, reject) => {
-    const db = new sqlite3.Database("./mysongs.db", (err) => {
-      if (err) {
-        console.error("Unable to open db", err.message);
-        reject(err);
-      } else {
-        console.log("Connected to MySongs Database");
-        resolve(db);
-      }
-    });
-  });
+export function initDB() {
+  //Open db file
+  const db = new sqlite3.Database("./mysongs.db");
+
+  //Enable FKs
+  db.run("PRAGMA foreign_keys = ON;");
+
+  //Execute init script
+  const sql = fs.readFileSync("./backend/db/scripts/init.sql", "utf8");
+
+  db.exec(sql);
 }

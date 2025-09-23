@@ -19,8 +19,14 @@ let server;
 let db;
 
 async function start_server() {
-  //Init DB
-  db = await initDB();
+  //Try to init database
+  try {
+    db = initDB();
+    console.log("Conected to MySongs database");
+  } catch (err) {
+    console.error("Unable to start server, DB failed: ", err.message);
+    process.exit(1);
+  }
 
   //Init server
   server = app.listen(port, () => {
