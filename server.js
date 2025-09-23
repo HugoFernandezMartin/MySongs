@@ -1,12 +1,8 @@
 const express = require("express");
-const path = require("path");
-const { initDB } = require("./backend/db/database");
+const { initDB, resetDB } = require("./backend/db/database.js");
 const port = 8080;
 
 const app = express();
-
-//For using files from public folder
-app.use(express.static(path.join(__dirname, "public")));
 
 //*Test endpoint
 app.get("/", (req, res) => {
@@ -22,6 +18,7 @@ async function start_server() {
   //Try to init database
   try {
     db = initDB();
+    await resetDB();
     console.log("Conected to MySongs database");
   } catch (err) {
     console.error("Unable to start server, DB failed: ", err.message);
