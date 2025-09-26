@@ -1,6 +1,5 @@
 const sqlite3 = require("sqlite3");
 const fs = require("fs");
-
 let db;
 
 function initDB() {
@@ -12,19 +11,28 @@ function initDB() {
   return db;
 }
 
-//!DEBUG
-const path = require("path");
+async function resetDB() {
+  if (!db) initDB();
 
-async function resetDB(DB) {
-  await db.run("DELETE FROM users");
-  await db.run("DELETE FROM songs");
-  await db.run("DELETE FROM albums");
-  await db.run("DELETE FROM authors");
-  await db.run("DELETE FROM liked_songs");
-  await db.run("DELETE FROM playlists");
-  await db.run("DELETE FROM songs_playlists");
-  await db.run("DELETE FROM sqlite_sequence");
-  console.log("DEBUG: DB reseted");
+  return new Promise((resolve, reject) => {
+    db.serialize(() => {
+      db.run("DELETE FROM liked_songs");
+      db.run("DELETE FROM songs_playlists");
+      db.run("DELETE FROM playlists");
+      db.run("DELETE FROM users");
+      db.run("DELETE FROM songs");
+      db.run("DELETE FROM albums");
+      db.run("DELETE FROM authors");
+      db.run("DELETE FROM genres");
+      db.run("DELETE FROM sqlite_sequence");
+
+      const sql = fs.readFileSync("./backend/db/scripts/test_data.sql", "utf8");
+      db.exec(sql, (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+  });
 }
 
 module.exports = { initDB, resetDB };

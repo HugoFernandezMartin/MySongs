@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS albums (
 
 CREATE TABLE IF NOT EXISTS songs (
     song_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
+    title TEXT UNIQUE NOT NULL,
     author_id INTEGER NOT NULL REFERENCES authors(author_id),
     genre_id INTEGER NOT NULL REFERENCES genres(genre_id),
     album_id INTEGER REFERENCES albums(album_id),

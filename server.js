@@ -1,7 +1,8 @@
 const express = require("express");
 const { initDB, resetDB } = require("./backend/db/database.js");
-const port = 8080;
+const songsRouter = require("./backend/api/song/songRouter.js");
 
+const port = 8080;
 const app = express();
 
 //*Test endpoint
@@ -10,6 +11,7 @@ app.get("/", (req, res) => {
 });
 
 //TODO Routes
+app.use("/songs", songsRouter);
 
 let server;
 let db;
@@ -18,7 +20,7 @@ async function start_server() {
   //Try to init database
   try {
     db = initDB();
-    await resetDB();
+    await resetDB(); //!Debug
     console.log("Conected to MySongs database");
   } catch (err) {
     console.error("Unable to start server, DB failed: ", err.message);
