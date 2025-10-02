@@ -12,9 +12,9 @@
   Example Song:
     {
       title: "Dust N' Bones"
-      author_id: number,
-      genre_id: number,
-      album_id: number,
+      author_id: 2,
+      genre_id: 3,
+      album_id: 1,
       release_date: "1991-09-17"
     }
 

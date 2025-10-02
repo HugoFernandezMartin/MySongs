@@ -24,7 +24,6 @@ async function getSongById(song_id) {
     db.get(sql, [song_id], (err, row) => {
       if (err) return reject(err);
       else {
-        console.log("Song received: ", row);
         return resolve(row);
       }
     });

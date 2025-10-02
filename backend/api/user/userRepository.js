@@ -2,49 +2,71 @@ const { initDB } = require("../../db/database.js");
 const db = initDB();
 
 //Create new user
-async function createUser(username, email, hashed_password) {
+async function createUser(username, hashed_password) {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)`,
-      [username, email, hashed_password],
+      `INSERT INTO users (username, password_hash, is_admin) VALUES (?, ?, false)`,
+      [username, hashed_password],
       function (err) {
         if (err) return reject(err);
         const newID = this.lastID;
-        console.log(`Created user with ID ${newID}`);
+        console.log(`Created user ${username}`);
         resolve(newID);
       }
     );
   });
 }
 
-//Get user data
-async function getUserData(user_id) {
+//Get all users
+async function getUsers() {
+  let query = "SELECT * FROM users";
+
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM users WHERE user_id = ?";
-    db.get(sql, [user_id], (err, row) => {
-      if (err) return reject(err);
-      else return resolve(row);
+    db.all(query, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
     });
   });
 }
 
-//Delete user
-async function delete_user() {
-  //TODO
-}
-//?Update password
+async function deleteUser(username) {
+  const query = "DELETE FROM users WHERE username = ?";
 
-//Update username
-async function update_username() {
-  //TODO
+  return new Promise((resolve, reject) => {
+    db.run(query, [username], function (err) {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (this.changes === 0) {
+        return reject({ code: "NOT_FOUND", message: "User not found" });
+      }
+      console.log(`Deleted user with username ${username}`);
+      resolve({ deleted: this.changes });
+    });
+  });
 }
+
+//Update password
+async function updatePassword(username, newPasswordHash) {
+  const query = "UPDATE users SET password_hash = ? WHERE username = ?";
+
+  return new Promise((resolve, reject) => {
+    db.run(query, [newPasswordHash, username], function (err) {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (this.changes === 0) {
+        return reject({ code: "NOT_FOUND", message: "User not found" });
+      }
+      console.log(`Change password from username ${username}`);
+      resolve({ deleted: this.changes });
+    });
+  });
+}
+
 //Update profile picture
 async function update_profile_picture() {
   //TODO
 }
-//Check existing email
-async function check_email() {
-  //TODO
-}
 
-module.exports = { createUser, getUserData };
+module.exports = { createUser, getUsers, deleteUser, updatePassword };
