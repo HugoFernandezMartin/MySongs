@@ -2,11 +2,11 @@ const { initDB } = require("../../db/database.js");
 const db = initDB();
 
 //Create new user
-async function createUser(username, email, hashed_password) {
+async function createUser(username, hashed_password) {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)`,
-      [username, email, hashed_password],
+      `INSERT INTO users (username, password_hash, is_admin) VALUES (?, ?, false)`,
+      [username, hashed_password],
       function (err) {
         if (err) return reject(err);
         const newID = this.lastID;
@@ -17,8 +17,20 @@ async function createUser(username, email, hashed_password) {
   });
 }
 
-//Get user data
-async function getUserData(user_id) {
+//Get all users
+async function getUsers() {
+  let query = "SELECT * FROM users";
+
+  return new Promise((resolve, reject) => {
+    db.all(query, (err, rows) => {
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}
+
+//Get user data by id
+async function getUserById(user_id) {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM users WHERE user_id = ?";
     db.get(sql, [user_id], (err, row) => {
@@ -42,9 +54,5 @@ async function update_username() {
 async function update_profile_picture() {
   //TODO
 }
-//Check existing email
-async function check_email() {
-  //TODO
-}
 
-module.exports = { createUser, getUserData };
+module.exports = { createUser, getUsers, getUserById };

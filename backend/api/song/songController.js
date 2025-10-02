@@ -4,6 +4,8 @@ const { createSong, getSongById, getSongs } = require("./songRepository.js");
 async function getSongsController(req, res) {
   try {
     const { author, genre, album } = req.query;
+    //TODO
+    //?Validate data
     const songs = await getSongs(author, genre, album);
     res
       .status(200)

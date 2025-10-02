@@ -1,17 +1,7 @@
-const express = require("express");
+const app = require("./app");
 const { initDB, resetDB } = require("./backend/db/database.js");
-const songsRouter = require("./backend/api/song/songRouter.js");
 
 const port = 8080;
-const app = express();
-
-//*Test endpoint
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
-//TODO Routes
-app.use("/songs", songsRouter);
 
 let server;
 let db;
@@ -34,5 +24,3 @@ async function start_server() {
 }
 
 start_server();
-
-module.exports = { app, server, db };

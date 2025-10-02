@@ -1,9 +1,9 @@
-INSERT INTO users (username, email, password_hash, profile_picture) VALUES
-('hugo_dev', 'hugo@example.com', 'hash123', 'avatars/hugo.png'),
-('maria98', 'maria@example.com', 'hash456', 'avatars/maria.jpg'),
-('coder_john', 'john@example.com', 'hash789', NULL),
-('sara_music', 'sara@example.com', 'hash321', 'avatars/sara.png'),
-('alex99', 'alex@example.com', 'hash654', NULL);
+INSERT INTO users (username, password_hash, profile_picture, is_admin) VALUES
+('hugo_dev', 'hash123', 'avatars/hugo.png', false),
+('maria98', 'hash456', 'avatars/maria.jpg', false),
+('coder_john', 'hash789', NULL, false),
+('sara_music', 'hash321', 'avatars/sara.png', false),
+('alex99', 'hash654', NULL, false);
 
 INSERT INTO authors (name, description) VALUES
 ('The Synth Lords', 'Electronic synthwave duo from Sweden'),

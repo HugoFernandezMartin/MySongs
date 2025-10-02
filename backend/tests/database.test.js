@@ -1,29 +1,77 @@
 const { initDB, resetDB } = require("../db/database");
 const db = initDB();
 
-const { createUser, getUserData } = require("../api/user/userRepository.js");
+const {
+  createUser,
+  getUsers,
+  getUserById,
+} = require("../api/user/userRepository.js");
 const {
   createSong,
   getSongById,
   getSongs,
 } = require("../api/song/songRepository.js");
+const {
+  getUserByName,
+  registerUser,
+} = require("../api/auth/authRepository.js");
 
 describe("Database tests", () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetDB();
   });
 
   describe("User management tests", () => {
-    test("Create new user and check if created", async () => {
-      const id = await createUser("huguito", "huguito@gmail.com", "1234_hash");
-      const user = await getUserData(id);
-      console.log("User:", user);
+    test("List all users", async () => {
+      const users = await getUsers();
+      expect(users).toEqual([
+        {
+          user_id: 1,
+          username: "hugo_dev",
+          password_hash: "hash123",
+          is_admin: 0,
+          profile_picture: "avatars/hugo.png",
+        },
+        {
+          user_id: 2,
+          username: "maria98",
+          password_hash: "hash456",
+          is_admin: 0,
+          profile_picture: "avatars/maria.jpg",
+        },
+        {
+          user_id: 3,
+          username: "coder_john",
+          password_hash: "hash789",
+          is_admin: 0,
+          profile_picture: null,
+        },
+        {
+          user_id: 4,
+          username: "sara_music",
+          password_hash: "hash321",
+          is_admin: 0,
+          profile_picture: "avatars/sara.png",
+        },
+        {
+          user_id: 5,
+          username: "alex99",
+          password_hash: "hash654",
+          is_admin: 0,
+          profile_picture: null,
+        },
+      ]);
+    });
+
+    test("Register new user and check if registered", async () => {
+      const id = await registerUser("huguito", "1234_hash");
+      const user = await getUserByName("huguito");
       expect(user).toEqual({
         user_id: id,
         username: "huguito",
-        email: "huguito@gmail.com",
         password_hash: "1234_hash",
         profile_picture: null,
+        is_admin: 0,
       });
     });
   });
