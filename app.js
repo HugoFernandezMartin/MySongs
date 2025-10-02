@@ -2,6 +2,7 @@ const express = require("express");
 const songsRouter = require("./backend/api/song/songRouter.js");
 const userRouter = require("./backend/api/user/userRouter.js");
 const authRouter = require("./backend/api/auth/authRouter.js");
+const accountRouter = require("./backend/api/account/accountRouter.js");
 const app = express();
 const connectSqlite3 = require("connect-sqlite3");
 const session = require("express-session");
@@ -41,5 +42,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/songs", songsRouter);
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/me", accountRouter);
 
 module.exports = app;

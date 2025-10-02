@@ -1,6 +1,7 @@
 const { hashPassword, verifyPassword } = require("./authService");
-const { registerUser, getUserByName } = require("./authRepository");
-const makeResponse = require("../../commons/response");
+const { registerUser } = require("./authRepository");
+const { getUserByName } = require("../../commons/utils/userUtils");
+const makeResponse = require("../../commons/models/response");
 
 async function RegisterUserController(req, res) {
   try {
@@ -39,15 +40,12 @@ async function LoginController(req, res) {
 
     req.session.isLoggedIn = true;
     req.session.username = username;
-
     //Check if admin
     if (user.is_admin) {
       req.session.isAdmin = true;
     } else {
       req.session.isAdmin = false;
     }
-
-    console.log("---> SESSION INFORMATION: ", JSON.stringify(req.session));
 
     res
       .status(200)

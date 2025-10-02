@@ -10,7 +10,7 @@ async function createUser(username, hashed_password) {
       function (err) {
         if (err) return reject(err);
         const newID = this.lastID;
-        console.log(`Created user with ID ${newID}`);
+        console.log(`Created user ${username}`);
         resolve(newID);
       }
     );
@@ -29,30 +29,44 @@ async function getUsers() {
   });
 }
 
-//Get user data by id
-async function getUserById(user_id) {
+async function deleteUser(username) {
+  const query = "DELETE FROM users WHERE username = ?";
+
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM users WHERE user_id = ?";
-    db.get(sql, [user_id], (err, row) => {
-      if (err) return reject(err);
-      else return resolve(row);
+    db.run(query, [username], function (err) {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (this.changes === 0) {
+        return reject({ code: "NOT_FOUND", message: "User not found" });
+      }
+      console.log(`Deleted user with username ${username}`);
+      resolve({ deleted: this.changes });
     });
   });
 }
 
-//Delete user
-async function delete_user() {
-  //TODO
-}
-//?Update password
+//Update password
+async function updatePassword(username, newPasswordHash) {
+  const query = "UPDATE users SET password_hash = ? WHERE username = ?";
 
-//Update username
-async function update_username() {
-  //TODO
+  return new Promise((resolve, reject) => {
+    db.run(query, [newPasswordHash, username], function (err) {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (this.changes === 0) {
+        return reject({ code: "NOT_FOUND", message: "User not found" });
+      }
+      console.log(`Change password from username ${username}`);
+      resolve({ deleted: this.changes });
+    });
+  });
 }
+
 //Update profile picture
 async function update_profile_picture() {
   //TODO
 }
 
-module.exports = { createUser, getUsers, getUserById };
+module.exports = { createUser, getUsers, deleteUser, updatePassword };

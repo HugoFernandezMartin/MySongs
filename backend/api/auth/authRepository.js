@@ -10,27 +10,11 @@ async function registerUser(username, hashed_password) {
       function (err) {
         if (err) return reject({ code: "DB_ERROR", message: err.message });
         const newID = this.lastID;
-        console.log(`Created user with ID ${newID}`);
+        console.log(`Created user ${username} with ID ${newID}`);
         resolve(newID);
       }
     );
   });
 }
 
-//Get user data by email
-async function getUserByName(username) {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM users WHERE username = ?";
-    db.get(sql, [username], (err, row) => {
-      if (err) {
-        return reject({ code: "DB_ERROR", message: err.message });
-      }
-      if (!row) {
-        return reject({ code: "NOT_FOUND", message: "User not found" });
-      }
-      resolve(row);
-    });
-  });
-}
-
-module.exports = { registerUser, getUserByName };
+module.exports = { registerUser };

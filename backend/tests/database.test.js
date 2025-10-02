@@ -2,19 +2,18 @@ const { initDB, resetDB } = require("../db/database");
 const db = initDB();
 
 const {
-  createUser,
   getUsers,
-  getUserById,
+  updatePassword,
+  deleteUser,
 } = require("../api/user/userRepository.js");
+const { getUserByName } = require("../commons/utils/userUtils.js");
 const {
   createSong,
   getSongById,
   getSongs,
 } = require("../api/song/songRepository.js");
-const {
-  getUserByName,
-  registerUser,
-} = require("../api/auth/authRepository.js");
+
+const { registerUser } = require("../api/auth/authRepository.js");
 
 describe("Database tests", () => {
   beforeEach(async () => {
@@ -73,6 +72,18 @@ describe("Database tests", () => {
         profile_picture: null,
         is_admin: 0,
       });
+    });
+
+    test("Register new user and update its password", async () => {
+      const id = await registerUser("huguito", "1234_hash");
+      const changes = await updatePassword("huguito", "1234_newHash");
+      expect(changes).toEqual({ deleted: 1 });
+    });
+
+    test("Register new user and delete its account", async () => {
+      const id = await registerUser("huguito", "1234_hash");
+      const changes = await deleteUser("huguito");
+      expect(changes).toEqual({ deleted: 1 });
     });
   });
 

@@ -6,6 +6,7 @@ describe("Routers tests", () => {
   beforeEach(async () => {
     await resetDB();
   });
+
   describe("User Routes tests: ", () => {
     beforeEach(async () => {
       await resetDB();
@@ -80,26 +81,27 @@ describe("Routers tests", () => {
         username: "angelica123",
         password: "pass123",
       });
-      console.log("RESPONSE: ", response.body);
+      console.log("CREATE NEW USER RESPONSE: ", response.body);
       expect(response.body.message).toBe("User created succesfully");
     });
   });
 
-  describe("Authentication tests: ", () => {
-    beforeEach(async () => {
-      await resetDB();
-    });
-
-    test("Register user, log in and log out:", async () => {
-      let response;
+  describe("Account tests: ", () => {
+    test("Register user:", async () => {
       //*REGISTER
-      response = await request(app).post("/auth/register").send({
+      const response = await request(app).post("/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
-      console.log("RESPONSE: ", response.body);
+      console.log("REGISTER RESPONSE: ", response.body);
       expect(response.body.message).toBe("User registered succesfully");
+    });
 
+    test("Register, Log in and log out", async () => {
+      await request(app).post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
       //*LOGIN
       response = await request(app).post("/auth/login").send({
         username: "angelica123",
@@ -112,6 +114,53 @@ describe("Routers tests", () => {
       response = await request(app).get("/auth/logout");
       console.log("LOGOUT RESPONSE: ", response.body);
       expect(response.body.message).toBe("Logout Succesfully");
+    });
+
+    test("Register, log in and delete account", async () => {
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*DELETE ACCOUNT
+      const response = await agent.delete("/me/delete").send({
+        password: "pass123",
+      });
+      console.log("DELETE ACCOUNT RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Account deleted succesfully");
+    });
+
+    test("Register, log in and update password", async () => {
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*UPDATE PASSWORD
+      const response = await agent.put("/me/update_password").send({
+        password: "pass123",
+        newPassword: "newPass123",
+      });
+      console.log("UPDATE PASSWORD RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Password updated succesfully");
     });
   });
 });
