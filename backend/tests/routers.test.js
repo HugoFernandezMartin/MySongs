@@ -11,7 +11,6 @@ describe("Routers tests", () => {
     beforeEach(async () => {
       await resetDB();
     });
-
     test("Get all users: ", async () => {
       const response = await request(app).get("/users");
       console.log("RESPONSE: ", response.body);
@@ -161,6 +160,90 @@ describe("Routers tests", () => {
       });
       console.log("UPDATE PASSWORD RESPONSE: ", response.body);
       expect(response.body.message).toBe("Password updated succesfully");
+    });
+  });
+
+  describe("Playlists tests: ", () => {
+    test("Create a new playlist", async () => {
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*CREATE PLAYLIST
+      const response = await agent.post("/playlists").send({
+        title: "Chill Vibes",
+      });
+      console.log("CREATE PLAYLIST RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Playlist created succesfully");
+    });
+
+    test("Create and delete a playlist", async () => {
+      const agent = request.agent(app);
+      let response;
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*CREATE PLAYLIST
+      response = await agent.post("/playlists").send({
+        title: "Chill Vibes",
+      });
+
+      //*DELETE PLAYLIST
+      const playlistId = response.body.responseObject;
+      const deleteResponse = await agent.delete(`/playlists/${playlistId}`);
+
+      console.log("DELETE PLAYLIST RESPONSE: ", deleteResponse.body);
+      expect(deleteResponse.body.message).toBe("Playlist deleted succesfully");
+    });
+
+    test("Add a song to playlist", async () => {
+      //*ADD SONG TO PLAYLIST 1
+      const response = await request(app).post(`/playlists/2/songs`).send({
+        songId: 1,
+      });
+
+      console.log("ADD SONG TO PLAYLIST RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Song added to playlist succesfully");
+    });
+
+    test("Remove a song from a playlist", async () => {
+      //*REMOVE SONG 1 FROM PLAYLIST 1
+      const response = await request(app).delete(`/playlists/1/songs/1`);
+
+      console.log("REMOVE SONG FROM PLAYLIST RESPONSE: ", response.body);
+      expect(response.body.message).toBe(
+        "Song removed from playlist succesfully"
+      );
+    });
+
+    test("Get all songs from a playlist", async () => {
+      //*GET SONGS FROM PLAYLIST 1
+      const response = await request(app).get(`/playlists/1/songs`);
+
+      console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
+      expect(response.body.message).toBe(
+        "Songs from playlist retrieved succesfully"
+      );
     });
   });
 });

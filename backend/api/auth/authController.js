@@ -39,7 +39,9 @@ async function LoginController(req, res) {
     };
 
     req.session.isLoggedIn = true;
+    req.session.userId = user.user_id;
     req.session.username = username;
+
     //Check if admin
     if (user.is_admin) {
       req.session.isAdmin = true;

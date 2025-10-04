@@ -17,19 +17,6 @@ async function createSong(title, author_id, genre_id, album_id, release_date) {
   });
 }
 
-//Get song data
-async function getSongById(song_id) {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM songs WHERE song_id = ?";
-    db.get(sql, [song_id], (err, row) => {
-      if (err) return reject(err);
-      else {
-        return resolve(row);
-      }
-    });
-  });
-}
-
 //Get songs with optional filters, null if filter is not applied
 async function getSongs(author, genre, album) {
   //Adding parameters if filter applied
@@ -59,4 +46,4 @@ async function getSongs(author, genre, album) {
   });
 }
 
-module.exports = { createSong, getSongById, getSongs };
+module.exports = { createSong, getSongs };
