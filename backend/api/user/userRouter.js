@@ -4,6 +4,7 @@ const {
   CreateUserController,
   GetUsersController,
   GetUserByIdController,
+  GetPlaylistsController,
 } = require("./userController.js");
 
 /*
@@ -96,5 +97,34 @@ router.get("/", GetUsersController);
     }
 */
 router.get("/:id", GetUserByIdController);
+
+/*
+  GET /users/:user_id/playlists
+  Return playlists from user
+
+  Response:
+    {
+      success: boolean,
+      message: string,
+      responseObject: Playlist[],
+      statusCode: number
+    }
+
+  Example Response:
+    {
+      success: true,
+      message: "Playlists retrieved succesfully",
+      responseObject:
+          [{
+            playlist_id: 1,
+            title: "Hiking 2025",
+            owner_id: 1,
+            created_at: 2025-10-02
+          },
+          ],
+      statusCode: 200
+    }
+*/
+router.get("/:user_id/playlists", GetPlaylistsController);
 
 module.exports = router;

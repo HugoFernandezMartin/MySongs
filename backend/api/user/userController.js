@@ -50,8 +50,14 @@ async function GetUserByIdController(req, res) {
   }
 }
 
+async function GetPlaylistsController(req, res) {
+  //TODO
+  console.log("TODO GET PLAYLISTS");
+}
+
 module.exports = {
   CreateUserController,
   GetUsersController,
   GetUserByIdController,
+  GetPlaylistsController,
 };

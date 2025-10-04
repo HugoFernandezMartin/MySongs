@@ -1,5 +1,5 @@
 const makeResponse = require("../../commons/models/response.js");
-const { createSong, getSongById, getSongs } = require("./songRepository.js");
+const { createSong, getSongs } = require("./songRepository.js");
 
 async function getSongsController(req, res) {
   try {

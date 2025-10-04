@@ -29,36 +29,36 @@ async function getUsers() {
   });
 }
 
-async function deleteUser(username) {
-  const query = "DELETE FROM users WHERE username = ?";
+async function deleteUser(userId) {
+  const query = "DELETE FROM users WHERE user_id = ?";
 
   return new Promise((resolve, reject) => {
-    db.run(query, [username], function (err) {
+    db.run(query, [userId], function (err) {
       if (err) {
         return reject({ code: "DB_ERROR", message: err.message });
       }
       if (this.changes === 0) {
         return reject({ code: "NOT_FOUND", message: "User not found" });
       }
-      console.log(`Deleted user with username ${username}`);
+      console.log(`Deleted user with ID ${userId}`);
       resolve({ deleted: this.changes });
     });
   });
 }
 
 //Update password
-async function updatePassword(username, newPasswordHash) {
-  const query = "UPDATE users SET password_hash = ? WHERE username = ?";
+async function updatePassword(userId, newPasswordHash) {
+  const query = "UPDATE users SET password_hash = ? WHERE user_id = ?";
 
   return new Promise((resolve, reject) => {
-    db.run(query, [newPasswordHash, username], function (err) {
+    db.run(query, [newPasswordHash, userId], function (err) {
       if (err) {
         return reject({ code: "DB_ERROR", message: err.message });
       }
       if (this.changes === 0) {
         return reject({ code: "NOT_FOUND", message: "User not found" });
       }
-      console.log(`Change password from username ${username}`);
+      console.log(`Change password from username with ID ${userId}`);
       resolve({ deleted: this.changes });
     });
   });

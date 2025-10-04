@@ -1,5 +1,5 @@
 const makeResponse = require("../../commons/models/response");
-const { getUserByName } = require("../../commons/utils/userUtils");
+const { getUserByName, getUserById } = require("../../commons/utils/userUtils");
 const { verifyPassword, hashPassword } = require("../auth/authService");
 const { deleteUser, updatePassword } = require("../user/userRepository");
 
@@ -7,15 +7,15 @@ async function DeleteAccountController(req, res) {
   try {
     //Get password and username from req
     const { password } = req.body;
-    const username = req.session.username;
+    const userId = req.session.userId;
 
     //Check password in db
-    const userData = await getUserByName(username);
+    const userData = await getUserById(userId);
 
     await verifyPassword(password, userData.password_hash);
 
     //Delete user
-    await deleteUser(username);
+    await deleteUser(userId);
 
     res
       .status(200)
@@ -44,6 +44,7 @@ async function UpdatePasswordController(req, res) {
 
     //Get user data
     const userData = await getUserByName(username);
+    console.log("USERDATA:   ", userData);
 
     //Check correct password
     await verifyPassword(password, userData.password_hash);
@@ -52,7 +53,7 @@ async function UpdatePasswordController(req, res) {
     const newPasswordHash = await hashPassword(newPassword);
 
     //Change password
-    await updatePassword(username, newPasswordHash);
+    await updatePassword(userData.user_id, newPasswordHash);
 
     res
       .status(200)

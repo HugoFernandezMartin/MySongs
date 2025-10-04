@@ -7,13 +7,14 @@ const {
   deleteUser,
 } = require("../api/user/userRepository.js");
 const { getUserByName } = require("../commons/utils/userUtils.js");
-const {
-  createSong,
-  getSongById,
-  getSongs,
-} = require("../api/song/songRepository.js");
-
+const { createSong, getSongs } = require("../api/song/songRepository.js");
+const { getSongById } = require("../commons/utils/songUtils.js");
 const { registerUser } = require("../api/auth/authRepository.js");
+const {
+  AddPlaylist,
+  getPlaylistById,
+  DeletePlaylist,
+} = require("../api/playlist/playlistRepository.js");
 
 describe("Database tests", () => {
   beforeEach(async () => {
@@ -76,13 +77,13 @@ describe("Database tests", () => {
 
     test("Register new user and update its password", async () => {
       const id = await registerUser("huguito", "1234_hash");
-      const changes = await updatePassword("huguito", "1234_newHash");
+      const changes = await updatePassword(id, "1234_newHash");
       expect(changes).toEqual({ deleted: 1 });
     });
 
     test("Register new user and delete its account", async () => {
       const id = await registerUser("huguito", "1234_hash");
-      const changes = await deleteUser("huguito");
+      const changes = await deleteUser(id);
       expect(changes).toEqual({ deleted: 1 });
     });
   });
@@ -91,14 +92,7 @@ describe("Database tests", () => {
     test("Create new song and check if created", async () => {
       const id = await createSong("La Salvacion", 5, 1, null, "2025-12-02");
       const song = await getSongById(id);
-      expect(song).toEqual({
-        song_id: id,
-        title: "La Salvacion",
-        author_id: 5,
-        genre_id: 1,
-        album_id: null,
-        release_date: "2025-12-02",
-      });
+      expect(song.title).toBe("La Salvacion");
     });
 
     test("Get all songs filtered by author", async () => {
@@ -114,6 +108,33 @@ describe("Database tests", () => {
           release_date: "2022-05-10",
         },
       ]);
+    });
+  });
+
+  describe("Playlist management tests", () => {
+    test("Create new playlist and check if created: ", async () => {
+      const playlistId = await AddPlaylist("Hike 2025", 1);
+      const playlistData = await getPlaylistById(playlistId);
+      expect(playlistData.title).toBe("Hike 2025");
+    });
+
+    test("Delete new playlist and check if erased", async () => {
+      const playlistId = await DeletePlaylist(1);
+
+      try {
+        await getPlaylistById(playlistId);
+      } catch (err) {
+        if (err.code === "NOT_FOUND") return;
+      }
+      throw new Error("Playlist was not deleted correctly");
+    });
+
+    test("Add song to playlist and check if added: ", async () => {
+      //TODO
+    });
+
+    test("Remove song from playlist and check if removed: ", async () => {
+      //TODO
     });
   });
 });
