@@ -47,9 +47,3 @@ INSERT INTO songs_playlists (playlist_id, song_id) VALUES
 (3, 3), -- Party Mode -> Midnight Drop
 (5, 5); -- Classical Focus -> Future Overture
 
-INSERT INTO liked_songs (user_id, song_id) VALUES
-(1, 3), -- hugo_dev likes Midnight Drop
-(2, 1), -- maria98 likes Starlight Drive
-(3, 2), -- coder_john likes Rebel Yell
-(4, 4), -- sara_music likes Shadows in the Rain
-(5, 5); -- alex99 likes Future Overture

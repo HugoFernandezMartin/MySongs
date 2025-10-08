@@ -8,9 +8,15 @@ describe("Routers tests", () => {
   });
 
   describe("User Routes tests: ", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n---------USER-----------\n------------------------"
+      );
+    });
     beforeEach(async () => {
       await resetDB();
     });
+
     test("Get all users: ", async () => {
       const response = await request(app).get("/users");
       console.log("RESPONSE: ", response.body);
@@ -86,6 +92,11 @@ describe("Routers tests", () => {
   });
 
   describe("Account tests: ", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n-------ACCOUNT---------\n------------------------"
+      );
+    });
     test("Register user:", async () => {
       //*REGISTER
       const response = await request(app).post("/auth/register").send({
@@ -161,9 +172,58 @@ describe("Routers tests", () => {
       console.log("UPDATE PASSWORD RESPONSE: ", response.body);
       expect(response.body.message).toBe("Password updated succesfully");
     });
+
+    test("Register, log in and retrieve playlist", async () => {
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*RETURN PLAYLISTS
+      const response = await agent.get("/me/playlists");
+      console.log("GET PLAYLISTS RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Playlists retrieved succesfully");
+    });
+
+    test("Register, log in and try to update profile picture", async () => {
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*RETURN PLAYLISTS
+      const response = await agent.put("/me/update_picture").send({
+        picture: "PictureDATA",
+      });
+      console.log("UPDATE PICTURE RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Profile Picture updated succesfully");
+    });
   });
 
   describe("Playlists tests: ", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n-------PLAYLIST-----------\n------------------------"
+      );
+    });
     test("Create a new playlist", async () => {
       const agent = request.agent(app);
 
@@ -244,6 +304,51 @@ describe("Routers tests", () => {
       expect(response.body.message).toBe(
         "Songs from playlist retrieved succesfully"
       );
+    });
+  });
+
+  describe("Genres tests", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n--------GENRES----------\n------------------------"
+      );
+    });
+    test("Create a genre", async () => {
+      //*Create a genre
+      const response = await request(app).post(`/genres`).send({
+        name: "RAP",
+        description: "JUST RAP",
+      });
+
+      expect(response.body.message).toBe("Genre created succesfully");
+    });
+
+    test("Delete a genre", async () => {
+      const response = await request(app).delete("/genres/1");
+
+      console.log("DELETE GENRE RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Genre deleted succesfully");
+    });
+
+    test("Get all genres", async () => {
+      const response = await request(app).get("/genres");
+
+      console.log("GET GENRES RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Genres retrieved succesfully");
+    });
+
+    test("Get genre by its id", async () => {
+      const response = await request(app).get("/genres/2");
+
+      console.log("GET GENRE BY ID RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Genre retrieved succesfully");
+    });
+
+    test("Get songs from genre", async () => {
+      const response = await request(app).get("/genres/2/songs");
+
+      console.log("GET SONGS FROM GENRE RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Songs retrieved succesfully");
     });
   });
 });
