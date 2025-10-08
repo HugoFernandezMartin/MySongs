@@ -14,7 +14,15 @@ const {
   AddPlaylist,
   getPlaylistById,
   DeletePlaylist,
+  AddSongToPlaylist,
+  getSongsFromPlaylist,
+  DeleteSongFromPlaylist,
 } = require("../api/playlist/playlistRepository.js");
+const {
+  AddGenre,
+  GetGenreById,
+  RemoveGenre,
+} = require("../api/genre/genreRepository.js");
 
 describe("Database tests", () => {
   beforeEach(async () => {
@@ -130,11 +138,42 @@ describe("Database tests", () => {
     });
 
     test("Add song to playlist and check if added: ", async () => {
-      //TODO
+      //*ADD SONG 4 TO PLAYLIST 1
+      await AddSongToPlaylist(1, 4);
+      const songs = await getSongsFromPlaylist(1);
+      const song = await getSongById(4);
+      expect(songs).toContainEqual(song);
     });
 
     test("Remove song from playlist and check if removed: ", async () => {
-      //TODO
+      //*REMOVE SONG 2 FROM PLAYLIST 1
+      await DeleteSongFromPlaylist(1, 2);
+      const songs = await getSongsFromPlaylist(1);
+      const song = await getSongById(2);
+      expect(songs).not.toContainEqual(song);
+    });
+  });
+
+  describe("Genre management tests", () => {
+    test("Create a gender and check if created", async () => {
+      const id = await AddGenre("Rap", "Just Rap");
+      const genre = await GetGenreById(id);
+      expect(genre).toEqual({
+        genre_id: id,
+        name: "Rap",
+        description: "Just Rap",
+      });
+    });
+
+    test("Delete a gender and check if deleted", async () => {
+      const genreId = await RemoveGenre(1);
+
+      try {
+        await GetGenreById(genreId);
+      } catch (err) {
+        if (err.code === "NOT_FOUND") return;
+      }
+      throw new Error("Genre was not deleted correctly");
     });
   });
 });

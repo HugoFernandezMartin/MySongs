@@ -16,7 +16,6 @@ async function resetDB() {
 
   return new Promise((resolve, reject) => {
     db.serialize(() => {
-      db.run("DELETE FROM liked_songs");
       db.run("DELETE FROM songs_playlists");
       db.run("DELETE FROM playlists");
       db.run("DELETE FROM users");

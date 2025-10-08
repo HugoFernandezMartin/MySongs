@@ -45,9 +45,3 @@ CREATE TABLE IF NOT EXISTS songs_playlists (
     song_id INTEGER REFERENCES songs(song_id) ON DELETE CASCADE,
     PRIMARY KEY(playlist_id, song_id)
 );
-
-CREATE TABLE IF NOT EXISTS liked_songs (
-    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
-    song_id INTEGER REFERENCES songs(song_id) ON DELETE CASCADE,
-    PRIMARY KEY(user_id, song_id)
-);
