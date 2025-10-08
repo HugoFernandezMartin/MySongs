@@ -313,6 +313,7 @@ describe("Routers tests", () => {
         "------------------------\n--------GENRES----------\n------------------------"
       );
     });
+
     test("Create a genre", async () => {
       //*Create a genre
       const response = await request(app).post(`/genres`).send({
@@ -348,6 +349,21 @@ describe("Routers tests", () => {
       const response = await request(app).get("/genres/2/songs");
 
       console.log("GET SONGS FROM GENRE RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Songs retrieved succesfully");
+    });
+  });
+
+  describe("Songs tests", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n--------SONGS----------\n------------------------"
+      );
+    });
+
+    test("Return Songs from search bar", async () => {
+      const response = await request(app).get("/songs/search?q=S");
+
+      console.log("SEARCH SONGS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");
     });
   });

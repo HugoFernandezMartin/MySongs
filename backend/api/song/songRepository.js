@@ -46,4 +46,16 @@ async function getSongs(author, genre, album) {
   });
 }
 
-module.exports = { createSong, getSongs };
+async function searchSongs(q) {
+  const query = "SELECT * FROM songs WHERE title LIKE ?";
+
+  return new Promise((resolve, reject) => {
+    db.all(query, `${q}%`, (err, rows) => {
+      console.log("ROWS", rows);
+      if (err) reject(err);
+      else resolve(rows);
+    });
+  });
+}
+
+module.exports = { createSong, getSongs, searchSongs };

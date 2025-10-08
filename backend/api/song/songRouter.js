@@ -1,5 +1,8 @@
 const express = require("express");
-const getSongsController = require("./songController");
+const {
+  GetSongsController,
+  SearchSongController,
+} = require("./songController");
 const router = express.Router();
 
 /*
@@ -36,6 +39,39 @@ const router = express.Router();
       statusCode: 200
     }
 */
-router.get("/", getSongsController);
+router.get("/", GetSongsController);
+
+/*
+  GET /songs/search
+  Get songs filtered by search bar.
+
+  Query Params:
+    q: string
+
+  Response:
+    {
+      success: boolean,
+      message: string,
+      responseObject: Song[],
+      statusCode: number
+    }
+
+  Example Response:
+    {
+      success: true,
+      message: "Songs retrieved successfully",
+      responseObject: [
+        {
+          id: 1,
+          title: "November Rain",
+          author: "Guns and Roses",
+          genre: "Rock",
+          album: "Use Your Illusion I"
+        }
+      ],
+      statusCode: 200
+    }
+ */
+router.get("/search", SearchSongController);
 
 module.exports = router;
