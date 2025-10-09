@@ -21,7 +21,11 @@ const SQLiteStore = connectSqlite3(session); // store sessions in the database
 app.use(
   session({
     // define the session
-    store: new SQLiteStore({ db: "sessions.db" }),
+    store: new SQLiteStore({
+      db: "sessions.db",
+      ttl: 24 * 60 * 60, //Sessions expire in 24 hours
+      cleanupInterval: 5 * 60, //Expired sessions dissapear every 5 minutes
+    }),
     saveUninitialized: false,
     resave: false,
     secret: "This123Is@Another#456GreatSecret678%Sentence",
