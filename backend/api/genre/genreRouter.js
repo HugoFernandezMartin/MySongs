@@ -8,6 +8,9 @@ const {
   GetGenreByIdController,
   GetSongsFromGenreController,
 } = require("./genreController");
+const {
+  adminAuthMiddleware,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
     POST /genres
@@ -33,7 +36,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", CreateGenreController);
+router.post("/", adminAuthMiddleware, CreateGenreController);
 
 /*
     DELETE /genres/:genre_id
@@ -55,7 +58,7 @@ router.post("/", CreateGenreController);
         statusCode: 200
       } 
 */
-router.delete("/:genre_id", DeleteGenreController);
+router.delete("/:genre_id", adminAuthMiddleware, DeleteGenreController);
 
 /*
 

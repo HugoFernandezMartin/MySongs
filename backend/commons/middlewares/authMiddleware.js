@@ -1,7 +1,8 @@
 const makeResponse = require("../models/response");
 
 function adminAuthMiddleware(req, res, next) {
-  if (!req.session || !req.session.user) {
+  console.log("REQ: ", req.session);
+  if (!req.session || !req.session.userId) {
     return res
       .status(401)
       .json(makeResponse(false, "You must log in", null, 401));
@@ -10,14 +11,14 @@ function adminAuthMiddleware(req, res, next) {
   if (!req.session.isAdmin) {
     return res
       .status(403)
-      .json(makeResponse(false, "Access denied: admin only", null, 403));
+      .json(makeResponse(false, "Authentication Error", null, 403));
   }
 
   next();
 }
 
 function userAuthMiddleware(req, res, next) {
-  if (!req.session || !req.session.user) {
+  if (!req.session || !req.session.userId) {
     return res
       .status(401)
       .json(makeResponse(false, "You must log in", null, 401));

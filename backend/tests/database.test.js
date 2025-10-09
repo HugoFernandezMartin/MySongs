@@ -1,5 +1,4 @@
-const { initDB, resetDB } = require("../db/database");
-const db = initDB();
+const { resetDB } = require("../tests/testUtils.js");
 
 const {
   getUsers,

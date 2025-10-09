@@ -1,10 +1,49 @@
 const app = require("../../app.js");
 const request = require("supertest");
-const { resetDB } = require("../db/database.js");
+const { resetDB, ensureAdminExists } = require("./testUtils.js");
 
 describe("Routers tests", () => {
   beforeEach(async () => {
     await resetDB();
+  });
+
+  describe("Middleware tests: ", () => {
+    beforeAll(async () => {
+      console.log(
+        "------------------------\n------MIDDLEWARE--------\n------------------------"
+      );
+    });
+
+    test("Try to log out without log in first", async () => {
+      const response = await request(app).get("/auth/logout");
+      console.log("LOGOUT RESPONSE: ", response.body);
+      expect(response.body.message).toBe("You must log in");
+    });
+
+    test("Try to create a genre without being admin", async () => {
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*REGISTER
+      await agent.post("/auth/register").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "angelica123",
+        password: "pass123",
+      });
+
+      //*Create a genre
+      const response = await agent.post(`/genres`).send({
+        name: "RAP",
+        description: "JUST RAP",
+      });
+
+      expect(response.body.message).toBe("Authentication Error");
+    });
   });
 
   describe("User Routes tests: ", () => {
@@ -85,6 +124,7 @@ describe("Routers tests", () => {
       const response = await request(app).post("/users").send({
         username: "angelica123",
         password: "pass123",
+        isAdmin: false,
       });
       console.log("CREATE NEW USER RESPONSE: ", response.body);
       expect(response.body.message).toBe("User created succesfully");
@@ -108,12 +148,14 @@ describe("Routers tests", () => {
     });
 
     test("Register, Log in and log out", async () => {
-      await request(app).post("/auth/register").send({
+      const agent = request.agent(app);
+
+      await agent.post("/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
       //*LOGIN
-      response = await request(app).post("/auth/login").send({
+      response = await agent.post("/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
@@ -121,7 +163,7 @@ describe("Routers tests", () => {
       expect(response.body.message).toBe("Login Succesfully");
 
       //*LOGOUT
-      response = await request(app).get("/auth/logout");
+      response = await agent.get("/auth/logout");
       console.log("LOGOUT RESPONSE: ", response.body);
       expect(response.body.message).toBe("Logout Succesfully");
     });
@@ -315,8 +357,17 @@ describe("Routers tests", () => {
     });
 
     test("Create a genre", async () => {
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "admin",
+        password: "wdf#2025",
+      });
+
       //*Create a genre
-      const response = await request(app).post(`/genres`).send({
+      const response = await agent.post(`/genres`).send({
         name: "RAP",
         description: "JUST RAP",
       });
@@ -325,7 +376,16 @@ describe("Routers tests", () => {
     });
 
     test("Delete a genre", async () => {
-      const response = await request(app).delete("/genres/1");
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "admin",
+        password: "wdf#2025",
+      });
+
+      const response = await agent.delete("/genres/1");
 
       console.log("DELETE GENRE RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genre deleted succesfully");

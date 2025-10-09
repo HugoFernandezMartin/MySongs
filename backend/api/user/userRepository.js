@@ -2,11 +2,11 @@ const { initDB } = require("../../db/database.js");
 const db = initDB();
 
 //Create new user
-async function createUser(username, hashed_password) {
+async function createUser(username, hashed_password, isAdmin) {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO users (username, password_hash, is_admin) VALUES (?, ?, false)`,
-      [username, hashed_password],
+      `INSERT INTO users (username, password_hash, is_admin) VALUES (?, ?, ?)`,
+      [username, hashed_password, isAdmin],
       function (err) {
         if (err) return reject(err);
         const newID = this.lastID;
