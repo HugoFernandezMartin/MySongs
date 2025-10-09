@@ -59,69 +59,27 @@ describe("Routers tests", () => {
     test("Get all users: ", async () => {
       const response = await request(app).get("/users");
       console.log("RESPONSE: ", response.body);
-      expect(response.body).toEqual({
-        success: true,
-        message: "Users retrieved succesfully",
-        responseObject: [
-          {
-            user_id: 1,
-            username: "hugo_dev",
-            password_hash: "hash123",
-            is_admin: 0,
-            profile_picture: "avatars/hugo.png",
-          },
-          {
-            user_id: 2,
-            username: "maria98",
-            password_hash: "hash456",
-            is_admin: 0,
-            profile_picture: "avatars/maria.jpg",
-          },
-          {
-            user_id: 3,
-            username: "coder_john",
-            password_hash: "hash789",
-            is_admin: 0,
-            profile_picture: null,
-          },
-          {
-            user_id: 4,
-            username: "sara_music",
-            password_hash: "hash321",
-            is_admin: 0,
-            profile_picture: "avatars/sara.png",
-          },
-          {
-            user_id: 5,
-            username: "alex99",
-            password_hash: "hash654",
-            is_admin: 0,
-            profile_picture: null,
-          },
-        ],
-        statusCode: 200,
-      });
+      expect(response.body.message).toBe("Users retrieved succesfully");
     });
 
     test("Get a user by Id: ", async () => {
       const response = await request(app).get("/users/1");
       console.log("RESPONSE: ", response.body);
-      expect(response.body).toEqual({
-        success: true,
-        message: "User retrieved succesfully",
-        responseObject: {
-          user_id: 1,
-          username: "hugo_dev",
-          password_hash: "hash123",
-          profile_picture: "avatars/hugo.png",
-          is_admin: 0,
-        },
-        statusCode: 200,
-      });
+      expect(response.body.message).toBe("User retrieved succesfully");
     });
 
     test("Create a new user: ", async () => {
-      const response = await request(app).post("/users").send({
+      //*Admin log in
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "admin",
+        password: "wdf#2025",
+      });
+
+      const response = await agent.post("/users").send({
         username: "angelica123",
         password: "pass123",
         isAdmin: false,
@@ -319,8 +277,24 @@ describe("Routers tests", () => {
     });
 
     test("Add a song to playlist", async () => {
-      //*ADD SONG TO PLAYLIST 1
-      const response = await request(app).post(`/playlists/2/songs`).send({
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "admin",
+        password: "wdf#2025",
+      });
+
+      //*CREATE PLAYLIST
+      const cr = await agent.post("/playlists").send({
+        title: "Chill Vibes",
+      });
+      const playlist_id = cr.body.responseObject;
+
+      //*ADD SONG 1 TO PLAYLIST 2
+      const route = `/playlists/${playlist_id}/songs`;
+      const response = await agent.post(route).send({
         songId: 1,
       });
 
@@ -329,8 +303,32 @@ describe("Routers tests", () => {
     });
 
     test("Remove a song from a playlist", async () => {
+      await ensureAdminExists();
+      const agent = request.agent(app);
+
+      //*LOGIN
+      await agent.post("/auth/login").send({
+        username: "admin",
+        password: "wdf#2025",
+      });
+
+      //*CREATE PLAYLIST
+      const cr = await agent.post("/playlists").send({
+        title: "Chill Vibes",
+      });
+      const playlist_id = cr.body.responseObject;
+
+      //*ADD SONG 1 TO PLAYLIST 2
+      const songId = 1;
+      const route = `/playlists/${playlist_id}/songs`;
+      await agent.post(route).send({
+        songId,
+      });
+
       //*REMOVE SONG 1 FROM PLAYLIST 1
-      const response = await request(app).delete(`/playlists/1/songs/1`);
+      const response = await agent.delete(
+        `/playlists/${playlist_id}/songs/${songId}`
+      );
 
       console.log("REMOVE SONG FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(

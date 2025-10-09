@@ -4,6 +4,7 @@ const { verifyPassword, hashPassword } = require("../auth/authService");
 const { deleteUser, updatePassword } = require("../user/userRepository");
 const { GetPlaylists, UpdatePicture } = require("./accountRepository");
 const { deletePicture, savePicture } = require("./accountService");
+
 async function DeleteAccountController(req, res) {
   try {
     //Get password and username from req

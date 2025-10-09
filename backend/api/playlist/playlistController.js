@@ -37,6 +37,12 @@ async function DeletePlaylistController(req, res) {
     //Get playlist id from query
     const { playlist_id } = req.params;
 
+    //Check playlist ownership
+    const playlistData = await getPlaylistById(playlist_id);
+    if (playlistData.owner_id !== req.session.userId) {
+      res.status(403).json(makeResponse(false, "Forbidden", null, 403));
+    }
+
     //Delete playlist
     await DeletePlaylist(playlist_id);
 
@@ -63,8 +69,11 @@ async function AddSongController(req, res) {
     const { playlist_id } = req.params;
     const { songId } = req.body;
 
-    //Check existing playlist
-    await getPlaylistById(playlist_id);
+    //Check playlist ownership
+    const playlistData = await getPlaylistById(playlist_id);
+    if (playlistData.owner_id !== req.session.userId) {
+      res.status(403).json(makeResponse(false, "Forbidden", null, 403));
+    }
 
     //Check existing song
     await getSongById(songId);
@@ -94,10 +103,11 @@ async function AddSongController(req, res) {
 async function RemoveSongController(req, res) {
   try {
     const { playlist_id, song_id } = req.params;
-    console.log(`Check params: ${playlist_id}, ${song_id}`);
-
-    //Check playlist exists
-    await getPlaylistById(playlist_id);
+    //Check playlist ownership
+    const playlistData = await getPlaylistById(playlist_id);
+    if (playlistData.owner_id !== req.session.userId) {
+      res.status(403).json(makeResponse(false, "Forbidden", null, 403));
+    }
 
     //Delete song from playlist
     await DeleteSongFromPlaylist(playlist_id, song_id);

@@ -32,41 +32,11 @@ describe("Database tests", () => {
     test("List all users", async () => {
       const users = await getUsers();
       expect(users).toEqual([
-        {
-          user_id: 1,
-          username: "hugo_dev",
-          password_hash: "hash123",
-          is_admin: 0,
-          profile_picture: "avatars/hugo.png",
-        },
-        {
-          user_id: 2,
-          username: "maria98",
-          password_hash: "hash456",
-          is_admin: 0,
-          profile_picture: "avatars/maria.jpg",
-        },
-        {
-          user_id: 3,
-          username: "coder_john",
-          password_hash: "hash789",
-          is_admin: 0,
-          profile_picture: null,
-        },
-        {
-          user_id: 4,
-          username: "sara_music",
-          password_hash: "hash321",
-          is_admin: 0,
-          profile_picture: "avatars/sara.png",
-        },
-        {
-          user_id: 5,
-          username: "alex99",
-          password_hash: "hash654",
-          is_admin: 0,
-          profile_picture: null,
-        },
+        { user_id: 1, username: "hugo_dev", is_admin: 0 },
+        { user_id: 2, username: "maria98", is_admin: 0 },
+        { user_id: 3, username: "coder_john", is_admin: 0 },
+        { user_id: 4, username: "sara_music", is_admin: 0 },
+        { user_id: 5, username: "alex99", is_admin: 0 },
       ]);
     });
 

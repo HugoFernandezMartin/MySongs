@@ -6,6 +6,9 @@ const {
   GetPlaylistsController,
   UpdatePictureController,
 } = require("./accountController");
+const {
+  userAuthMiddleware,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
   DELETE /me/delete
@@ -30,7 +33,7 @@ const {
       statusCode: 200
     }
 */
-router.delete("/delete", DeleteAccountController);
+router.delete("/delete", userAuthMiddleware, DeleteAccountController);
 
 /*
     PUT /me/update_password
@@ -56,7 +59,7 @@ router.delete("/delete", DeleteAccountController);
         statusCode: 200
       } 
 */
-router.put("/update_password", UpdatePasswordController);
+router.put("/update_password", userAuthMiddleware, UpdatePasswordController);
 
 /*
     PUT /me/update_picture
@@ -81,7 +84,7 @@ router.put("/update_password", UpdatePasswordController);
         statusCode: 200
       } 
 */
-router.put("/update_picture", UpdatePictureController);
+router.put("/update_picture", userAuthMiddleware, UpdatePictureController);
 
 /*
   GET /me/playlists
@@ -110,6 +113,6 @@ router.put("/update_picture", UpdatePictureController);
       statusCode: 200
     }
 */
-router.get("/playlists", GetPlaylistsController);
+router.get("/playlists", userAuthMiddleware, GetPlaylistsController);
 
 module.exports = router;

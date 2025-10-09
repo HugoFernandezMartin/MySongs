@@ -8,6 +8,10 @@ const {
   RemoveSongController,
   GetSongsController,
 } = require("./playlistController");
+const {
+  userAuthMiddleware,
+  verifyPlaylistOwnership,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
     POST /playlists
@@ -32,7 +36,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", CreatePlaylistController);
+router.post("/", userAuthMiddleware, CreatePlaylistController);
 
 /*
     DELETE /playlists/:playlist_id
@@ -54,7 +58,7 @@ router.post("/", CreatePlaylistController);
         statusCode: 200
       } 
 */
-router.delete("/:playlist_id", DeletePlaylistController);
+router.delete("/:playlist_id", userAuthMiddleware, DeletePlaylistController);
 
 /*
     POST /playlists/:playlist_id/songs
@@ -79,7 +83,7 @@ router.delete("/:playlist_id", DeletePlaylistController);
         statusCode: 200
       } 
 */
-router.post("/:playlist_id/songs", AddSongController);
+router.post("/:playlist_id/songs", userAuthMiddleware, AddSongController);
 
 /*
     DELETE /playlists/:playlist_id/songs/:song_id
@@ -101,7 +105,11 @@ router.post("/:playlist_id/songs", AddSongController);
         statusCode: 200
       } 
 */
-router.delete("/:playlist_id/songs/:song_id", RemoveSongController);
+router.delete(
+  "/:playlist_id/songs/:song_id",
+  userAuthMiddleware,
+  RemoveSongController
+);
 
 /*
     GET /playlists/:playlist_id/songs

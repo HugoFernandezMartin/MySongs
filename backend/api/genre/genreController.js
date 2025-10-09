@@ -26,7 +26,6 @@ async function CreateGenreController(req, res) {
 
 async function DeleteGenreController(req, res) {
   try {
-    console.log("TRYTRYTRY");
     //Get data from request
     const { genre_id } = req.params;
 

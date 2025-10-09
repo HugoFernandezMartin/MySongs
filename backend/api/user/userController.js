@@ -38,7 +38,8 @@ async function GetUsersController(_req, res) {
 async function GetUserByIdController(req, res) {
   const { id } = req.params;
   try {
-    const user = await getUserById(id);
+    const userData = await getUserById(id);
+    const user = makeUser(id, userData.username, userData.is_admin);
     res
       .status(200)
       .json(makeResponse(true, "User retrieved succesfully", user, 200));

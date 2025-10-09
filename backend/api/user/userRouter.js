@@ -5,6 +5,9 @@ const {
   GetUsersController,
   GetUserByIdController,
 } = require("./userController.js");
+const {
+  adminAuthMiddleware,
+} = require("../../commons/middlewares/authMiddleware.js");
 
 /*
   POST /users
@@ -36,7 +39,7 @@ const {
       statusCode: 200
     }
 */
-router.post("/", CreateUserController);
+router.post("/", adminAuthMiddleware, CreateUserController);
 
 /*
   GET /users
@@ -57,13 +60,13 @@ router.post("/", CreateUserController);
       responseObject:[
           {
             id: 1,
-            username: "diego.wav",
-            password: "1234",
+            username: "admin",
+            isAdmin: true
           },
           {
             id: 2,
             username: "angelica123",
-            password: "1234",
+            isAdmin: false
           }
         ],
       statusCode: 200
@@ -91,7 +94,7 @@ router.get("/", GetUsersController);
           {
             id: 1,
             username: "diego.wav",
-            password: "1234",
+            isAdmin: false,
           },
       statusCode: 200
     }

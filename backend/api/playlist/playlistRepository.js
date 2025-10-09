@@ -48,7 +48,6 @@ async function DeletePlaylist(playlistId) {
 // Add song to playlist
 async function AddSongToPlaylist(playlistId, songId) {
   return new Promise((resolve, reject) => {
-    console.log(`playlist: ${playlistId}, song: ${songId}`);
     db.run(
       `INSERT INTO songs_playlists (playlist_id, song_id) VALUES (?, ?)`,
       [playlistId, songId],

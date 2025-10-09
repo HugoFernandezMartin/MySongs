@@ -19,7 +19,7 @@ async function createUser(username, hashed_password, isAdmin) {
 
 //Get all users
 async function getUsers() {
-  let query = "SELECT * FROM users";
+  let query = "SELECT user_id, username, is_admin FROM users";
 
   return new Promise((resolve, reject) => {
     db.all(query, (err, rows) => {

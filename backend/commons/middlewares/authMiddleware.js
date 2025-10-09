@@ -18,6 +18,7 @@ function adminAuthMiddleware(req, res, next) {
 }
 
 function userAuthMiddleware(req, res, next) {
+  console.log("USERAUTHMIDDLEWARE");
   if (!req.session || !req.session.userId) {
     return res
       .status(401)
@@ -27,4 +28,7 @@ function userAuthMiddleware(req, res, next) {
   next();
 }
 
-module.exports = { adminAuthMiddleware, userAuthMiddleware };
+module.exports = {
+  adminAuthMiddleware,
+  userAuthMiddleware,
+};
