@@ -31,13 +31,6 @@ async function LoginController(req, res) {
 
     loggedIn = true;
 
-    // the model to be sent to the view
-    let model = {
-      username: req.body.username,
-      password: req.body.password,
-      loggedIn: loggedIn,
-    };
-
     req.session.isLoggedIn = true;
     req.session.userId = user.user_id;
     req.session.username = username;
@@ -51,9 +44,8 @@ async function LoginController(req, res) {
 
     res
       .status(200)
-      .json(makeResponse(true, "Login Succesfully", user.is_admin, 200));
+      .json(makeResponse(true, "Login Succesfully", user.user_id, 200));
   } catch (err) {
-    console.log("LOGIN: Unable to login");
     //If user not exists
     if (err.code === "NOT_FOUND") {
       console.log("LOGIN: username does not exist");

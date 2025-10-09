@@ -5,6 +5,9 @@ const {
   LoginController,
   LogoutController,
 } = require("./authController");
+const {
+  userAuthMiddleware,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
   POST /auth/register
@@ -78,6 +81,6 @@ router.post("/login", LoginController);
         statusCode: 200
       } 
 */
-router.get("/logout", LogoutController);
+router.get("/logout", userAuthMiddleware, LogoutController);
 
 module.exports = router;

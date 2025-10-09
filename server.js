@@ -1,5 +1,8 @@
 const app = require("./app");
-const { initDB, resetDB } = require("./backend/db/database.js");
+const { hashPassword } = require("./backend/api/auth/authService.js");
+const { createUser } = require("./backend/api/user/userRepository.js");
+const { initDB } = require("./backend/db/database.js");
+const { resetDB } = require("./backend/tests/testUtils.js");
 
 const port = 8080;
 
@@ -10,7 +13,11 @@ async function start_server() {
   //Try to init database
   try {
     db = initDB();
-    await resetDB(); //!Debug
+    await resetDB(); //FIXME Debug
+    (async () => {
+      const password_hash = await hashPassword("wdf#2025");
+      await createUser("admin", password_hash, true);
+    })();
     console.log("Conected to MySongs database");
   } catch (err) {
     console.error("Unable to start server, DB failed: ", err.message);

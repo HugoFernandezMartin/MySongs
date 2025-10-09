@@ -4,7 +4,6 @@ const {
   CreateUserController,
   GetUsersController,
   GetUserByIdController,
-  GetPlaylistsController,
 } = require("./userController.js");
 
 /*
@@ -14,6 +13,7 @@ const {
   Body Params:
     username: string 
     password: string
+    isAdmin: boolean
 
   Response:
     {

@@ -6,10 +6,10 @@ const makeUser = require("../../commons/models/user.js");
 
 async function CreateUserController(req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, password, isAdmin } = req.body;
     const password_hash = await hashPassword(password);
-    const userId = await createUser(username, password_hash);
-    const user = makeUser(userId, username, false);
+    const userId = await createUser(username, password_hash, isAdmin);
+    const user = makeUser(userId, username, isAdmin);
     res
       .status(200)
       .json(makeResponse(true, "User created succesfully", user, 200));
@@ -21,7 +21,7 @@ async function CreateUserController(req, res) {
   }
 }
 
-async function GetUsersController(req, res) {
+async function GetUsersController(_req, res) {
   try {
     const users = await getUsers();
     res
