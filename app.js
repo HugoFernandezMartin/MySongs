@@ -6,6 +6,7 @@ const accountRouter = require("./backend/api/account/accountRouter.js");
 const playlistRouter = require("./backend/api/playlist/playlistRouter.js");
 const genreRouter = require("./backend/api/genre/genreRouter.js");
 const app = express();
+const { engine } = require("express-handlebars");
 const connectSqlite3 = require("connect-sqlite3");
 const session = require("express-session");
 
@@ -46,7 +47,7 @@ app.set("views", "./views");
 
 //*Test endpoint
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.render("home");
 });
 
 //TODO Routes
