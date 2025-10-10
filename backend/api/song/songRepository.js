@@ -18,7 +18,7 @@ async function createSong(title, author_id, genre_id, album_id, release_date) {
 }
 
 //Get songs with optional filters, null if filter is not applied
-async function getSongs(author, genre, album) {
+async function getSongs(author, genre, album, limit, offset) {
   //Adding parameters if filter applied
   let query = "SELECT * FROM songs WHERE 1=1";
   const params = [];
@@ -38,6 +38,11 @@ async function getSongs(author, genre, album) {
     params.push(album);
   }
 
+  if (limit) {
+    query += " LIMIT ? OFFSET ?";
+    params.push(limit, offset);
+  }
+
   return new Promise((resolve, reject) => {
     db.all(query, params, (err, rows) => {
       if (err) reject(err);
@@ -46,16 +51,55 @@ async function getSongs(author, genre, album) {
   });
 }
 
-async function searchSongs(q) {
-  const query = "SELECT * FROM songs WHERE title LIKE ?";
+async function searchSongs(q, limit) {
+  let query = "SELECT * FROM songs";
+  const params = [];
+
+  if (q) {
+    query += " WHERE title LIKE ?";
+    params.push(`${q}%`);
+  }
+
+  if (limit) {
+    query += " LIMIT ?";
+    params.push(limit);
+  }
 
   return new Promise((resolve, reject) => {
-    db.all(query, `${q}%`, (err, rows) => {
-      console.log("ROWS", rows);
+    db.all(query, params, (err, rows) => {
+      console.log("Search result: ", rows);
       if (err) reject(err);
       else resolve(rows);
     });
   });
 }
 
-module.exports = { createSong, getSongs, searchSongs };
+async function countSongs(author, genre, album) {
+  //Adding parameters if filter applied
+  let query = "SELECT COUNT(*) FROM songs WHERE 1=1";
+  const params = [];
+
+  if (author) {
+    query += " AND author_id = ?";
+    params.push(author);
+  }
+
+  if (genre) {
+    query += " AND genre_id = ?";
+    params.push(genre);
+  }
+
+  if (album) {
+    query += " AND album_id = ?";
+    params.push(album);
+  }
+
+  return new Promise((resolve, reject) => {
+    db.all(query, params, (err, count) => {
+      if (err) reject(err);
+      else resolve(count);
+    });
+  });
+}
+
+module.exports = { createSong, getSongs, searchSongs, countSongs };

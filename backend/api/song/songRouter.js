@@ -14,6 +14,8 @@ const router = express.Router();
     author: string (optional)
     genre: string (optional)
     album: string (optional)
+    page: number
+    limit: number
 
   Response:
     {
@@ -47,6 +49,7 @@ router.get("/", GetSongsController);
 
   Query Params:
     q: string
+    limit: number
 
   Response:
     {
