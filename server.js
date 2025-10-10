@@ -7,6 +7,7 @@ const { resetDB } = require("./backend/tests/testUtils.js");
 // define the port
 const port = 8080;
 
+// variables and constants
 let server;
 let db;
 
