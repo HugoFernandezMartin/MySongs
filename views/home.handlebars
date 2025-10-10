@@ -1,0 +1,142 @@
+
+<section class="hero">
+  <h1 class="hero-word">MySongs</h1>
+</section>
+
+<nav class="genres">
+  <a href="#">Latest</a>
+  <a href="#">Pop</a>
+  <a href="#">Hip-Hop</a>
+  <a href="#">Electronic</a>
+  <a href="#">R&amp;B</a>
+  <a href="#">Indie</a>
+  <a href="#">Jazz</a>
+  <a href="#">Latin</a>
+  <a href="#">Afrobeat</a>
+</nav>
+
+<!-- existing stripe (photo + big MYSONGS) -->
+<!-- HERO SPLIT (photo left, copy + title right) -->
+<section class="hero-split">
+  <img class="hero-img" src="/listenmusic.mysongs.jpg" alt="Listening to music">
+  <div class="hero-right">
+    <p class="hero-copy">
+      Music isn’t just sound, it’s the chaos, the calm, and the vibe we live for.
+      A Gen-Z diary written in basslines, late nights, and lyrics that hit like texts from a best friend.
+    </p>
+    <h2 class="hero-title">MYSONGS</h2>
+  </div>
+</section>
+
+<!-- NEW intro block (black background with text + images) -->
+<section class="intro">
+  <div class="intro-text">
+    <h2>Hi, we are Hugo & Angelica</h2>
+    <p>
+      We are the creators of <strong>MySongs</strong>, a student project born from our passion for music and design.  
+      Our goal is to build a space where music discovery feels modern, bold, and inspiring.  
+      With Hugo focused on the technical side and Angelica on the design and aesthetics, we teamed up to create  
+      a site that not only showcases music releases but also reflects the creative energy behind them.
+    </p>
+  </div>
+  <div class="intro-images">
+    <img src="/hugo.jpg"alt="">
+    <img src="/angelica.jpg" alt="">
+  </div>
+</section>
+
+<!-- NEW red section with cards -->
+<section class="featured">
+  <h3 class="featured-title">Founders selection</h3>
+  <div class="featured-wrap">
+    <button class="featured-arrow featured-left" aria-label="Previous">‹</button>
+    <div class="featured-track" role="list">
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img1.jpg" alt="Artist • Album 1">
+        <p class="album-meta">Post Malone • Circles</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img2.jpg" alt="Artist • Album 2">
+        <p class="album-meta">Olivia Rodrigo • Circles</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img3.jpg" alt="Artist • Album 3">
+        <p class="album-meta">Harry Styles • Fine Line</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img4.jpg" alt="Artist • Album 4">
+        <p class="album-meta">Kanye West • Graduation</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img5.jpg" alt="Artist • Album 5">
+        <p class="album-meta">Guns N' Roses • Use your Ilusion</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img6.jpg" alt="Artist • Album 6">
+        <p class="album-meta">Tyler, The Creator • Igor</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img7.jpg" alt="Artist • Album 7">
+        <p class="album-meta">Lana del Rey • Lust for Life</p>
+      </article>
+      <article class="album" role="listitem">
+        <img class="album-img" src="/album-img8.jpg" alt="Artist • Album 8">
+        <p class="album-meta">Quevedo • Donde quiero estar</p>
+      </article>
+    </div>
+    <button class="featured-arrow featured-right" aria-label="Next">›</button>
+    <div class="featured-fade featured-fade-l"></div>
+    <div class="featured-fade featured-fade-r"></div>
+  </div>
+</section>
+
+<!-- SONGS SECTION (bg photo + floating card) -->
+<section class="songs-section">
+  <img class="songs-bg" src="/young-women-wearing-2000s-fashion.jpg" alt="Background">
+
+  <!-- floating card -->
+  <div class="songs-card">
+    <h3 class="songs-title">My Favorite Songs</h3>
+
+    <ul class="songs-list">
+      <!-- Each row now uses data-query (artist + song) -->
+      <li class="song-row" data-query="Post Malone Circles">
+        <button class="song-btn" aria-label="Play/Pause">►</button>
+        <img class="song-cover" src="/album-img1.jpg" alt="Post Malone Circles">
+        <div class="song-info">
+          <strong>Post Malone</strong>
+          <span>Circles</span>
+        </div>
+        <span class="song-time">–:–</span>
+        <div class="song-bar"><span></span></div>
+      </li>
+
+      <li class="song-row" data-query="Olivia Rodrigo deja vu">
+        <button class="song-btn" aria-label="Play/Pause">►</button>
+        <img class="song-cover" src="/album-img2.jpg" alt="Olivia Rodrigo deja vu">
+        <div class="song-info">
+          <strong>Olivia Rodrigo</strong>
+          <span>deja vu</span>
+        </div>
+        <span class="song-time">–:–</span>
+        <div class="song-bar"><span></span></div>
+      </li>
+
+      <li class="song-row" data-query="Harry Styles As It Was">
+        <button class="song-btn" aria-label="Play/Pause">►</button>
+        <img class="song-cover" src="/album-img3.jpg" alt="Harry Styles As It Was">
+        <div class="song-info">
+          <strong>Harry Styles</strong>
+          <span>As It Was</span>
+        </div>
+        <span class="song-time">–:–</span>
+        <div class="song-bar"><span></span></div>
+      </li>
+    </ul>
+
+    <button class="songs-cta">SEE FULL LIST</button>
+  </div>
+
+  <!-- hidden shared player -->
+  <audio id="song-player" preload="metadata"></audio>
+</section>

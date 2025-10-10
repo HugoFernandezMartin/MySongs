@@ -9,10 +9,6 @@ const app = express();
 const connectSqlite3 = require("connect-sqlite3");
 const session = require("express-session");
 
-//*Test endpoint
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
 //Session database
 const SQLiteStore = connectSqlite3(session); // store sessions in the database
@@ -43,6 +39,11 @@ app.use((request, response, next) => {
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//*Test endpoint
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 
 //TODO Routes
 app.use("/songs", songsRouter);
