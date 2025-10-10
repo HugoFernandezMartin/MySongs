@@ -4,6 +4,7 @@ const { createUser } = require("./backend/api/user/userRepository.js");
 const { initDB } = require("./backend/db/database.js");
 const { resetDB } = require("./backend/tests/testUtils.js");
 
+// define the port
 const port = 8080;
 
 let server;
