@@ -421,7 +421,7 @@ describe("Routers tests", () => {
     });
 
     test("Return Songs from search bar", async () => {
-      const response = await request(app).get("/songs/search?q=S");
+      const response = await request(app).get("/songs/search?q=S&limit=3");
 
       console.log("SEARCH SONGS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");
