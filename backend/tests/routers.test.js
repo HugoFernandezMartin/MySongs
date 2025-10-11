@@ -15,7 +15,7 @@ describe("Routers tests", () => {
     });
 
     test("Try to log out without log in first", async () => {
-      const response = await request(app).get("/auth/logout");
+      const response = await request(app).get("/api/auth/logout");
       console.log("LOGOUT RESPONSE: ", response.body);
       expect(response.body.message).toBe("You must log in");
     });
@@ -25,19 +25,19 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*Create a genre
-      const response = await agent.post(`/genres`).send({
+      const response = await agent.post(`/api/genres`).send({
         name: "RAP",
         description: "JUST RAP",
       });
@@ -57,7 +57,7 @@ describe("Routers tests", () => {
     });
 
     test("Get all users: ", async () => {
-      const response = await request(app).get("/users");
+      const response = await request(app).get("/api/users");
       console.log("RESPONSE: ", response.body);
       expect(response.body).toEqual({
         success: true,
@@ -104,7 +104,7 @@ describe("Routers tests", () => {
     });
 
     test("Get a user by Id: ", async () => {
-      const response = await request(app).get("/users/1");
+      const response = await request(app).get("/api/users/1");
       console.log("RESPONSE: ", response.body);
       expect(response.body).toEqual({
         success: true,
@@ -121,7 +121,7 @@ describe("Routers tests", () => {
     });
 
     test("Create a new user: ", async () => {
-      const response = await request(app).post("/users").send({
+      const response = await request(app).post("/api/users").send({
         username: "angelica123",
         password: "pass123",
         isAdmin: false,
@@ -139,7 +139,7 @@ describe("Routers tests", () => {
     });
     test("Register user:", async () => {
       //*REGISTER
-      const response = await request(app).post("/auth/register").send({
+      const response = await request(app).post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
@@ -150,41 +150,42 @@ describe("Routers tests", () => {
     test("Register, Log in and log out", async () => {
       const agent = request.agent(app);
 
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
+
       //*LOGIN
-      response = await agent.post("/auth/login").send({
+      const rl = await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
-      console.log("LOGIN RESPONSE: ", response.body);
-      expect(response.body.message).toBe("Login Succesfully");
+      console.log("LOGIN RESPONSE: ", rl.body);
+      expect(rl.body.message).toBe("Login Succesfully");
 
       //*LOGOUT
-      response = await agent.get("/auth/logout");
-      console.log("LOGOUT RESPONSE: ", response.body);
-      expect(response.body.message).toBe("Logout Succesfully");
+      const rlo = await agent.get("/api/auth/logout");
+      console.log("LOGOUT RESPONSE: ", rlo.body);
+      expect(rlo.body.message).toBe("Logout Successfully");
     });
 
     test("Register, log in and delete account", async () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*DELETE ACCOUNT
-      const response = await agent.delete("/me/delete").send({
+      const response = await agent.delete("/api/me/delete").send({
         password: "pass123",
       });
       console.log("DELETE ACCOUNT RESPONSE: ", response.body);
@@ -195,19 +196,19 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*UPDATE PASSWORD
-      const response = await agent.put("/me/update_password").send({
+      const response = await agent.put("/api/me/update_password").send({
         password: "pass123",
         newPassword: "newPass123",
       });
@@ -219,19 +220,19 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*RETURN PLAYLISTS
-      const response = await agent.get("/me/playlists");
+      const response = await agent.get("/api/me/playlists");
       console.log("GET PLAYLISTS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Playlists retrieved succesfully");
     });
@@ -240,19 +241,19 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*RETURN PLAYLISTS
-      const response = await agent.put("/me/update_picture").send({
+      const response = await agent.put("/api/me/update_picture").send({
         picture: "PictureDATA",
       });
       console.log("UPDATE PICTURE RESPONSE: ", response.body);
@@ -270,19 +271,19 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*CREATE PLAYLIST
-      const response = await agent.post("/playlists").send({
+      const response = await agent.post("/api/playlists").send({
         title: "Chill Vibes",
       });
       console.log("CREATE PLAYLIST RESPONSE: ", response.body);
@@ -294,25 +295,25 @@ describe("Routers tests", () => {
       let response;
 
       //*REGISTER
-      await agent.post("/auth/register").send({
+      await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "angelica123",
         password: "pass123",
       });
 
       //*CREATE PLAYLIST
-      response = await agent.post("/playlists").send({
+      response = await agent.post("/api/playlists").send({
         title: "Chill Vibes",
       });
 
       //*DELETE PLAYLIST
       const playlistId = response.body.responseObject;
-      const deleteResponse = await agent.delete(`/playlists/${playlistId}`);
+      const deleteResponse = await agent.delete(`/api/playlists/${playlistId}`);
 
       console.log("DELETE PLAYLIST RESPONSE: ", deleteResponse.body);
       expect(deleteResponse.body.message).toBe("Playlist deleted succesfully");
@@ -320,7 +321,7 @@ describe("Routers tests", () => {
 
     test("Add a song to playlist", async () => {
       //*ADD SONG TO PLAYLIST 1
-      const response = await request(app).post(`/playlists/2/songs`).send({
+      const response = await request(app).post(`/api/playlists/2/songs`).send({
         songId: 1,
       });
 
@@ -330,7 +331,7 @@ describe("Routers tests", () => {
 
     test("Remove a song from a playlist", async () => {
       //*REMOVE SONG 1 FROM PLAYLIST 1
-      const response = await request(app).delete(`/playlists/1/songs/1`);
+      const response = await request(app).delete(`/api/playlists/1/songs/1`);
 
       console.log("REMOVE SONG FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
@@ -340,7 +341,7 @@ describe("Routers tests", () => {
 
     test("Get all songs from a playlist", async () => {
       //*GET SONGS FROM PLAYLIST 1
-      const response = await request(app).get(`/playlists/1/songs`);
+      const response = await request(app).get(`/api/playlists/1/songs`);
 
       console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
@@ -361,13 +362,13 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "admin",
         password: "wdf#2025",
       });
 
       //*Create a genre
-      const response = await agent.post(`/genres`).send({
+      const response = await agent.post(`/api/genres`).send({
         name: "RAP",
         description: "JUST RAP",
       });
@@ -380,33 +381,33 @@ describe("Routers tests", () => {
       const agent = request.agent(app);
 
       //*LOGIN
-      await agent.post("/auth/login").send({
+      await agent.post("/api/auth/login").send({
         username: "admin",
         password: "wdf#2025",
       });
 
-      const response = await agent.delete("/genres/1");
+      const response = await agent.delete("/api/genres/1");
 
       console.log("DELETE GENRE RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genre deleted succesfully");
     });
 
     test("Get all genres", async () => {
-      const response = await request(app).get("/genres");
+      const response = await request(app).get("/api/genres");
 
       console.log("GET GENRES RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genres retrieved succesfully");
     });
 
     test("Get genre by its id", async () => {
-      const response = await request(app).get("/genres/2");
+      const response = await request(app).get("/api/genres/2");
 
       console.log("GET GENRE BY ID RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genre retrieved succesfully");
     });
 
     test("Get songs from genre", async () => {
-      const response = await request(app).get("/genres/2/songs");
+      const response = await request(app).get("/api/genres/2/songs");
 
       console.log("GET SONGS FROM GENRE RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");
@@ -421,7 +422,7 @@ describe("Routers tests", () => {
     });
 
     test("Return Songs from search bar", async () => {
-      const response = await request(app).get("/songs/search?q=S&limit=3");
+      const response = await request(app).get("/api/songs/search?q=S&limit=3");
 
       console.log("SEARCH SONGS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");

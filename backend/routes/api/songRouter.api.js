@@ -2,11 +2,11 @@ const express = require("express");
 const {
   GetSongsController,
   SearchSongController,
-} = require("./songController");
+} = require("../../controllers/songController");
 const router = express.Router();
 
 /*
-  GET /songs
+  GET /api/songs
   Get all songs filtered by query params.
   If a param is missing or null it means the filter is not applied.
 
@@ -44,7 +44,7 @@ const router = express.Router();
 router.get("/", GetSongsController);
 
 /*
-  GET /songs/search
+  GET /api/songs/search
   Get songs filtered by search bar.
 
   Query Params:

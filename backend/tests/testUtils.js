@@ -1,8 +1,8 @@
 const fs = require("fs");
 const { initDB } = require("../db/database");
 const { getUserByName } = require("../commons/utils/userUtils");
-const { hashPassword } = require("../api/auth/authService");
-const { createUser } = require("../api/user/userRepository");
+const { hashPassword } = require("../commons/utils/hash");
+const { createUser } = require("../repositories/userRepository");
 const db = initDB();
 
 async function ensureAdminExists() {

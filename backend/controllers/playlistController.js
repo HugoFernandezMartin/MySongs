@@ -1,5 +1,5 @@
-const makeResponse = require("../../commons/models/response");
-const { getSongById } = require("../../commons/utils/songUtils");
+const makeResponse = require("../commons/models/response");
+const { getSongById } = require("../commons/utils/songUtils");
 const {
   AddPlaylist,
   DeletePlaylist,
@@ -7,7 +7,7 @@ const {
   DeleteSongFromPlaylist,
   getPlaylistById,
   getSongsFromPlaylist,
-} = require("./playlistRepository");
+} = require("../repositories/playlistRepository");
 
 async function CreatePlaylistController(req, res) {
   try {

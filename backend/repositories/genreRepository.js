@@ -1,4 +1,4 @@
-const { initDB } = require("../../db/database");
+const { initDB } = require("../db/database");
 const db = initDB();
 
 async function AddGenre(name, description) {
@@ -15,6 +15,7 @@ async function AddGenre(name, description) {
     );
   });
 }
+
 async function RemoveGenre(genre_id) {
   const query = "DELETE FROM genres WHERE genre_id = ?";
 

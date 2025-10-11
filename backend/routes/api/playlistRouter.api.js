@@ -7,10 +7,10 @@ const {
   AddSongController,
   RemoveSongController,
   GetSongsController,
-} = require("./playlistController");
+} = require("../../controllers/playlistController");
 
 /*
-    POST /playlists
+    POST /api/playlists
     Create new playlist
     
     Body Params:
@@ -35,7 +35,7 @@ const {
 router.post("/", CreatePlaylistController);
 
 /*
-    DELETE /playlists/:playlist_id
+    DELETE /api/playlists/:playlist_id
     Delete a playlist
 
     Response:
@@ -57,7 +57,7 @@ router.post("/", CreatePlaylistController);
 router.delete("/:playlist_id", DeletePlaylistController);
 
 /*
-    POST /playlists/:playlist_id/songs
+    POST /api/playlists/:playlist_id/songs
     Add a song to a playlist
     
     Body Params:
@@ -82,7 +82,7 @@ router.delete("/:playlist_id", DeletePlaylistController);
 router.post("/:playlist_id/songs", AddSongController);
 
 /*
-    DELETE /playlists/:playlist_id/songs/:song_id
+    DELETE /api/playlists/:playlist_id/songs/:song_id
     Remove song from playlist
 
     Response:
@@ -104,7 +104,7 @@ router.post("/:playlist_id/songs", AddSongController);
 router.delete("/:playlist_id/songs/:song_id", RemoveSongController);
 
 /*
-    GET /playlists/:playlist_id/songs
+    GET /api/playlists/:playlist_id/songs
     Return songs in playlist
 
     Response:

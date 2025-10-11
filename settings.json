@@ -1,0 +1,12 @@
+"material-icon-theme.folders.associations": {
+  "controllers": "controller",
+  "models": "class",
+  "routes": "routing",
+  "config": "config",
+  "assets": "assets",
+  "images": "images"
+},
+"material-icon-theme.files.associations": {
+  "docker-compose.yml": "docker",
+  "README.md": "readme"
+}

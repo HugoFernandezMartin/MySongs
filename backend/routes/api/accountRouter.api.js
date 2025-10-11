@@ -3,12 +3,14 @@ const router = express.Router();
 const {
   DeleteAccountController,
   UpdatePasswordController,
-  GetPlaylistsController,
   UpdatePictureController,
-} = require("./accountController");
+} = require("../../controllers/accountController");
+const {
+  ListPlaylistsHandler,
+} = require("../../handlers/api/accountHandler.api");
 
 /*
-  DELETE /me/delete
+  DELETE /api/me/delete
   Delete user account
 
   Body Params:
@@ -33,7 +35,7 @@ const {
 router.delete("/delete", DeleteAccountController);
 
 /*
-    PUT /me/update_password
+    PUT /api/me/update_password
     Update user's password
     
     Body Params:
@@ -59,7 +61,7 @@ router.delete("/delete", DeleteAccountController);
 router.put("/update_password", UpdatePasswordController);
 
 /*
-    PUT /me/update_picture
+    PUT /api/me/update_picture
     Update user's profile picture
     
     Body Params:
@@ -84,7 +86,7 @@ router.put("/update_password", UpdatePasswordController);
 router.put("/update_picture", UpdatePictureController);
 
 /*
-  GET /me/playlists
+  GET /api/me/playlists
   Return playlists from user
 
   Response:
@@ -110,6 +112,6 @@ router.put("/update_picture", UpdatePictureController);
       statusCode: 200
     }
 */
-router.get("/playlists", GetPlaylistsController);
+router.get("/playlists", ListPlaylistsHandler);
 
 module.exports = router;
