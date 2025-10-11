@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const {
-  RegisterUserController,
-  LoginController,
-  LogoutController,
-} = require("./authController");
-const {
   userAuthMiddleware,
 } = require("../../commons/middlewares/authMiddleware");
+const {
+  LogoutHandler,
+  LoginHandler,
+  RegisterHandler,
+} = require("../../handlers/api/authHandler.api");
 
 /*
-  POST /auth/register
+  POST /api/auth/register
   Register an user
 
   Body Params:
@@ -33,10 +33,10 @@ const {
       statusCode: 200
     }
 */
-router.post("/register", RegisterUserController);
+router.post("/register", RegisterHandler);
 
 /*
-    POST /auth/login
+    POST /api/auth/login
     Login user
     
     Body Params:
@@ -59,10 +59,10 @@ router.post("/register", RegisterUserController);
         statusCode: 200
       } 
 */
-router.post("/login", LoginController);
+router.post("/login", LoginHandler);
 
 /*
-    GET /auth/logout
+    GET /api/auth/logout
     Logout user
  
     Response:
@@ -81,6 +81,6 @@ router.post("/login", LoginController);
         statusCode: 200
       } 
 */
-router.get("/logout", userAuthMiddleware, LogoutController);
+router.get("/logout", userAuthMiddleware, LogoutHandler);
 
 module.exports = router;

@@ -4,10 +4,10 @@ const {
   CreateUserController,
   GetUsersController,
   GetUserByIdController,
-} = require("./userController.js");
+} = require("../../controllers/userController");
 
 /*
-  POST /users
+  POST /api/users
   Creates a new user.
 
   Body Params:
@@ -39,7 +39,7 @@ const {
 router.post("/", CreateUserController);
 
 /*
-  GET /users
+  GET /api/users
   Return all users.
 
   Response:
@@ -72,7 +72,7 @@ router.post("/", CreateUserController);
 router.get("/", GetUsersController);
 
 /*
-  GET /users/:id
+  GET /api/users/:id
   Return a user by id.
 
   Response:

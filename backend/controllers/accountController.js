@@ -1,9 +1,16 @@
-const makeResponse = require("../../commons/models/response");
-const { getUserById } = require("../../commons/utils/userUtils");
-const { verifyPassword, hashPassword } = require("../auth/authService");
-const { deleteUser, updatePassword } = require("../user/userRepository");
-const { GetPlaylists, UpdatePicture } = require("./accountRepository");
-const { deletePicture, savePicture } = require("./accountService");
+const makeResponse = require("../commons/models/response");
+const { getUserById } = require("../commons/utils/userUtils");
+const { verifyPassword, hashPassword } = require("../commons/utils/hash");
+const {
+  deleteUser,
+  updatePassword,
+} = require("../repositories/userRepository");
+const {
+  GetPlaylists,
+  UpdatePicture,
+} = require("../repositories/accountRepository");
+const { deletePicture, savePicture } = require("../commons/utils/pictures");
+
 async function DeleteAccountController(req, res) {
   try {
     //Get password and username from req
@@ -124,24 +131,9 @@ async function UpdatePasswordController(req, res) {
   }
 }
 
-async function GetPlaylistsController(req, res) {
-  try {
-    //Get id from session
-    const userId = req.session.userId;
-
-    //Get playlists
-    const playlists = await GetPlaylists(userId);
-
-    res
-      .status(200)
-      .json(
-        makeResponse(true, "Playlists retrieved succesfully", playlists, 200)
-      );
-  } catch (err) {
-    res
-      .status(500)
-      .json(makeResponse(false, "Unable to get playlists", err.message, 500));
-  }
+async function GetPlaylistsController(userId) {
+  const playlists = await GetPlaylists(userId);
+  return playlists;
 }
 
 module.exports = {

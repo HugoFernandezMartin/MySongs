@@ -4,11 +4,11 @@ const {
   getUsers,
   updatePassword,
   deleteUser,
-} = require("../api/user/userRepository.js");
+} = require("../repositories/userRepository.js");
 const { getUserByName } = require("../commons/utils/userUtils.js");
-const { createSong, getSongs } = require("../api/song/songRepository.js");
+const { createSong, getSongs } = require("../repositories/songRepository.js");
 const { getSongById } = require("../commons/utils/songUtils.js");
-const { registerUser } = require("../api/auth/authRepository.js");
+const { registerUser } = require("../repositories/authRepository.js");
 const {
   AddPlaylist,
   getPlaylistById,
@@ -16,12 +16,12 @@ const {
   AddSongToPlaylist,
   getSongsFromPlaylist,
   DeleteSongFromPlaylist,
-} = require("../api/playlist/playlistRepository.js");
+} = require("../repositories/playlistRepository.js");
 const {
   AddGenre,
   GetGenreById,
   RemoveGenre,
-} = require("../api/genre/genreRepository.js");
+} = require("../repositories/genreRepository.js");
 
 describe("Database tests", () => {
   beforeEach(async () => {
