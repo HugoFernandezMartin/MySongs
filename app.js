@@ -50,6 +50,10 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.get("/contact", (req, res) => {
+  res.render("contact", { layout: "main" });
+});
+
 //TODO Routes
 app.use("/songs", songsRouter);
 app.use("/users", userRouter);
