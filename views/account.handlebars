@@ -1,4 +1,39 @@
 <div>
   <h1>You are logged in</h1>
   <button onclick="window.location.href='/auth/logout'">Logout</button>
+  {{#if error}}
+    <p class="error">{{error}}</p>
+  {{/if}}
+  <div>
+    <h1>Account info: </h1>
+    <p>Username: {{user.username}}</p>
+    {{#if user.profile_picture}}
+      <img src="{{user.profile_picture}}" alt="Profile picture" />
+    {{else}}
+      <p>No profile picture uploaded</p>
+    {{/if}}
+  </div>
+  <div>
+    <h1>List of Playlists</h1>
+    <div>
+      <ul>
+        {{#each playlists}}
+          <li>
+            {{title}}
+            — Created at:
+            {{created_at}}
+            <a href="/playlists/{{playlist_id}}" class="btn">Open</a>
+          </li>
+        {{/each}}
+      </ul>
+      <form action="/playlists" method="post" id="createPlaylistForm">
+        <fieldset>
+          <legend>Create new playlist</legend>
+          <label for="title">Title:</label>
+          <input type="text" name="title" id="title" />
+          <input type="submit" value="CreatePlaylist" />
+        </fieldset>
+      </form>
+    </div>
+  </div>
 </div>

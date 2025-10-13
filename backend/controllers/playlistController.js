@@ -9,27 +9,10 @@ const {
   getSongsFromPlaylist,
 } = require("../repositories/playlistRepository");
 
-async function CreatePlaylistController(req, res) {
-  try {
-    //Get title from req
-    const { title } = req.body;
-
-    //Get user_id from session
-    const userId = req.session.userId;
-
-    //Create playlist
-    const playlistId = await AddPlaylist(title, userId);
-
-    res
-      .status(200)
-      .json(
-        makeResponse(true, "Playlist created succesfully", playlistId, 200)
-      );
-  } catch (err) {
-    res
-      .status(500)
-      .json(makeResponse(false, "Unable to create playlist", err.message, 500));
-  }
+async function CreatePlaylistController(title, userId) {
+  //Create playlist
+  const playlistId = await AddPlaylist(title, userId);
+  return playlistId;
 }
 
 async function DeletePlaylistController(req, res) {
@@ -126,44 +109,14 @@ async function RemoveSongController(req, res) {
   }
 }
 
-async function GetSongsController(req, res) {
-  try {
-    //Get playlistId from query
-    const { playlist_id } = req.params;
+async function GetSongsController(playlist_id) {
+  //Check existing playlist
+  await getPlaylistById(playlist_id);
 
-    //Check existing playlist
-    await getPlaylistById(playlist_id);
+  //Retrieve all songs from playlist
+  const songs = await getSongsFromPlaylist(playlist_id);
 
-    //Retrieve all songs from playlist
-    const songs = await getSongsFromPlaylist(playlist_id);
-
-    res
-      .status(200)
-      .json(
-        makeResponse(
-          true,
-          "Songs from playlist retrieved succesfully",
-          songs,
-          200
-        )
-      );
-  } catch (err) {
-    if (err.code === "NOT_FOUND") {
-      res
-        .status(401)
-        .json(makeResponse(false, "Unable to get resources", err.message, 401));
-    }
-    res
-      .status(500)
-      .json(
-        makeResponse(
-          false,
-          "Unable to get songs from playlist",
-          err.message,
-          500
-        )
-      );
-  }
+  return songs;
 }
 
 module.exports = {

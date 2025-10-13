@@ -1,0 +1,21 @@
+<div>
+  <h1>{{playlist.title}}</h1>
+  <div>
+    <ul>
+      {{#each songs}}
+        <li>{{song_title}}
+          Author:
+          {{author_name}}
+          Genre:
+          {{genre_name}}
+          Album:
+          {{album_title}}
+          Release Date:
+          {{release_date}}</li>
+      {{/each}}
+    </ul>
+    {{#if error}}
+      <p class="error">{{error}}</p>
+    {{/if}}
+  </div>
+</div>

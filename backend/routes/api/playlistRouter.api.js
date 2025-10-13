@@ -2,12 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  CreatePlaylistController,
   DeletePlaylistController,
   AddSongController,
   RemoveSongController,
   GetSongsController,
 } = require("../../controllers/playlistController");
+const {
+  CreatePlaylistHandler,
+} = require("../../handlers/api/playlistHandler.api");
+const {
+  userAuthMiddleware,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
     POST /api/playlists
@@ -32,7 +37,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", CreatePlaylistController);
+router.post("/", userAuthMiddleware, CreatePlaylistHandler);
 
 /*
     DELETE /api/playlists/:playlist_id

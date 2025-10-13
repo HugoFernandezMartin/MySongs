@@ -99,8 +99,19 @@ async function DeleteSongFromPlaylist(playlist_id, song_id) {
 
 async function getSongsFromPlaylist(playlistId) {
   return new Promise((resolve, reject) => {
-    const sql =
-      "SELECT s.* FROM songs s JOIN songs_playlists sp on s.song_id = sp.song_id WHERE sp.playlist_id = ?";
+    const sql = `SELECT 
+        s.song_id,
+        s.title AS song_title,
+        a.name AS author_name,
+        g.name AS genre_name,
+        al.title AS album_title,
+        s.release_date
+      FROM songs s
+      JOIN songs_playlists sp ON s.song_id = sp.song_id
+      JOIN authors a ON s.author_id = a.author_id
+      JOIN genres g ON s.genre_id = g.genre_id
+      LEFT JOIN albums al ON s.album_id = al.album_id
+      WHERE sp.playlist_id = ?;`;
     db.all(sql, [playlistId], (err, rows) => {
       if (err) return reject(err);
       else return resolve(rows);

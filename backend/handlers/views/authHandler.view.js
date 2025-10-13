@@ -5,7 +5,7 @@ const {
 
 async function GetRegisterHandler(req, res) {
   if (req.session.userId) {
-    res.render("account");
+    res.redirect("/me");
   } else {
     res.render("register");
   }
@@ -26,7 +26,7 @@ async function PostRegisterHandler(req, res) {
 
 async function GetLoginHandler(req, res) {
   if (req.session.userId) {
-    res.render("account");
+    res.redirect("/me");
   } else {
     res.render("login");
   }
