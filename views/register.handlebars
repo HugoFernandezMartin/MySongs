@@ -1,20 +1,15 @@
-<div id="main">
-  <h1>Register</h1>
-  <div>
-    <form action="/auth/register" method="post" id="registerform">
-      <fieldset>
-        <legend>Register information</legend>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" />
-        <br />
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" />
-        <br />
-        <input type="submit" value="Register" />
-      </fieldset>
+<main class="register-page">
+  <div class="register-container">
+    <h1 class="brand-title">MYSONGS</h1>
+    <form class="register-form" action="/auth/register" method="POST" novalidate>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirm_password" placeholder="Confirm password" required>
+      <button type="submit" class="register-submit">Create account</button>
+      <button type="button" class="back-login-btn" onclick="window.location.href='/auth/login'">Back to login</button>
     </form>
     {{#if error}}
       <p class="error">{{error}}</p>
     {{/if}}
   </div>
-</div>
+</main>

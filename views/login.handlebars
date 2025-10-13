@@ -1,20 +1,14 @@
-<div id="main">
-  <h1>Login</h1>
-  <div>
-    <form action="/auth/login" method="post" id="loginform">
-      <fieldset>
-        <legend>Login information</legend>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" />
-        <br />
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" />
-        <br />
-        <input type="submit" value="Login" />
-      </fieldset>
+<main class="login-page">
+  <div class="login-container">
+    <h1 class="brand-title">MYSONGS</h1>
+    <form class="login-form" action="/auth/login" method="POST">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="login-btn">Login</button>
+      <button type="button" class="register-btn" onclick="window.location.href='/register'">Register</button>
     </form>
     {{#if error}}
       <p class="error">{{error}}</p>
     {{/if}}
   </div>
-</div>
+</main>

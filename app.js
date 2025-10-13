@@ -56,6 +56,10 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.get("/contact", (req, res) => {
+  res.render("contact", { layout: "main" });
+});
+
 //*API Routes
 app.use("/api/songs", songsRouterApi);
 app.use("/api/users", userRouterApi);
