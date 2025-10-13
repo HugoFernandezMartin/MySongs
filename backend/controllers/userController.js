@@ -1,8 +1,8 @@
-const makeResponse = require("../../commons/models/response.js");
-const { hashPassword } = require("../auth/authService.js");
-const { createUser, getUsers } = require("./userRepository.js");
-const { getUserById } = require("../../commons/utils/userUtils.js");
-const makeUser = require("../../commons/models/user.js");
+const makeResponse = require("../commons/models/response.js");
+const { hashPassword } = require("../commons/utils/hash.js");
+const { createUser, getUsers } = require("../repositories/userRepository.js");
+const { getUserById } = require("../commons/utils/userUtils.js");
+const makeUser = require("../commons/models/user.js");
 
 async function CreateUserController(req, res) {
   try {

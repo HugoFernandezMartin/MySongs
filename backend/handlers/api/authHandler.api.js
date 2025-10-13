@@ -1,13 +1,14 @@
-const { hashPassword, verifyPassword } = require("./authService");
-const { registerUser } = require("./authRepository");
-const { getUserByName } = require("../../commons/utils/userUtils");
 const makeResponse = require("../../commons/models/response");
+const {
+  LogoutController,
+  LoginController,
+  RegisterUserController,
+} = require("../../controllers/authController");
 
-async function RegisterUserController(req, res) {
+async function RegisterHandler(req, res) {
   try {
     const { username, password } = req.body;
-    const password_hash = await hashPassword(password);
-    const userId = await registerUser(username, password_hash);
+    const userId = await RegisterUserController(username, password);
     res
       .status(200)
       .json(makeResponse(true, "User registered succesfully", userId, 200));
@@ -18,18 +19,24 @@ async function RegisterUserController(req, res) {
       .json(makeResponse(false, "Error registering user", error.message, 500));
   }
 }
+async function LogoutHandler(req, res) {
+  req.session.destroy((err) => {
+    // destroy the current session
+    if (err) {
+      res
+        .status(500)
+        .json(makeResponse(false, "Error destroying session", err.message));
+    } else {
+      res.status(200).json(makeResponse(true, "Logout Successfully"));
+    }
+  });
+}
 
-async function LoginController(req, res) {
-  let loggedIn = false;
+async function LoginHandler(req, res) {
   try {
     const { username, password } = req.body;
-    //Search username in db
-    let user = await getUserByName(username);
-
-    //Compare introduced password with hash in db
-    await verifyPassword(password, user.password_hash);
-
-    loggedIn = true;
+    console.log("USERNAME: ", username);
+    const user = await LoginController(username, password);
 
     req.session.isLoggedIn = true;
     req.session.userId = user.user_id;
@@ -69,23 +76,4 @@ async function LoginController(req, res) {
   }
 }
 
-async function LogoutController(req, res) {
-  // destroy the current session
-  req.session.destroy((err) => {
-    if (err) {
-      res
-        .status(500)
-        .json(
-          makeResponse(
-            false,
-            "Error while destroying the session: ",
-            err.message,
-            500
-          )
-        );
-    } else {
-      res.status(200).json(makeResponse(true, "Logout Succesfully", null, 200));
-    }
-  });
-}
-module.exports = { RegisterUserController, LoginController, LogoutController };
+module.exports = { LogoutHandler, LoginHandler, RegisterHandler };

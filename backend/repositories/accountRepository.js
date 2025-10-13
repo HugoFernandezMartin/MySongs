@@ -1,4 +1,4 @@
-const { initDB } = require("../../db/database.js");
+const { initDB } = require("../db/database.js");
 const db = initDB();
 
 async function GetPlaylists(user_id) {

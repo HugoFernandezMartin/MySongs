@@ -1,6 +1,6 @@
 const app = require("./app");
-const { hashPassword } = require("./backend/api/auth/authService.js");
-const { createUser } = require("./backend/api/user/userRepository.js");
+const { hashPassword } = require("./backend/commons/utils/hash.js");
+const { createUser } = require("./backend/repositories/userRepository.js");
 const { initDB } = require("./backend/db/database.js");
 const { resetDB } = require("./backend/tests/testUtils.js");
 

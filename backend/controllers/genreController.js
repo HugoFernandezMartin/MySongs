@@ -1,11 +1,11 @@
-const makeResponse = require("../../commons/models/response");
+const makeResponse = require("../commons/models/response");
 const {
   AddGenre,
   RemoveGenre,
   GetGenres,
   GetGenreById,
   GetSongsFromGenre,
-} = require("./genreRepository");
+} = require("../repositories/genreRepository");
 
 async function CreateGenreController(req, res) {
   try {

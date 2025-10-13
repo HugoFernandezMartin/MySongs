@@ -1,15 +1,21 @@
 const express = require("express");
-const songsRouter = require("./backend/api/song/songRouter.js");
-const userRouter = require("./backend/api/user/userRouter.js");
-const authRouter = require("./backend/api/auth/authRouter.js");
-const accountRouter = require("./backend/api/account/accountRouter.js");
-const playlistRouter = require("./backend/api/playlist/playlistRouter.js");
-const genreRouter = require("./backend/api/genre/genreRouter.js");
+
 const app = express();
 const { engine } = require("express-handlebars");
 const connectSqlite3 = require("connect-sqlite3");
 const session = require("express-session");
 
+//API Routers
+const songsRouterApi = require("./backend/routes/api/songRouter.api.js");
+const userRouterApi = require("./backend/routes/api/userRouter.api.js");
+const authRouterApi = require("./backend/routes/api/authRouter.api.js");
+const accountRouterApi = require("./backend/routes/api/accountRouter.api.js");
+const playlistRouterApi = require("./backend/routes/api/playlistRouter.api.js");
+const genreRouterApi = require("./backend/routes/api/genreRouter.api.js");
+
+//Views Routers
+const accountRouterView = require("./backend/routes/views/accountRouter.view.js");
+const authRouterView = require("./backend/routes/views/authRouter.view.js");
 //Session database
 const SQLiteStore = connectSqlite3(session); // store sessions in the database
 
@@ -54,12 +60,16 @@ app.get("/contact", (req, res) => {
   res.render("contact", { layout: "main" });
 });
 
-//TODO Routes
-app.use("/songs", songsRouter);
-app.use("/users", userRouter);
-app.use("/auth", authRouter);
-app.use("/me", accountRouter);
-app.use("/playlists", playlistRouter);
-app.use("/genres", genreRouter);
+//*API Routes
+app.use("/api/songs", songsRouterApi);
+app.use("/api/users", userRouterApi);
+app.use("/api/auth", authRouterApi);
+app.use("/api/me", accountRouterApi);
+app.use("/api/playlists", playlistRouterApi);
+app.use("/api/genres", genreRouterApi);
+
+//*Views Routes
+app.use("/me", accountRouterView);
+app.use("/auth", authRouterView);
 
 module.exports = app;

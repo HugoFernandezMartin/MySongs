@@ -1,4 +1,4 @@
-const { initDB } = require("../../db/database.js");
+const { initDB } = require("../db/database.js");
 const db = initDB();
 
 //Create new song

@@ -7,13 +7,13 @@ const {
   GetGenresController,
   GetGenreByIdController,
   GetSongsFromGenreController,
-} = require("./genreController");
+} = require("../../controllers/genreController");
 const {
   adminAuthMiddleware,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
-    POST /genres
+    POST /api/genres
     Create new genre
     
     Body Params:
@@ -39,7 +39,7 @@ const {
 router.post("/", adminAuthMiddleware, CreateGenreController);
 
 /*
-    DELETE /genres/:genre_id
+    DELETE /api/genres/:genre_id
     Delete a genre
  
     Response:
@@ -62,7 +62,7 @@ router.delete("/:genre_id", adminAuthMiddleware, DeleteGenreController);
 
 /*
 
-    GET /genres
+    GET /api/genres
     Get all genres
  
     Response:
@@ -94,7 +94,7 @@ router.delete("/:genre_id", adminAuthMiddleware, DeleteGenreController);
 router.get("/", GetGenresController);
 
 /*
-    GET /genres/:genre_id
+    GET /api/genres/:genre_id
     Get a genre by its id
  
     Response:
@@ -120,7 +120,7 @@ router.get("/", GetGenresController);
 router.get("/:genre_id", GetGenreByIdController);
 
 /*
-    GET /genres/genre_id/songs
+    GET /api/genres/genre_id/songs
     Get songs from genre
  
     Response:
