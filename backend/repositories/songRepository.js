@@ -76,7 +76,7 @@ async function searchSongs(q, limit) {
 
 async function countSongs(author, genre, album) {
   //Adding parameters if filter applied
-  let query = "SELECT COUNT(*) FROM songs WHERE 1=1";
+  let query = "SELECT COUNT(*) as count FROM songs WHERE 1=1";
   const params = [];
 
   if (author) {
@@ -95,9 +95,9 @@ async function countSongs(author, genre, album) {
   }
 
   return new Promise((resolve, reject) => {
-    db.all(query, params, (err, count) => {
+    db.get(query, params, (err, row) => {
       if (err) reject(err);
-      else resolve(count);
+      else resolve(parseInt(row.count, 10));
     });
   });
 }

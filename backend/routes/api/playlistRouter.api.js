@@ -11,7 +11,7 @@ const {
   CreatePlaylistHandler,
 } = require("../../handlers/api/playlistHandler.api");
 const {
-  userAuthMiddleware,
+  userAuthMiddlewareApi,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
@@ -37,7 +37,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", userAuthMiddleware, CreatePlaylistHandler);
+router.post("/", userAuthMiddlewareApi, CreatePlaylistHandler);
 
 /*
     DELETE /api/playlists/:playlist_id

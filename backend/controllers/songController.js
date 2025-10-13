@@ -9,14 +9,12 @@ async function GetSongsController(req, res) {
   try {
     const { author, genre, album } = req.query;
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit);
-    if (limit) {
-      const offset = (page - 1) * limit;
-    }
+    const limit = parseInt(req.query.limit) || 3;
+    const offset = (page - 1) * limit;
+
     const songs = await getSongs(author, genre, album, limit, offset);
 
-    const count = countSongs(author, genre, album);
-
+    const count = await countSongs(author, genre, album);
     const totalPages = Math.ceil(count / limit);
 
     res.status(200).json(

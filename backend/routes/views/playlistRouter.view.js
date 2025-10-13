@@ -5,15 +5,12 @@ const {
   CreatePlaylistHandler,
   GetPlaylistHandler,
 } = require("../../handlers/views/playlistHandler.view");
-const {
-  userAuthMiddleware,
-} = require("../../commons/middlewares/authMiddleware");
 
 /*
   POST /playlists
   Create a playlist
 */
-router.post("/", userAuthMiddleware, CreatePlaylistHandler);
+router.post("/", CreatePlaylistHandler);
 
 /*
   GET /playlists/:playlist_id
