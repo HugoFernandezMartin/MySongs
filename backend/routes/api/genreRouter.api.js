@@ -9,7 +9,7 @@ const {
   GetSongsFromGenreController,
 } = require("../../controllers/genreController");
 const {
-  adminAuthMiddleware,
+  adminAuthMiddlewareApi,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
@@ -36,7 +36,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", adminAuthMiddleware, CreateGenreController);
+router.post("/", adminAuthMiddlewareApi, CreateGenreController);
 
 /*
     DELETE /api/genres/:genre_id
@@ -58,7 +58,7 @@ router.post("/", adminAuthMiddleware, CreateGenreController);
         statusCode: 200
       } 
 */
-router.delete("/:genre_id", adminAuthMiddleware, DeleteGenreController);
+router.delete("/:genre_id", adminAuthMiddlewareApi, DeleteGenreController);
 
 /*
 

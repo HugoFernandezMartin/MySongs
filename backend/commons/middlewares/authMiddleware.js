@@ -1,6 +1,6 @@
 const makeResponse = require("../models/response");
 
-function adminAuthMiddleware(req, res, next) {
+function adminAuthMiddlewareApi(req, res, next) {
   console.log("REQ: ", req.session);
   if (!req.session || !req.session.userId) {
     return res
@@ -17,7 +17,7 @@ function adminAuthMiddleware(req, res, next) {
   next();
 }
 
-function userAuthMiddleware(req, res, next) {
+function userAuthMiddlewareApi(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res
       .status(401)
@@ -27,4 +27,4 @@ function userAuthMiddleware(req, res, next) {
   next();
 }
 
-module.exports = { adminAuthMiddleware, userAuthMiddleware };
+module.exports = { adminAuthMiddlewareApi, userAuthMiddlewareApi };

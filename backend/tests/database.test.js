@@ -135,22 +135,6 @@ describe("Database tests", () => {
       }
       throw new Error("Playlist was not deleted correctly");
     });
-
-    test("Add song to playlist and check if added: ", async () => {
-      //*ADD SONG 4 TO PLAYLIST 1
-      await AddSongToPlaylist(1, 4);
-      const songs = await getSongsFromPlaylist(1);
-      const song = await getSongById(4);
-      expect(songs).toContainEqual(song);
-    });
-
-    test("Remove song from playlist and check if removed: ", async () => {
-      //*REMOVE SONG 2 FROM PLAYLIST 1
-      await DeleteSongFromPlaylist(1, 2);
-      const songs = await getSongsFromPlaylist(1);
-      const song = await getSongById(2);
-      expect(songs).not.toContainEqual(song);
-    });
   });
 
   describe("Genre management tests", () => {

@@ -3,12 +3,13 @@ const router = express.Router();
 
 const {
   ListPlaylistsHandler,
+  GetAccountHandler,
 } = require("../../handlers/views/accountHandler.view");
 
 /*
-  GET /me/playlists
-  Render a list of the playlists from user
+  GET /me
+  Render account page
 */
-router.get("/playlists", ListPlaylistsHandler);
+router.get("/", GetAccountHandler);
 
 module.exports = router;

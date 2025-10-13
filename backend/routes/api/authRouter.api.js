@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  userAuthMiddleware,
+  userAuthMiddlewareApi,
 } = require("../../commons/middlewares/authMiddleware");
 const {
   LogoutHandler,
@@ -81,6 +81,6 @@ router.post("/login", LoginHandler);
         statusCode: 200
       } 
 */
-router.get("/logout", userAuthMiddleware, LogoutHandler);
+router.get("/logout", userAuthMiddlewareApi, LogoutHandler);
 
 module.exports = router;

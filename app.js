@@ -16,6 +16,7 @@ const genreRouterApi = require("./backend/routes/api/genreRouter.api.js");
 //Views Routers
 const accountRouterView = require("./backend/routes/views/accountRouter.view.js");
 const authRouterView = require("./backend/routes/views/authRouter.view.js");
+const playlistRouterView = require("./backend/routes/views/playlistRouter.view.js");
 //Session database
 const SQLiteStore = connectSqlite3(session); // store sessions in the database
 
@@ -71,5 +72,5 @@ app.use("/api/genres", genreRouterApi);
 //*Views Routes
 app.use("/me", accountRouterView);
 app.use("/auth", authRouterView);
-
+app.use("/playlists", playlistRouterView);
 module.exports = app;
