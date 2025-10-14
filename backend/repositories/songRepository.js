@@ -52,11 +52,22 @@ async function getSongs(author, genre, album, limit, offset) {
 }
 
 async function searchSongs(q, limit) {
-  let query = "SELECT * FROM songs";
+  let query = `SELECT 
+        s.song_id,
+        s.title AS song_title,
+        a.name AS author_name,
+        g.name AS genre_name,
+        al.title AS album_title,
+        s.release_date
+      FROM songs s
+      JOIN songs_playlists sp ON s.song_id = sp.song_id
+      JOIN authors a ON s.author_id = a.author_id
+      JOIN genres g ON s.genre_id = g.genre_id
+      LEFT JOIN albums al ON s.album_id = al.album_id`;
   const params = [];
 
   if (q) {
-    query += " WHERE title LIKE ?";
+    query += " WHERE song_title LIKE ?";
     params.push(`${q}%`);
   }
 
@@ -69,7 +80,9 @@ async function searchSongs(q, limit) {
     db.all(query, params, (err, rows) => {
       console.log("Search result: ", rows);
       if (err) reject(err);
-      else resolve(rows);
+      if (!rows || rows.length === 0) {
+        return reject({ code: "NOT_FOUND", message: "No songs found" });
+      } else resolve(rows);
     });
   });
 }
