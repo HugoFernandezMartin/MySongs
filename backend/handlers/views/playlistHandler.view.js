@@ -1,6 +1,6 @@
 const {
   CreatePlaylistController,
-  GetSongsController,
+  GetSongsFromPlaylistController,
 } = require("../../controllers/playlistController");
 const { getPlaylistById } = require("../../repositories/playlistRepository");
 
@@ -29,7 +29,7 @@ async function GetPlaylistHandler(req, res) {
     console.log("ID: ", playlist_id);
     const playlistData = await getPlaylistById(playlist_id);
     //Get songs from playlist
-    const songs = await GetSongsController(playlist_id);
+    const songs = await GetSongsFromPlaylistController(playlist_id);
     //Render playlist page
     model = { playlist: playlistData, songs };
     res.render("playlist", model);

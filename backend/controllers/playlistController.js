@@ -109,7 +109,7 @@ async function RemoveSongController(req, res) {
   }
 }
 
-async function GetSongsController(playlist_id) {
+async function GetSongsFromPlaylistController(playlist_id) {
   //Check existing playlist
   await getPlaylistById(playlist_id);
 
@@ -124,5 +124,5 @@ module.exports = {
   DeletePlaylistController,
   AddSongController,
   RemoveSongController,
-  GetSongsController,
+  GetSongsFromPlaylistController,
 };
