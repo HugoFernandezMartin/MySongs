@@ -40,20 +40,9 @@ async function GetSongsController(req, res) {
   }
 }
 
-async function SearchSongController(req, res) {
-  try {
-    let { q } = req.query;
-    let { limit } = req.query;
-
-    const songs = await searchSongs(q, limit);
-
-    res
-      .status(200)
-      .json(makeResponse(true, "Songs retrieved succesfully", songs, 200));
-  } catch (error) {
-    res
-      .status(500)
-      .json(makeResponse(false, "Error retrieving songs", error.message, 500));
-  }
+async function SearchSongController(q, limit) {
+  const songs = await searchSongs(q, limit);
+  return songs;
 }
+
 module.exports = { GetSongsController, SearchSongController };
