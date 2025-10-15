@@ -6,7 +6,7 @@ describe("Routers tests", () => {
   beforeEach(async () => {
     await resetDB();
   });
-
+  //#region MIDDLEWARE
   describe("Middleware tests: ", () => {
     beforeAll(async () => {
       console.log(
@@ -45,7 +45,7 @@ describe("Routers tests", () => {
       expect(response.body.message).toBe("Authentication Error");
     });
   });
-
+  //#region USER
   describe("User Routes tests: ", () => {
     beforeAll(async () => {
       console.log(
@@ -130,7 +130,7 @@ describe("Routers tests", () => {
       expect(response.body.message).toBe("User created succesfully");
     });
   });
-
+  //#region ACCOUNT
   describe("Account tests: ", () => {
     beforeAll(async () => {
       console.log(
@@ -261,6 +261,7 @@ describe("Routers tests", () => {
     });
   });
 
+  //#region PLAYLISTS
   describe("Playlists tests: ", () => {
     beforeAll(async () => {
       console.log(
@@ -345,11 +346,12 @@ describe("Routers tests", () => {
 
       console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
-        "Songs from playlist retrieved succesfully"
+        "Songs from playlist retrieved successfully"
       );
     });
   });
 
+  //#region GENRES
   describe("Genres tests", () => {
     beforeAll(async () => {
       console.log(
@@ -414,6 +416,7 @@ describe("Routers tests", () => {
     });
   });
 
+  //#region SONGS
   describe("Songs tests", () => {
     beforeAll(async () => {
       console.log(

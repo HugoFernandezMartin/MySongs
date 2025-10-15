@@ -14,9 +14,10 @@ async function GetRegisterHandler(req, res) {
 async function PostRegisterHandler(req, res) {
   try {
     const { username, password } = req.body;
-    const user = await RegisterUserController(username, password);
+    await RegisterUserController(username, password);
 
-    res.render("account");
+    req.session.info = "Account created successfully";
+    res.redirect("/auth/login");
   } catch (err) {
     console.log("RegisterHandler Error: ", err.message);
     const model = { error: err.message };
@@ -28,7 +29,9 @@ async function GetLoginHandler(req, res) {
   if (req.session.userId) {
     res.redirect("/me");
   } else {
-    res.render("login");
+    const model = { info: req.session.info };
+    req.session.info = null;
+    res.render("login", model);
   }
 }
 
@@ -48,7 +51,7 @@ async function PostLoginHandler(req, res) {
       req.session.isAdmin = false;
     }
 
-    res.render("account");
+    res.redirect("/me");
   } catch (err) {
     console.log("LoginHandler Error: ", err.message);
     const model = { error: err.message };

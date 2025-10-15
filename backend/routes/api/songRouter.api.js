@@ -1,8 +1,6 @@
 const express = require("express");
-const {
-  GetSongsController,
-  SearchSongController,
-} = require("../../controllers/songController");
+const { GetSongsController } = require("../../controllers/songController");
+const { GetSongsSearchHandler } = require("../../handlers/api/songHandler.api");
 const router = express.Router();
 
 /*
@@ -75,6 +73,6 @@ router.get("/", GetSongsController);
       statusCode: 200
     }
  */
-router.get("/search", SearchSongController);
+router.get("/search", GetSongsSearchHandler);
 
 module.exports = router;

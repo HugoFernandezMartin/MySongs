@@ -1,6 +1,7 @@
 const makeResponse = require("../../commons/models/response");
 const {
   CreatePlaylistController,
+  GetSongsFromPlaylistController,
 } = require("../../controllers/playlistController");
 
 async function CreatePlaylistHandler(req, res) {
@@ -26,4 +27,27 @@ async function CreatePlaylistHandler(req, res) {
   }
 }
 
-module.exports = { CreatePlaylistHandler };
+async function GetSongsFromPlaylistHandler(req, res) {
+  try {
+    const { playlist_id } = req.params;
+    const songs = await GetSongsFromPlaylistController(playlist_id);
+
+    res
+      .status(200)
+      .json(
+        makeResponse(
+          true,
+          "Songs from playlist retrieved successfully",
+          songs,
+          200
+        )
+      );
+  } catch (err) {
+    console.log("GetSongsFromPlaylistHandler Error: ", err.message);
+    res
+      .status(500)
+      .json(makeResponse(false, "Unable to retrieve songs", err.message, 500));
+  }
+}
+
+module.exports = { CreatePlaylistHandler, GetSongsFromPlaylistHandler };

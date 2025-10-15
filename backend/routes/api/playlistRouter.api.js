@@ -5,10 +5,10 @@ const {
   DeletePlaylistController,
   AddSongController,
   RemoveSongController,
-  GetSongsController,
 } = require("../../controllers/playlistController");
 const {
   CreatePlaylistHandler,
+  GetSongsFromPlaylistHandler,
 } = require("../../handlers/api/playlistHandler.api");
 const {
   userAuthMiddlewareApi,
@@ -142,6 +142,6 @@ router.delete("/:playlist_id/songs/:song_id", RemoveSongController);
         statusCode: 200
       } 
 */
-router.get("/:playlist_id/songs", GetSongsController);
+router.get("/:playlist_id/songs", GetSongsFromPlaylistHandler);
 
 module.exports = router;
