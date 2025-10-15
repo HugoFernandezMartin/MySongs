@@ -346,7 +346,7 @@ describe("Routers tests", () => {
 
       console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
-        "Songs from playlist retrieved succesfully"
+        "Songs from playlist retrieved successfully"
       );
     });
   });

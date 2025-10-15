@@ -37,7 +37,7 @@ async function GetSongsFromPlaylistHandler(req, res) {
       .json(
         makeResponse(
           true,
-          "Songs from playlist retrieved succesfully",
+          "Songs from playlist retrieved successfully",
           songs,
           200
         )
