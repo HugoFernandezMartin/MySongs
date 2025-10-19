@@ -14,7 +14,7 @@ async function CreateUserController(req, res) {
       .status(200)
       .json(makeResponse(true, "User created succesfully", user, 200));
   } catch (error) {
-    console.log("ERROR: ", error.message);
+    console.log("CreateUserController Error: ", error.message);
     res
       .status(500)
       .json(makeResponse(false, "Error creating user", error.message, 500));
@@ -28,7 +28,7 @@ async function GetUsersController(_req, res) {
       .status(200)
       .json(makeResponse(true, "Users retrieved succesfully", users, 200));
   } catch (error) {
-    console.log("ERROR: ", error.message);
+    console.log("GetUsersController Error: ", error.message);
     res
       .status(500)
       .json(makeResponse(false, "Error retrieving users", error.message, 500));
@@ -43,7 +43,7 @@ async function GetUserByIdController(req, res) {
       .status(200)
       .json(makeResponse(true, "User retrieved succesfully", user, 200));
   } catch (error) {
-    console.log("ERROR: ", error.message);
+    console.log("GetUserByIdController Error: ", error.message);
     res
       .status(500)
       .json(makeResponse(false, "Error retrieving user", error.message, 500));

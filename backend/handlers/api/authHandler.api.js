@@ -13,7 +13,7 @@ async function RegisterHandler(req, res) {
       .status(200)
       .json(makeResponse(true, "User registered succesfully", userId, 200));
   } catch (error) {
-    console.log("ERROR: ", error.message);
+    console.log("RegisterHandler Error: ", error.message);
     res
       .status(500)
       .json(makeResponse(false, "Error registering user", error.message, 500));
@@ -35,7 +35,6 @@ async function LogoutHandler(req, res) {
 async function LoginHandler(req, res) {
   try {
     const { username, password } = req.body;
-    console.log("USERNAME: ", username);
     const user = await LoginController(username, password);
 
     req.session.isLoggedIn = true;
@@ -53,9 +52,9 @@ async function LoginHandler(req, res) {
       .status(200)
       .json(makeResponse(true, "Login Succesfully", user.user_id, 200));
   } catch (err) {
+    console.log("LoginHandler Error", err.message);
     //If user not exists
     if (err.code === "NOT_FOUND") {
-      console.log("LOGIN: username does not exist");
       res
         .status(404)
         .json(
@@ -64,7 +63,6 @@ async function LoginHandler(req, res) {
     }
     //If invalid password
     if (err.code === "INVALID_PASSWORD") {
-      console.log("LOGIN: invalid password");
       res
         .status(401)
         .json(makeResponse(false, "Unable to login", "Invalid password", 500));

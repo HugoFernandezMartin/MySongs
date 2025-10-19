@@ -1,6 +1,9 @@
 const express = require("express");
 const { GetSongsController } = require("../../controllers/songController");
-const { GetSongsSearchHandler } = require("../../handlers/api/songHandler.api");
+const {
+  GetSongsSearchHandler,
+  GetSongsHandler,
+} = require("../../handlers/api/songHandler.api");
 const router = express.Router();
 
 /*
@@ -39,7 +42,7 @@ const router = express.Router();
       statusCode: 200
     }
 */
-router.get("/", GetSongsController);
+router.get("/", GetSongsHandler);
 
 /*
   GET /api/songs/search

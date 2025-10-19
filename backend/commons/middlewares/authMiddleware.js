@@ -1,7 +1,6 @@
 const makeResponse = require("../models/response");
 
 function adminAuthMiddlewareApi(req, res, next) {
-  console.log("REQ: ", req.session);
   if (!req.session || !req.session.userId) {
     return res
       .status(401)

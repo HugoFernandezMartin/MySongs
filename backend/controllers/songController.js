@@ -5,39 +5,31 @@ const {
   countSongs,
 } = require("../repositories/songRepository.js");
 
-async function GetSongsController(req, res) {
-  try {
-    const { author, genre, album } = req.query;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 3;
-    const offset = (page - 1) * limit;
+async function GetSongsController(
+  author_id,
+  genre_id,
+  album_id,
+  currentPage,
+  limit
+) {
+  const offset = (currentPage - 1) * limit;
 
-    const songs = await getSongs(author, genre, album, limit, offset);
-
-    const count = await countSongs(author, genre, album);
-    const totalPages = Math.ceil(count / limit);
-
-    res.status(200).json(
-      makeResponse(
-        true,
-        "Songs retrieved succesfully",
-        {
-          songs,
-          pagination: {
-            page,
-            limit,
-            totalPages,
-            totalItems: count,
-          },
-        },
-        200
-      )
-    );
-  } catch (error) {
-    res
-      .status(500)
-      .json(makeResponse(false, "Error retrieving songs", error.message, 500));
-  }
+  const songs = await getSongs(author_id, genre_id, album_id, limit, offset);
+  const count = await countSongs(author_id, genre_id, album_id);
+  const totalPages = Math.ceil(count / limit);
+  return {
+    songs,
+    pagination: {
+      currentPage,
+      limit,
+      totalPages,
+      totalItems: count,
+      prevPage: currentPage - 1,
+      nextPage: currentPage + 1,
+      hasPrevPage: currentPage > 1,
+      hasNextPage: currentPage < totalPages,
+    },
+  };
 }
 
 async function SearchSongController(q, limit) {
