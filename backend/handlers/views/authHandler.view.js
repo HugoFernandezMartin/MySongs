@@ -13,8 +13,8 @@ async function GetRegisterHandler(req, res) {
 
 async function PostRegisterHandler(req, res) {
   try {
-    const { username, password } = req.body;
-    await RegisterUserController(username, password);
+    const { username, password, confirm_password } = req.body;
+    await RegisterUserController(username, password, confirm_password);
 
     req.session.info = "Account created successfully";
     res.redirect("/auth/login");

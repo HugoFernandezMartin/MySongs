@@ -3,7 +3,10 @@ const { registerUser } = require("../repositories/authRepository");
 const { getUserByName } = require("../commons/utils/userUtils");
 const makeResponse = require("../commons/models/response");
 
-async function RegisterUserController(username, password) {
+async function RegisterUserController(username, password, confirm_password) {
+  if (password !== confirm_password) {
+    throw new Error("Passwords dont match");
+  }
   const password_hash = await hashPassword(password);
   const userId = await registerUser(username, password_hash);
   return userId;
