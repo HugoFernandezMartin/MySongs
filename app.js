@@ -18,6 +18,8 @@ const accountRouterView = require("./backend/routes/views/accountRouter.view.js"
 const authRouterView = require("./backend/routes/views/authRouter.view.js");
 const playlistRouterView = require("./backend/routes/views/playlistRouter.view.js");
 const songRouterView = require("./backend/routes/views/songRouter.view.js");
+const genreRouterView = require("./backend/routes/views/genreRouter.view.js");
+const { GetGenres } = require("./backend/repositories/genreRepository.js");
 
 //Session database
 const SQLiteStore = connectSqlite3(session); // store sessions in the database
@@ -54,13 +56,15 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 
-//*Test endpoint
-app.get("/", (req, res) => {
-  res.render("home");
+//Main Page
+app.get("/", async (req, res) => {
+  const genres = await GetGenres();
+  const model = { genres };
+  res.render("home", model);
 });
 
 app.get("/contact", (req, res) => {
-  res.render("contact", { layout: "main" });
+  res.render("contact");
 });
 
 //*API Routes
@@ -76,5 +80,6 @@ app.use("/me", accountRouterView);
 app.use("/auth", authRouterView);
 app.use("/playlists", playlistRouterView);
 app.use("/songs", songRouterView);
+app.use("/genres", genreRouterView);
 
 module.exports = app;

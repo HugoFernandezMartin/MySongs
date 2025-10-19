@@ -19,22 +19,35 @@ async function createSong(title, author_id, genre_id, album_id, release_date) {
 
 //Get songs with optional filters, null if filter is not applied
 async function getSongs(author, genre, album, limit, offset) {
+  console.log(
+    `Get Songs: author: ${author}, genre: ${genre}, album: ${album}, limit: ${limit}, offset: ${offset}`
+  );
   //Adding parameters if filter applied
-  let query = "SELECT * FROM songs WHERE 1=1";
+  let query = `SELECT 
+        s.song_id,
+        s.title AS song_title,
+        a.name AS author_name,
+        g.name AS genre_name,
+        al.title AS album_title,
+        s.release_date
+      FROM songs s
+      JOIN authors a ON s.author_id = a.author_id
+      JOIN genres g ON s.genre_id = g.genre_id
+      LEFT JOIN albums al ON s.album_id = al.album_id WHERE 1=1`;
   const params = [];
 
   if (author) {
-    query += " AND author_id = ?";
+    query += " AND s.author_id = ?";
     params.push(author);
   }
 
   if (genre) {
-    query += " AND genre_id = ?";
+    query += " AND s.genre_id = ?";
     params.push(genre);
   }
 
   if (album) {
-    query += " AND album_id = ?";
+    query += " AND s.album_id = ?";
     params.push(album);
   }
 
@@ -60,7 +73,6 @@ async function searchSongs(q, limit) {
         al.title AS album_title,
         s.release_date
       FROM songs s
-      JOIN songs_playlists sp ON s.song_id = sp.song_id
       JOIN authors a ON s.author_id = a.author_id
       JOIN genres g ON s.genre_id = g.genre_id
       LEFT JOIN albums al ON s.album_id = al.album_id`;

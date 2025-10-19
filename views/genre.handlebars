@@ -1,5 +1,5 @@
 <div>
-  <h1>{{gender.title}}</h1>
+  <h1>{{genre.name}}</h1>
   <div>
     <ul>
       {{#each songs}}
@@ -20,14 +20,14 @@
   </div>
   <div>
     <div class="pagination">
-      {{#if prevPage}}
-        <a href="?query={{query}}&page={{prevPage}}">Previous</a>
+      {{#if pagination.hasPrevPage}}
+        <a href="{{genre.genre_id}}?page={{pagination.prevPage}}">Previous</a>
       {{/if}}
 
-      <span>Page {{page}} of {{totalPages}}</span>
+      <span>Page {{pagination.currentPage}} of {{pagination.totalPages}}</span>
 
-      {{#if nextPage}}
-        <a href="?query={{query}}&page={{nextPage}}">Next</a>
+      {{#if pagination.hasNextPage}}
+        <a href="{{genre.genre_id}}?page={{pagination.nextPage}}">Next</a>
       {{/if}}
     </div>
 

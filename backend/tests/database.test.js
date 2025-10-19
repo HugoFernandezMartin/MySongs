@@ -108,10 +108,11 @@ describe("Database tests", () => {
       expect(songs).toEqual([
         {
           song_id: 1,
-          title: "Starlight Drive",
-          author_id: 1,
-          genre_id: 3,
-          album_id: 1,
+          song_title: "Starlight Drive",
+          album_title: "Neon Dreams",
+          author_name: "The Synth Lords",
+          genre_name: "Electronic",
+
           release_date: "2022-05-10",
         },
       ]);

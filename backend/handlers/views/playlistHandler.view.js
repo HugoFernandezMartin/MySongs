@@ -26,7 +26,6 @@ async function GetPlaylistHandler(req, res) {
     //Get id from req
     const { playlist_id } = req.params;
     //Get playlist info
-    console.log("ID: ", playlist_id);
     const playlistData = await getPlaylistById(playlist_id);
     //Get songs from playlist
     const songs = await GetSongsFromPlaylistController(playlist_id);
