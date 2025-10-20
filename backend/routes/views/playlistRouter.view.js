@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   CreatePlaylistHandler,
   GetPlaylistHandler,
+  DeletePlaylistHandler,
 } = require("../../handlers/views/playlistHandler.view");
 
 /*
@@ -18,4 +19,9 @@ router.post("/", CreatePlaylistHandler);
 */
 router.get("/:playlist_id", GetPlaylistHandler);
 
+/*
+  POST /playlists/delete
+  Delete a playlist
+*/
+router.post("/delete", DeletePlaylistHandler);
 module.exports = router;

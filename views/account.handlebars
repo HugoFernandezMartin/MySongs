@@ -35,6 +35,15 @@
             {{created_at}}
             <a href="/playlists/{{playlist_id}}" class="btn">Open</a>
           </li>
+
+          <form
+            action="/playlists/delete"
+            method="POST"
+            style="display:inline;"
+          >
+            <input type="hidden" name="playlist_id" value="{{playlist_id}}" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
         {{/each}}
       </ul>
       <form action="/playlists" method="post" id="createPlaylistForm">
