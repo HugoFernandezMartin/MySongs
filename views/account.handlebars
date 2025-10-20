@@ -12,6 +12,14 @@
     {{else}}
       <p>No profile picture uploaded</p>
     {{/if}}
+    <form
+      action="/me/upload_picture"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="avatar" />
+      <button type="submit">Upload</button>
+    </form>
     {{#if user.is_admin}}
       <button onclick="window.location.href='/me/admin'">Admin Menu</button>
     {{/if}}
