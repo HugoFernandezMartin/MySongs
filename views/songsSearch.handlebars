@@ -1,30 +1,116 @@
-<div>
-  <form action="/songs/search" method="get" id="searchForm">
-    <input
-      type="text"
-      name="query"
-      placeholder="Search playlists..."
-      value="{{query}}"
-    />
-    <input type="hidden" name="limit" value="5" />
-    <button type="submit">🔍</button>
-  </form>
+<main class="search-page">
+  <!-- page header -->
+  <section class="search-hero">
+    <div class="wrap">
+      <h1 class="search-title">Search songs</h1>
+      <p class="search-sub">Find tracks by title</p>
+    </div>
+  </section>
 
-  <ul>
-    {{#each songs}}
-      <li>{{song_title}}
-        Author:
-        {{author_name}}
-        Genre:
-        {{genre_name}}
-        Album:
-        {{album_title}}
-        Release Date:
-        {{release_date}}</li>
-    {{/each}}
-  </ul>
-  {{#if error}}
-    <p class="error">{{error}}</p>
-  {{/if}}
+  <!-- search form -->
+  <section class="search-bar">
+    <div class="wrap">
+      <form
+        action="/songs/search"
+        method="get"
+        id="searchForm"
+        class="search-form"
+      >
+        <input
+          class="search-input"
+          type="text"
+          name="query"
+          placeholder="type to search…"
+          value="{{query}}"
+          aria-label="search"
+        />
+        <input type="hidden" name="limit" value="5" />
+        <button type="submit" class="search-btn" aria-label="submit search">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            width="18"
+            height="18"
+            aria-hidden="true"
+          >
+            <path
+              fill="currentColor"
+              d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+            />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
 
-</div>
+  <!-- results -->
+  <section class="search-results">
+    <div class="wrap">
+      {{#if songs.length}}
+        <ul class="song-grid">
+          {{#each songs}}
+            <li class="song-card">
+              <!-- left: fake cover block to keep grid consistent -->
+              <div class="song-cover ph" aria-hidden="true"></div>
+
+              <!-- right: meta -->
+              <div class="song-meta">
+                <h3 class="song-title">{{song_title}}</h3>
+                <p class="song-line"><span class="k">artist</span>
+                  <span class="v">{{author_name}}</span></p>
+                <p class="song-line"><span class="k">genre</span>
+                  <span class="v">{{genre_name}}</span></p>
+                <p class="song-line"><span class="k">album</span>
+                  <span class="v">{{album_title}}</span></p>
+                <p class="song-line"><span class="k">released</span>
+                  <span class="v">{{release_date}}</span></p>
+              </div>
+
+              <!-- quick action -->
+              <button
+                class="song-play"
+                title="play preview"
+                aria-label="play preview"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  aria-hidden="true"
+                >
+                  <polygon
+                    points="6,4 20,12 6,20"
+                    fill="currentColor"
+                  ></polygon>
+                </svg>
+              </button>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="search-empty">no results yet. try another keyword.</p>
+      {{/if}}
+
+      {{#if error}}
+        <p class="error">{{error}}</p>
+      {{/if}}
+
+      <!-- optional pager: show only if you pass paging vars -->
+      {{#if total_pages}}
+        <nav class="pager">
+          {{#if prev_page}}
+            <a
+              href="/songs/search?query={{query}}&limit={{limit}}&page={{prev_page}}"
+            >prev</a>
+          {{/if}}
+          <span class="page-dot">{{page}} / {{total_pages}}</span>
+          {{#if next_page}}
+            <a
+              href="/songs/search?query={{query}}&limit={{limit}}&page={{next_page}}"
+            >next</a>
+          {{/if}}
+        </nav>
+      {{/if}}
+    </div>
+  </section>
+</main>
