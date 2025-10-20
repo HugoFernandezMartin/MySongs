@@ -27,11 +27,26 @@ function userAuthMiddlewareApi(req, res, next) {
 }
 
 function adminAuthMiddlewareView(req, res, next) {
-  //TODO
+  if (!req.session || !req.session.userId) {
+    req.session.info = "You must log in";
+    res.redirect("/auth/login");
+  }
+
+  if (!req.session.isAdmin) {
+    req.session.info = "You must be admin";
+    res.redirect("/");
+  }
+
+  next();
 }
 
 function userAuthMiddlewareView(req, res, next) {
-  //TODO
+  if (!req.session || !req.session.userId) {
+    req.session.info = "You must log in";
+    res.redirect("/auth/login");
+  }
+
+  next();
 }
 
 module.exports = {
