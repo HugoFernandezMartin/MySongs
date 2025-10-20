@@ -1,8 +1,4 @@
-
-
-
-            <main class="account-page">
-
+<main class="account-page">
   <!-- top profile section -->
   <section class="profile-hero">
     <div class="profile-banner" aria-hidden="true"></div>
@@ -11,19 +7,16 @@
     <div class="wrap profile-hero-inner">
       <div class="profile-photo-wrap">
         <img src="{{user.profile_picture}}" alt="Profile photo">
-        <label class="photo-change">
-          <form
-      action="/me/upload_picture"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-      <input type="file" name="avatar" />
-      <button type="submit">Upload</button>
-    </form>
-        </label>
+
+        <!-- picture uploader (POST keeps your logic) -->
+        <form class="photo-actions" action="/me/upload_picture" method="POST" enctype="multipart/form-data">
+          <input id="avatar-input" class="visually-hidden" type="file" name="avatar" accept="image/*">
+          <button type="button" class="photo-btn" onclick="document.getElementById('avatar-input').click()">Change photo</button>
+          <button type="submit" class="photo-btn solid">Save</button>
+        </form>
       </div>
 
-      <!-- user name + logout -->
+      <!-- user name + buttons -->
       <div class="profile-meta">
         <span class="profile-meta-label">Profile</span>
         <h1 class="profile-name">{{user.username}}</h1>
@@ -32,7 +25,7 @@
         <div class="profile-actions">
           <button class="btn logout-btn" onclick="window.location.href='/auth/logout'">Logout</button>
           {{#if user.is_admin}}
-            <button onclick="window.location.href='/me/admin'">Admin Menu</button>
+            <button class="btn-outline" onclick="window.location.href='/me/admin'">Admin Menu</button>
           {{/if}}
         </div>
       </div>
@@ -49,17 +42,17 @@
         {{#each playlists}}
           <div class="pl-card">
 
-            <!-- small delete button -->
-            <form
-            action="/playlists/delete"
-            method="POST"
-            style="display:inline;"
-          >
-            <input type="hidden" name="playlist_id" value="{{playlist_id}}" />
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+            <!-- delete playlist -->
+            <form class="pl-del" action="/playlists/delete" method="POST">
+              <input type="hidden" name="playlist_id" value="{{playlist_id}}">
+              <button type="submit" aria-label="Delete {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                  <path fill="currentColor" d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 1 0 5.7 7.1L10.6 12l-4.9 4.9a1 1 0 1 0 1.4 1.4L12 13.4l4.9 4.9a1 1 0 0 0 1.4-1.4L13.4 12l4.9-4.9a1 1 0 0 0 0-1.4Z"/>
+                </svg>
+              </button>
+            </form>
 
-            <!-- playlist cover -->
+            <!-- cover -->
             <a class="pl-cover" href="/playlists/{{playlist_id}}">
               {{#if cover_url}}
                 <img src="{{cover_url}}" alt="{{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}">
@@ -68,37 +61,27 @@
               {{/if}}
             </a>
 
-            <!-- play circle icon -->
+            <!-- play circle -->
             <a class="pl-play" href="/playlists/{{playlist_id}}" aria-label="Play {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}">
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                 <polygon points="6,4 20,12 6,20" fill="currentColor"></polygon>
               </svg>
             </a>
 
-
-
             <!-- title + description -->
             <div class="pl-meta">
               <a class="pl-title" href="/playlists/{{playlist_id}}">
-                {{#if title}}
-                  {{title}}
-                {{else}}
-                  Untitled Playlist
-                {{/if}}
+                {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}
               </a>
               <p class="pl-desc">
-                {{#if description}}
-                  {{description}}
-                {{else}}
-                  Your day in a playlist.
-                {{/if}}
+                {{#if description}}{{description}}{{else}}Your day in a playlist.{{/if}}
               </p>
             </div>
           </div>
         {{/each}}
       </div>
 
-      <!-- create new playlist form -->
+      <!-- create new playlist -->
       <form action="/playlists" method="post" id="createPlaylistForm" class="playlist-form">
         <h3 class="playlist-form-heading">Create new playlist</h3>
         <label for="title" class="playlist-form-label">Title</label>
