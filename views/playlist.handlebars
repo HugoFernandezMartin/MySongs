@@ -12,6 +12,14 @@
           {{album_title}}
           Release Date:
           {{release_date}}</li>
+        <form
+          action="/playlists/songs/remove"
+          method="POST"
+          style="display:inline;"
+        >
+          <input type="hidden" name="song_id" value="{{song_id}}" />
+          <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
       {{/each}}
     </ul>
     {{#if error}}

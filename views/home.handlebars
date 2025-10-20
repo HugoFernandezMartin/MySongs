@@ -1,15 +1,16 @@
+<!-- genres navigation -->
 <nav class="genres">
   {{#each genres}}
     <a href="/genres/{{genre_id}}">{{name}}</a>
   {{/each}}
 </nav>
 
+<!-- main hero word -->
 <section class="hero full-bleed">
   <h1 class="hero-word">MySongs</h1>
 </section>
 
-<!-- existing stripe (photo + big VOL.1) -->
-<!-- HERO SPLIT (photo left, copy + title right) -->
+<!-- main intro photo + vol text -->
 <section class="hero-split">
   <img class="hero-img" src="/images/VOL.11.jpg" alt="Listening to music" />
   <div class="hero-right">
@@ -22,7 +23,7 @@
   </div>
 </section>
 
-<!-- NEW intro block (black background with text + images) -->
+<!-- short about section -->
 <section class="intro">
   <div class="intro-text">
     <h2>Hi, we are Hugo & Angelica</h2>
@@ -36,20 +37,26 @@
       behind them.
     </p>
   </div>
+
+  <!-- images of founders -->
   <div class="intro-images">
-    <img src="/images/hugo.jpg" alt="" />
-    <img src="/images/angelica.jpg" alt="" />
+    <img src="/images/hugo.jpg" alt="Hugo" />
+    <img src="/images/angelica.jpg" alt="Angelica" />
   </div>
 </section>
 
-<!-- NEW red section with cards -->
+<!-- red section with album cards -->
 <section class="featured">
   <h3 class="featured-title">FOUNDERS SELECTION</h3>
+
   <div class="featured-wrap">
+    <!-- arrow buttons -->
     <button
       class="featured-arrow featured-left"
       aria-label="Previous"
     >‹</button>
+
+    <!-- album list -->
     <div class="featured-track" role="list">
       <article class="album" role="listitem">
         <img
@@ -59,6 +66,7 @@
         />
         <p class="album-meta">Drake ft. 21 Savage • Her Loss</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -67,6 +75,7 @@
         />
         <p class="album-meta">Tyler, The Creator • IGOR</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -75,6 +84,7 @@
         />
         <p class="album-meta">Tame Impala • The Slow Rush</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -83,6 +93,7 @@
         />
         <p class="album-meta">Kanye West • Graduation</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -91,6 +102,7 @@
         />
         <p class="album-meta">Guns N' Roses • Use your Ilusion</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -99,6 +111,7 @@
         />
         <p class="album-meta">SZA • Ctrl</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -107,6 +120,7 @@
         />
         <p class="album-meta">Childish Gambino • Awaken, My Love!</p>
       </article>
+
       <article class="album" role="listitem">
         <img
           class="album-img"
@@ -116,13 +130,17 @@
         <p class="album-meta">Quevedo • Donde quiero estar</p>
       </article>
     </div>
+
+    <!-- next arrow -->
     <button class="featured-arrow featured-right" aria-label="Next">›</button>
+
+    <!-- gradient fades -->
     <div class="featured-fade featured-fade-l"></div>
     <div class="featured-fade featured-fade-r"></div>
   </div>
 </section>
 
-<!-- SONGS SECTION (bg photo + floating card) -->
+<!-- songs list with floating player -->
 <section class="songs-section">
   <img
     class="songs-bg"
@@ -134,8 +152,8 @@
   <div class="songs-card">
     <h3 class="songs-title">My Favorite Songs</h3>
 
+    <!-- songs list -->
     <ul class="songs-list">
-      <!-- Each row now uses data-query (artist + song) -->
       <li class="song-row" data-query="Post Malone Circles">
         <button class="song-btn" aria-label="Play/Pause">►</button>
         <img
@@ -182,9 +200,10 @@
       </li>
     </ul>
 
+    <!-- button to full page -->
     <button class="songs-cta">SEE FULL LIST</button>
   </div>
 
-  <!-- hidden shared player -->
+  <!-- hidden audio player -->
   <audio id="song-player" preload="metadata"></audio>
 </section>

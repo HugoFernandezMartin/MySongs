@@ -2,6 +2,8 @@ const {
   CreatePlaylistController,
   GetSongsFromPlaylistController,
   DeletePlaylistController,
+  AddSongController,
+  RemoveSongController,
 } = require("../../controllers/playlistController");
 const { getPlaylistById } = require("../../repositories/playlistRepository");
 
@@ -52,8 +54,35 @@ async function DeletePlaylistHandler(req, res) {
   }
 }
 
+async function AddSongToPlaylistHandler(req, res) {
+  try {
+    const { playlist_id } = req.params;
+    const { song_id } = req.body;
+    await AddSongController(playlist_id, song_id);
+    res.redirect(`/playlists/${playlist_id}`);
+  } catch (err) {
+    console.log("AddSongToPlaylistHandler Error: ", err.message);
+    model = { error: err.message };
+    res.render("account", model);
+  }
+}
+
+async function DeleteSongFromPlaylistHandler(req, res) {
+  try {
+    const { playlist_id } = req.params;
+    const { song_id } = req.body;
+    await RemoveSongController(playlist_id, song_id);
+    res.redirect(`/playlists/${playlist_id}`);
+  } catch (err) {}
+  console.log("RemoveSongFromPlaylistHandler Error: ", err.message);
+  model = { error: err.message };
+  res.render("playlist", model);
+}
+
 module.exports = {
   CreatePlaylistHandler,
   GetPlaylistHandler,
   DeletePlaylistHandler,
+  AddSongToPlaylistHandler,
+  DeleteSongFromPlaylistHandler,
 };
