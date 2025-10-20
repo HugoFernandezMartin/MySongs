@@ -1,6 +1,7 @@
 const { getUserById } = require("../../commons/utils/userUtils");
 const {
   GetPlaylistsController,
+  UpdatePictureController,
 } = require("../../controllers/accountController");
 
 async function GetAccountHandler(req, res) {
@@ -19,7 +20,7 @@ async function GetAccountHandler(req, res) {
   } catch (err) {
     console.error("GetAccountHandler Error: ", err.message);
     const model = { error: err.message };
-    response.render("account", model);
+    res.render("account", model);
   }
 }
 
@@ -27,4 +28,21 @@ async function GetAdminMenuHandler(_req, res) {
   res.render("admin");
 }
 
-module.exports = { GetAccountHandler, GetAdminMenuHandler };
+async function UpdatePictureHandler(req, res) {
+  try {
+    const file = req.file;
+    const userId = req.session.userId;
+    await UpdatePictureController(file, userId);
+    res.redirect("/me");
+  } catch (err) {
+    console.log("UpdatePictureHandlerError: ", err.message);
+    const model = { error: err.message };
+    res.render("account", model);
+  }
+}
+
+module.exports = {
+  GetAccountHandler,
+  GetAdminMenuHandler,
+  UpdatePictureHandler,
+};

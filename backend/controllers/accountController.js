@@ -9,7 +9,6 @@ const {
   GetPlaylists,
   UpdatePicture,
 } = require("../repositories/accountRepository");
-const { deletePicture, savePicture } = require("../commons/utils/pictures");
 
 async function DeleteAccountController(req, res) {
   try {
@@ -42,51 +41,9 @@ async function DeleteAccountController(req, res) {
   }
 }
 
-async function UpdatePictureController(req, res) {
-  try {
-    //Get data from request
-    const { picture } = req.body;
-
-    //Get user from session
-    const userId = req.session.userId;
-    const userData = await getUserById(userId);
-
-    //Delete old picture if exists
-    if (userData.profile_picture) {
-      await deletePicture(userData.profile_picture);
-    }
-
-    //Save new picture
-    const pictureRoute = String(`avatars/${userData.username}.png`);
-    await savePicture(picture, pictureRoute);
-
-    //Link picture to user in db
-    await UpdatePicture(pictureRoute, userId);
-
-    res
-      .status(200)
-      .json(
-        makeResponse(true, "Profile Picture updated succesfully", null, 200)
-      );
-  } catch (err) {
-    if (err.code === "INVALID_PASSWORD") {
-      res
-        .status(401)
-        .json(
-          makeResponse(false, "Not allowed to delete user", err.message, 200)
-        );
-    }
-    res
-      .status(500)
-      .json(
-        makeResponse(
-          false,
-          "Unable to change profile picture",
-          err.message,
-          500
-        )
-      );
-  }
+async function UpdatePictureController(file, userId) {
+  const routeImage = "avatars/" + file.filename;
+  await UpdatePicture(routeImage, userId);
 }
 
 async function UpdatePasswordController(req, res) {
