@@ -1,29 +1,65 @@
-<div>
-  <h1>{{playlist.title}}</h1>
-  <div>
-    <ul>
-      {{#each songs}}
-        <li>{{song_title}}
-          Author:
-          {{author_name}}
-          Genre:
-          {{genre_name}}
-          Album:
-          {{album_title}}
-          Release Date:
-          {{release_date}}</li>
-        <form
-          action="/playlists/songs/remove"
-          method="POST"
-          style="display:inline;"
-        >
-          <input type="hidden" name="song_id" value="{{song_id}}" />
-          <button type="submit" class="btn btn-danger">Remove</button>
-        </form>
-      {{/each}}
-    </ul>
-    {{#if error}}
-      <p class="error">{{error}}</p>
-    {{/if}}
-  </div>
-</div>
+<main class="playlist-page">
+  <section class="playlist-header">
+    <div class="wrap">
+      <h1 class="playlist-title">{{playlist.title}}</h1>
+      <p class="playlist-sub">Your curated selection of songs</p>
+    </div>
+  </section>
+
+  <section class="playlist-content">
+    <div class="wrap">
+
+      {{#if songs.length}}
+        <ul class="playlist-songs">
+          {{#each songs}}
+            <li class="playlist-song-card">
+              <div class="song-info">
+                <h3 class="song-title">{{song_title}}</h3>
+                <p class="song-line"><span class="k">artist</span>
+                  <span class="v">{{author_name}}</span></p>
+                <p class="song-line"><span class="k">genre</span>
+                  <span class="v">{{genre_name}}</span></p>
+                <p class="song-line"><span class="k">album</span>
+                  <span class="v">{{album_title}}</span></p>
+                <p class="song-line"><span class="k">released</span>
+                  <span class="v">{{release_date}}</span></p>
+              </div>
+
+              <form
+                action="/playlists/songs/remove"
+                method="POST"
+                class="remove-form"
+              >
+                <input type="hidden" name="song_id" value="{{song_id}}" />
+                <button
+                  type="submit"
+                  class="remove-btn"
+                  title="Remove from playlist"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 1 0 5.7 7.1L10.6 12l-4.9 4.9a1 1 0 1 0 1.4 1.4L12 13.4l4.9 4.9a1 1 0 0 0 1.4-1.4L13.4 12l4.9-4.9a1 1 0 0 0 0-1.4Z"
+                    />
+                  </svg>
+                  Remove
+                </button>
+              </form>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="playlist-empty">This playlist is empty. Add some songs!</p>
+      {{/if}}
+
+      {{#if error}}
+        <p class="error">{{error}}</p>
+      {{/if}}
+    </div>
+  </section>
+</main>
