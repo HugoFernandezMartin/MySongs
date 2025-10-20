@@ -9,6 +9,16 @@ async function createSong(title, author_id, genre_id, album_id, release_date) {
       `INSERT INTO songs (title, author_id, genre_id, album_id, release_date) VALUES (?, ?, ?, ?, ?)`,
       [title, author_id, genre_id, album_id, release_date],
       function (err) {
+        if (err) {
+          if (err.code === "SQLITE_CONSTRAINT") {
+            return reject({
+              code: "ALREADY_EXISTS",
+              message: "This song already exists",
+            });
+          } else {
+            return reject(err);
+          }
+        }
         if (err) return reject(err);
         console.log(`Created song with ID ${this.lastID}`);
         resolve(this.lastID);
@@ -90,7 +100,7 @@ async function searchSongs(q, limit) {
 
   return new Promise((resolve, reject) => {
     db.all(query, params, (err, rows) => {
-      console.log("Search result: ", rows);
+      //console.log("Search result: ", rows);
       if (err) reject(err);
       if (!rows || rows.length === 0) {
         return reject({ code: "NOT_FOUND", message: "No songs found" });
@@ -127,4 +137,21 @@ async function countSongs(author, genre, album) {
   });
 }
 
-module.exports = { createSong, getSongs, searchSongs, countSongs };
+async function deleteSong(song_id) {
+  const query = "DELETE FROM songs WHERE song_id = ?";
+
+  return new Promise((resolve, reject) => {
+    db.run(query, [song_id], function (err) {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (this.changes === 0) {
+        return reject({ code: "NOT_FOUND", message: "Song not found" });
+      }
+      console.log(`Deleted song with ID ${song_id}`);
+      resolve({ deleted: this.changes });
+    });
+  });
+}
+
+module.exports = { createSong, getSongs, searchSongs, countSongs, deleteSong };

@@ -1,0 +1,72 @@
+<main class="admin-menu">
+  {{#if error}}
+    <p class="error">{{error}}</p>
+  {{/if}}
+  {{#if info}}
+    <p class="info">{{info}}</p>
+  {{/if}}
+
+  <!--SONG MANAGER-->
+  <div class="song-container">
+    <h1 class="brand-title">SONG MANAGER</h1>
+
+    <!--CREATE SONG-->
+    <h2>CREATE SONG</h2>
+    <form class="create-song-form" action="/songs" method="POST" novalidate>
+      <input type="text" name="title" placeholder="Title" required />
+      <input type="text" name="author" placeholder="Author" required />
+      <input type="text" name="genre" placeholder="Genre" required />
+      <input type="text" name="album" placeholder="Album" required />
+      <input
+        type="date"
+        name="release_date"
+        placeholder="Release Date"
+        required
+      />
+      <button type="submit" class="create-song-submit">Create Song</button>
+    </form>
+
+    <!--DELETE SONG-->
+    <h2>DELETE SONG</h2>
+    <form
+      class="delete-song-form"
+      action="/songs/delete"
+      method="POST"
+      novalidate
+    >
+      <input type="text" name="title" placeholder="Title" required />
+      <button type="submit" class="delete-song-submit">Delete Song</button>
+    </form>
+  </div>
+
+  <!--GENRE MANAGER-->
+  <div>
+    <h1 class="brand-title">GENRE MANAGER</h1>
+
+    <!--CREATE GENRE-->
+    <h2>CREATE GENRE</h2>
+    <form class="create-genre-form" action="/genres" method="POST" novalidate>
+      <input type="text" name="name" placeholder="Name" required />
+      <textarea
+        name="description"
+        placeholder="Description"
+        rows="4"
+        cols="50"
+      ></textarea>
+      <button type="submit" class="create-song-submit">Create Genre</button>
+    </form>
+
+    <!--DELETE GENRE-->
+    <h2>DELETE GENRE</h2>
+    <form
+      class="delete-genre-form"
+      action="/genres/delete"
+      method="POST"
+      novalidate
+    >
+      <input type="text" name="name" placeholder="Name" required />
+      <button type="submit" class="delete-genre-submit">Delete Genre</button>
+    </form>
+
+  </div>
+</main>

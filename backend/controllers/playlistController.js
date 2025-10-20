@@ -10,6 +10,9 @@ const {
 } = require("../repositories/playlistRepository");
 
 async function CreatePlaylistController(title, userId) {
+  if (!title.trim()) {
+    throw new Error("Title cannot be empty");
+  }
   //Create playlist
   const playlistId = await AddPlaylist(title, userId);
   return playlistId;

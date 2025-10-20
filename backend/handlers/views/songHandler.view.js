@@ -1,4 +1,8 @@
-const { SearchSongController } = require("../../controllers/songController");
+const {
+  SearchSongController,
+  CreateSongController,
+  DeleteSongController,
+} = require("../../controllers/songController");
 
 async function GetSongSearchHandler(req, res) {
   try {
@@ -17,4 +21,36 @@ async function GetSongSearchHandler(req, res) {
   }
 }
 
-module.exports = { GetSongSearchHandler, GetSongSearchHandler };
+async function CreateSongHandler(req, res) {
+  try {
+    const { title, author, genre, album, release_date } = req.body;
+    const songId = await CreateSongController(
+      title,
+      author,
+      genre,
+      album,
+      release_date
+    );
+    model = { info: `Song created successfully with ID: ${songId}` };
+    res.render("admin", model);
+  } catch (err) {
+    console.log("CreateSongHandlerError: ", err.message);
+    model = { error: err.message };
+    res.render("admin", model);
+  }
+}
+
+async function DeleteSongHandler(req, res) {
+  try {
+    const { title } = req.body;
+    await DeleteSongController(title);
+    model = { info: "Song deleted successfully" };
+    res.render("admin", model);
+  } catch (err) {
+    console.log("DeleteSongHandlerError: ", err.message);
+    model = { error: err.message };
+    res.render("admin", model);
+  }
+}
+
+module.exports = { GetSongSearchHandler, CreateSongHandler, DeleteSongHandler };

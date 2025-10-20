@@ -1,7 +1,7 @@
 const { initDB } = require("../../db/database.js");
 const db = initDB();
 
-//Get user data by email
+//Get user data by name
 async function getUserByName(username) {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM users WHERE username = ?";
@@ -23,7 +23,9 @@ async function getUserById(user_id) {
     const sql = "SELECT * FROM users WHERE user_id = ?";
     db.get(sql, [user_id], (err, row) => {
       if (err) return reject(err);
-      else return resolve(row);
+      if (!row) {
+        return reject({ code: "NOT_FOUND", message: "User not found" });
+      } else return resolve(row);
     });
   });
 }

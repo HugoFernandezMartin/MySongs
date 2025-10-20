@@ -1,5 +1,6 @@
 const { initDB } = require("../db/database");
 const db = initDB();
+exports.db = db;
 
 async function AddGenre(name, description) {
   return new Promise((resolve, reject) => {
@@ -7,7 +8,16 @@ async function AddGenre(name, description) {
       `INSERT INTO genres (name, description) VALUES (?, ?)`,
       [name, description],
       function (err) {
-        if (err) return reject(err);
+        if (err) {
+          if (err.code === "SQLITE_CONSTRAINT") {
+            return reject({
+              code: "ALREADY_EXISTS",
+              message: "This genre already exists",
+            });
+          } else {
+            return reject(err);
+          }
+        }
         const newID = this.lastID;
         console.log(`Created Genre ${name}`);
         resolve(newID);
@@ -42,20 +52,6 @@ async function GetGenres() {
     });
   });
 }
-async function GetGenreById(genre_id) {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM genres WHERE genre_id = ?";
-    db.get(sql, [genre_id], (err, row) => {
-      if (err) {
-        return reject(err);
-      }
-      if (!row) {
-        return reject({ code: "NOT_FOUND", message: "Genre not found" });
-      }
-      return resolve(row);
-    });
-  });
-}
 async function GetSongsFromGenre(genre_id) {
   return new Promise((resolve, reject) => {
     const sql =
@@ -71,6 +67,5 @@ module.exports = {
   AddGenre,
   RemoveGenre,
   GetGenres,
-  GetGenreById,
   GetSongsFromGenre,
 };

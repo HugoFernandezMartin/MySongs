@@ -26,4 +26,17 @@ function userAuthMiddlewareApi(req, res, next) {
   next();
 }
 
-module.exports = { adminAuthMiddlewareApi, userAuthMiddlewareApi };
+function adminAuthMiddlewareView(req, res, next) {
+  //TODO
+}
+
+function userAuthMiddlewareView(req, res, next) {
+  //TODO
+}
+
+module.exports = {
+  adminAuthMiddlewareApi,
+  userAuthMiddlewareApi,
+  adminAuthMiddlewareView,
+  userAuthMiddlewareView,
+};
