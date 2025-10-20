@@ -1,50 +1,33 @@
 const makeResponse = require("../commons/models/response");
+const { GetGenreById, GetGenreByName } = require("../commons/utils/genreUtils");
 const {
   AddGenre,
   RemoveGenre,
   GetGenres,
-  GetGenreById,
   GetSongsFromGenre,
 } = require("../repositories/genreRepository");
 
-async function CreateGenreController(req, res) {
-  try {
-    //Get data from request
-    const { name, description } = req.body;
-
-    //Create Genre
-    const genreId = await AddGenre(name, description);
-    res
-      .status(200)
-      .json(makeResponse(true, "Genre created succesfully", genreId, 200));
-  } catch (err) {
-    res
-      .status(500)
-      .json(makeResponse(false, "Unable to create genre", err.message, 500));
+async function CreateGenreController(name, description) {
+  if (!name || !description) {
+    throw new Error("Missing data for creating genre");
   }
+  const genre_id = await AddGenre(name, description);
+
+  return genre_id;
 }
 
-async function DeleteGenreController(req, res) {
-  try {
-    //Get data from request
-    const { genre_id } = req.params;
-
-    //Delete genre
-    await RemoveGenre(genre_id);
-
-    res
-      .status(200)
-      .json(makeResponse(true, "Genre deleted succesfully", genre_id, 200));
-  } catch (err) {
-    if (err.code === "NOT_FOUND") {
-      res
-        .status(401)
-        .json(makeResponse(false, "Unable to get resources", err.message, 401));
+async function DeleteGenreController(genreName, genreId) {
+  if (!genreId) {
+    if (!genreName) {
+      throw new Error("Missing data for deleting genre");
+    } else {
+      const genreData = await GetGenreByName(genreName);
+      genreId = genreData.genre_id;
     }
-    res
-      .status(500)
-      .json(makeResponse(false, "Unable to create genre", err.message, 500));
   }
+
+  //Delete genre
+  await RemoveGenre(genreId);
 }
 
 async function GetGenresController(req, res) {

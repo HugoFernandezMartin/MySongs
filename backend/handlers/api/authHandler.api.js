@@ -7,8 +7,12 @@ const {
 
 async function RegisterHandler(req, res) {
   try {
-    const { username, password } = req.body;
-    const userId = await RegisterUserController(username, password);
+    const { username, password, confirm_password } = req.body;
+    const userId = await RegisterUserController(
+      username,
+      password,
+      confirm_password
+    );
     res
       .status(200)
       .json(makeResponse(true, "User registered succesfully", userId, 200));

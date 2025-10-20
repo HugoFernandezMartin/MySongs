@@ -17,4 +17,18 @@ async function getSongById(song_id) {
   });
 }
 
-module.exports = { getSongById };
+async function getSongByTitle(title) {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM songs WHERE title = ?";
+    db.get(sql, [title], (err, row) => {
+      if (err) {
+        return reject({ code: "DB_ERROR", message: err.message });
+      }
+      if (!row) {
+        return reject({ code: "NOT_FOUND", message: "Song not found" });
+      }
+      resolve(row);
+    });
+  });
+}
+module.exports = { getSongById, getSongByTitle };

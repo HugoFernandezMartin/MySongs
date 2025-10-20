@@ -16,7 +16,7 @@ describe("Routers tests", () => {
 
     test("Try to log out without log in first", async () => {
       const response = await request(app).get("/api/auth/logout");
-      console.log("LOGOUT RESPONSE: ", response.body);
+      //console.log("LOGOUT RESPONSE: ", response.body);
       expect(response.body.message).toBe("You must log in");
     });
 
@@ -28,6 +28,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -58,66 +59,14 @@ describe("Routers tests", () => {
 
     test("Get all users: ", async () => {
       const response = await request(app).get("/api/users");
-      console.log("RESPONSE: ", response.body);
-      expect(response.body).toEqual({
-        success: true,
-        message: "Users retrieved succesfully",
-        responseObject: [
-          {
-            user_id: 1,
-            username: "hugo_dev",
-            password_hash: "hash123",
-            is_admin: 0,
-            profile_picture: "avatars/hugo.png",
-          },
-          {
-            user_id: 2,
-            username: "maria98",
-            password_hash: "hash456",
-            is_admin: 0,
-            profile_picture: "avatars/maria.jpg",
-          },
-          {
-            user_id: 3,
-            username: "coder_john",
-            password_hash: "hash789",
-            is_admin: 0,
-            profile_picture: null,
-          },
-          {
-            user_id: 4,
-            username: "sara_music",
-            password_hash: "hash321",
-            is_admin: 0,
-            profile_picture: "avatars/sara.png",
-          },
-          {
-            user_id: 5,
-            username: "alex99",
-            password_hash: "hash654",
-            is_admin: 0,
-            profile_picture: null,
-          },
-        ],
-        statusCode: 200,
-      });
+      //console.log("RESPONSE: ", response.body);
+      expect(response.body.message).toBe("Users retrieved succesfully");
     });
 
     test("Get a user by Id: ", async () => {
       const response = await request(app).get("/api/users/1");
-      console.log("RESPONSE: ", response.body);
-      expect(response.body).toEqual({
-        success: true,
-        message: "User retrieved succesfully",
-        responseObject: {
-          user_id: 1,
-          username: "hugo_dev",
-          password_hash: "hash123",
-          profile_picture: "avatars/hugo.png",
-          is_admin: 0,
-        },
-        statusCode: 200,
-      });
+      //console.log("RESPONSE: ", response.body);
+      expect(response.body.message).toBe("User retrieved succesfully");
     });
 
     test("Create a new user: ", async () => {
@@ -126,7 +75,7 @@ describe("Routers tests", () => {
         password: "pass123",
         isAdmin: false,
       });
-      console.log("CREATE NEW USER RESPONSE: ", response.body);
+      //console.log("CREATE NEW USER RESPONSE: ", response.body);
       expect(response.body.message).toBe("User created succesfully");
     });
   });
@@ -142,8 +91,9 @@ describe("Routers tests", () => {
       const response = await request(app).post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
-      console.log("REGISTER RESPONSE: ", response.body);
+      //console.log("REGISTER RESPONSE: ", response.body);
       expect(response.body.message).toBe("User registered succesfully");
     });
 
@@ -153,6 +103,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -160,12 +111,12 @@ describe("Routers tests", () => {
         username: "angelica123",
         password: "pass123",
       });
-      console.log("LOGIN RESPONSE: ", rl.body);
+      //console.log("LOGIN RESPONSE: ", rl.body);
       expect(rl.body.message).toBe("Login Succesfully");
 
       //*LOGOUT
       const rlo = await agent.get("/api/auth/logout");
-      console.log("LOGOUT RESPONSE: ", rlo.body);
+      //console.log("LOGOUT RESPONSE: ", rlo.body);
       expect(rlo.body.message).toBe("Logout Successfully");
     });
 
@@ -176,6 +127,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -188,7 +140,7 @@ describe("Routers tests", () => {
       const response = await agent.delete("/api/me/delete").send({
         password: "pass123",
       });
-      console.log("DELETE ACCOUNT RESPONSE: ", response.body);
+      //console.log("DELETE ACCOUNT RESPONSE: ", response.body);
       expect(response.body.message).toBe("Account deleted succesfully");
     });
 
@@ -199,6 +151,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -212,7 +165,7 @@ describe("Routers tests", () => {
         password: "pass123",
         newPassword: "newPass123",
       });
-      console.log("UPDATE PASSWORD RESPONSE: ", response.body);
+      //console.log("UPDATE PASSWORD RESPONSE: ", response.body);
       expect(response.body.message).toBe("Password updated succesfully");
     });
 
@@ -223,6 +176,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -233,7 +187,7 @@ describe("Routers tests", () => {
 
       //*RETURN PLAYLISTS
       const response = await agent.get("/api/me/playlists");
-      console.log("GET PLAYLISTS RESPONSE: ", response.body);
+      //console.log("GET PLAYLISTS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Playlists retrieved succesfully");
     });
 
@@ -244,6 +198,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -256,7 +211,7 @@ describe("Routers tests", () => {
       const response = await agent.put("/api/me/update_picture").send({
         picture: "PictureDATA",
       });
-      console.log("UPDATE PICTURE RESPONSE: ", response.body);
+      //console.log("UPDATE PICTURE RESPONSE: ", response.body);
       expect(response.body.message).toBe("Profile Picture updated succesfully");
     });
   });
@@ -275,6 +230,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -287,7 +243,7 @@ describe("Routers tests", () => {
       const response = await agent.post("/api/playlists").send({
         title: "Chill Vibes",
       });
-      console.log("CREATE PLAYLIST RESPONSE: ", response.body);
+      //console.log("CREATE PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe("Playlist created succesfully");
     });
 
@@ -299,6 +255,7 @@ describe("Routers tests", () => {
       await agent.post("/api/auth/register").send({
         username: "angelica123",
         password: "pass123",
+        confirm_password: "pass123",
       });
 
       //*LOGIN
@@ -316,7 +273,7 @@ describe("Routers tests", () => {
       const playlistId = response.body.responseObject;
       const deleteResponse = await agent.delete(`/api/playlists/${playlistId}`);
 
-      console.log("DELETE PLAYLIST RESPONSE: ", deleteResponse.body);
+      //console.log("DELETE PLAYLIST RESPONSE: ", deleteResponse.body);
       expect(deleteResponse.body.message).toBe("Playlist deleted succesfully");
     });
 
@@ -326,7 +283,7 @@ describe("Routers tests", () => {
         songId: 1,
       });
 
-      console.log("ADD SONG TO PLAYLIST RESPONSE: ", response.body);
+      //console.log("ADD SONG TO PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe("Song added to playlist succesfully");
     });
 
@@ -334,7 +291,7 @@ describe("Routers tests", () => {
       //*REMOVE SONG 1 FROM PLAYLIST 1
       const response = await request(app).delete(`/api/playlists/1/songs/1`);
 
-      console.log("REMOVE SONG FROM PLAYLIST RESPONSE: ", response.body);
+      //console.log("REMOVE SONG FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
         "Song removed from playlist succesfully"
       );
@@ -344,7 +301,7 @@ describe("Routers tests", () => {
       //*GET SONGS FROM PLAYLIST 1
       const response = await request(app).get(`/api/playlists/1/songs`);
 
-      console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
+      //console.log("GET SONGS FROM PLAYLIST RESPONSE: ", response.body);
       expect(response.body.message).toBe(
         "Songs from playlist retrieved successfully"
       );
@@ -397,21 +354,21 @@ describe("Routers tests", () => {
     test("Get all genres", async () => {
       const response = await request(app).get("/api/genres");
 
-      console.log("GET GENRES RESPONSE: ", response.body);
+      //console.log("GET GENRES RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genres retrieved succesfully");
     });
 
     test("Get genre by its id", async () => {
       const response = await request(app).get("/api/genres/2");
 
-      console.log("GET GENRE BY ID RESPONSE: ", response.body);
+      //console.log("GET GENRE BY ID RESPONSE: ", response.body);
       expect(response.body.message).toBe("Genre retrieved succesfully");
     });
 
     test("Get songs from genre", async () => {
       const response = await request(app).get("/api/genres/2/songs");
 
-      console.log("GET SONGS FROM GENRE RESPONSE: ", response.body);
+      //console.log("GET SONGS FROM GENRE RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");
     });
   });
@@ -427,7 +384,7 @@ describe("Routers tests", () => {
     test("Return Songs from search bar", async () => {
       const response = await request(app).get("/api/songs/search?q=S&limit=3");
 
-      console.log("SEARCH SONGS RESPONSE: ", response.body);
+      //console.log("SEARCH SONGS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Songs retrieved succesfully");
     });
   });

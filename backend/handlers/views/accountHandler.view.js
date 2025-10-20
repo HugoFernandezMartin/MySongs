@@ -23,4 +23,8 @@ async function GetAccountHandler(req, res) {
   }
 }
 
-module.exports = { GetAccountHandler };
+async function GetAdminMenuHandler(_req, res) {
+  res.render("admin");
+}
+
+module.exports = { GetAccountHandler, GetAdminMenuHandler };

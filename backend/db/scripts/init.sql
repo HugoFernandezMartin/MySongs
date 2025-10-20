@@ -14,13 +14,13 @@ CREATE TABLE IF NOT EXISTS authors (
 
 CREATE TABLE IF NOT EXISTS genres (
     genre_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name TEXT UNIQUE NOT NULL,
     description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS albums (
     album_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
+    title TEXT UNIQUE NOT NULL,
     release_date TEXT NOT NULL
 );
 

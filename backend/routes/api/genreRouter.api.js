@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  CreateGenreController,
   DeleteGenreController,
   GetGenresController,
   GetGenreByIdController,
@@ -11,6 +10,10 @@ const {
 const {
   adminAuthMiddlewareApi,
 } = require("../../commons/middlewares/authMiddleware");
+const {
+  CreateGenreHandler,
+  DeleteGenreHandler,
+} = require("../../handlers/api/genreHandler.api");
 
 /*
     POST /api/genres
@@ -36,7 +39,7 @@ const {
         statusCode: 200
       } 
 */
-router.post("/", adminAuthMiddlewareApi, CreateGenreController);
+router.post("/", adminAuthMiddlewareApi, CreateGenreHandler);
 
 /*
     DELETE /api/genres/:genre_id
@@ -58,7 +61,7 @@ router.post("/", adminAuthMiddlewareApi, CreateGenreController);
         statusCode: 200
       } 
 */
-router.delete("/:genre_id", adminAuthMiddlewareApi, DeleteGenreController);
+router.delete("/:genre_id", adminAuthMiddlewareApi, DeleteGenreHandler);
 
 /*
 

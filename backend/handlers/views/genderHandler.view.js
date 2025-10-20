@@ -1,3 +1,7 @@
+const {
+  CreateGenreController,
+  DeleteGenreController,
+} = require("../../controllers/genreController");
 const { GetSongsController } = require("../../controllers/songController");
 const { GetGenreById } = require("../../repositories/genreRepository");
 
@@ -23,4 +27,32 @@ async function GetGenreHandler(req, res) {
   }
 }
 
-module.exports = { GetGenreHandler };
+async function CreateGenreHandler(req, res) {
+  try {
+    const { name, description } = req.body;
+    const genre_id = await CreateGenreController(name, description);
+
+    model = { info: `Created genre with Id: ${genre_id}` };
+    res.render("admin", model);
+  } catch (err) {
+    console.log("CreateGenderHandlerError: ", err.message);
+    model = { error: err.message };
+    res.render("admin", model);
+  }
+}
+
+async function DeleteGenreHandler(req, res) {
+  try {
+    const { name } = req.body;
+    await DeleteGenreController(name, null);
+
+    model = { info: "Genre deleted successfully" };
+    res.render("admin", model);
+  } catch (err) {
+    console.log("DeleteGenreHandlerError: ", err.message);
+    model = { error: err.message };
+    res.render("admin", model);
+  }
+}
+
+module.exports = { GetGenreHandler, CreateGenreHandler, DeleteGenreHandler };

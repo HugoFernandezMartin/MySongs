@@ -12,6 +12,9 @@
     {{else}}
       <p>No profile picture uploaded</p>
     {{/if}}
+    {{#if user.is_admin}}
+      <button onclick="window.location.href='/me/admin'">Admin Menu</button>
+    {{/if}}
   </div>
   <div>
     <h1>List of Playlists</h1>
