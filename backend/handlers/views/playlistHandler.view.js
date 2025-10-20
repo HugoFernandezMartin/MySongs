@@ -1,6 +1,7 @@
 const {
   CreatePlaylistController,
   GetSongsFromPlaylistController,
+  DeletePlaylistController,
 } = require("../../controllers/playlistController");
 const { getPlaylistById } = require("../../repositories/playlistRepository");
 
@@ -39,4 +40,20 @@ async function GetPlaylistHandler(req, res) {
   }
 }
 
-module.exports = { CreatePlaylistHandler, GetPlaylistHandler };
+async function DeletePlaylistHandler(req, res) {
+  try {
+    const { playlist_id } = req.body;
+    await DeletePlaylistController(playlist_id);
+    res.redirect("/me");
+  } catch (err) {
+    console.log("DeletePlaylistHandler Error: ", err.message);
+    model = { error: err.message };
+    res.render("account", model);
+  }
+}
+
+module.exports = {
+  CreatePlaylistHandler,
+  GetPlaylistHandler,
+  DeletePlaylistHandler,
+};

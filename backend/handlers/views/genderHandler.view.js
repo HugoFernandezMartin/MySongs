@@ -1,9 +1,9 @@
+const { GetGenreById } = require("../../commons/utils/genreUtils");
 const {
   CreateGenreController,
   DeleteGenreController,
 } = require("../../controllers/genreController");
 const { GetSongsController } = require("../../controllers/songController");
-const { GetGenreById } = require("../../repositories/genreRepository");
 
 async function GetGenreHandler(req, res) {
   try {

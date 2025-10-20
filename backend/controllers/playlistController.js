@@ -18,29 +18,9 @@ async function CreatePlaylistController(title, userId) {
   return playlistId;
 }
 
-async function DeletePlaylistController(req, res) {
-  try {
-    //Get playlist id from query
-    const { playlist_id } = req.params;
-
-    //Delete playlist
-    await DeletePlaylist(playlist_id);
-
-    res
-      .status(200)
-      .json(makeResponse(true, "Playlist deleted succesfully", 200));
-  } catch (err) {
-    if (err.code === "NOT_FOUND") {
-      res
-        .status(401)
-        .json(
-          makeResponse(false, "Unable to delete playlist", err.message, 401)
-        );
-    }
-    res
-      .status(500)
-      .json(makeResponse(false, "Unable to delete playlist", err.message, 500));
-  }
+async function DeletePlaylistController(playlist_id) {
+  //Delete playlist
+  await DeletePlaylist(playlist_id);
 }
 
 async function AddSongController(req, res) {
