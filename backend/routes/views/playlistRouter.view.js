@@ -24,4 +24,16 @@ router.get("/:playlist_id", GetPlaylistHandler);
   Delete a playlist
 */
 router.post("/delete", DeletePlaylistHandler);
+/*
+/*
+  POST /playlists/:playlist_id/songs
+  Add song to playlist
+
+router.post("/:playlist_id/songs", AddSongToPlaylistHandler);
+
+/*
+  POST /playlists/:playlist_id/songs/remove
+  Remove song from playlist
+
+router.post("/:playlist_id/songs/remove", RemoveSongFromPlaylistHandler);*/
 module.exports = router;
