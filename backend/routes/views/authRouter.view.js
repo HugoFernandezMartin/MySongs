@@ -8,6 +8,9 @@ const {
   GetRegisterHandler,
   PostRegisterHandler,
 } = require("../../handlers/views/authHandler.view");
+const {
+  userAuthMiddlewareView,
+} = require("../../commons/middlewares/authMiddleware");
 
 /*
     GET /auth/register
@@ -47,6 +50,6 @@ router.post("/login", PostLoginHandler);
     GET /auth/logout
     Log out and render login
 */
-router.get("/logout", LogoutHandler);
+router.get("/logout", userAuthMiddlewareView, LogoutHandler);
 
 module.exports = router;

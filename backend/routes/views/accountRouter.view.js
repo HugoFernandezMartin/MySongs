@@ -6,19 +6,20 @@ const {
   GetAccountHandler,
 } = require("../../handlers/views/accountHandler.view");
 const {
-  adminAuthMiddlewareApi,
+  adminAuthMiddlewareView,
+  userAuthMiddlewareView,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
   GET /me
   Render account page
 */
-router.get("/", GetAccountHandler);
+router.get("/", userAuthMiddlewareView, GetAccountHandler);
 
 /*
   GET /me/admin
   Render admin menu
 */
-router.get("/admin", adminAuthMiddlewareApi, GetAdminMenuHandler);
+router.get("/admin", adminAuthMiddlewareView, GetAdminMenuHandler);
 
 module.exports = router;
