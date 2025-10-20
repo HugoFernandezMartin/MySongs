@@ -1,19 +1,33 @@
+<!-- whole login page -->
 <main class="login-page">
+
+  <!-- login box in the middle -->
   <div class="login-container">
     <h1 class="brand-title">MYSONGS</h1>
+
+    <!-- login form -->
     <form class="login-form" action="/auth/login" method="POST">
       <input type="text" name="username" placeholder="Username" required />
       <input type="password" name="password" placeholder="Password" required />
+
+      <!-- main login button -->
       <button type="submit" class="login-btn">Login</button>
-      <button
-        type="button"
-        class="register-btn"
+
+      <!-- link to register -->
+      <button 
+        type="button" 
+        class="register-btn" 
         onclick="window.location.href='/auth/register'"
-      >Register</button>
+      >
+        Register
+      </button>
     </form>
+
+    <!-- error + info messages -->
     {{#if error}}
       <p class="error">{{error}}</p>
     {{/if}}
+
     {{#if info}}
       <p class="info">{{info}}</p>
     {{/if}}

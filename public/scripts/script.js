@@ -182,3 +182,27 @@
      // then: wire all rows (works for both preview + local)
      rows.forEach(wireRow);
    })();
+
+   document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pl-del');
+    if (!btn) return;
+  
+    const id = btn.dataset.id;
+    if (!id) return;
+  
+    if (!confirm('Delete this playlist?')) return;
+  
+    fetch(`/api/playlists/${id}`, { method: 'DELETE' })
+      .then(async (res) => {
+        if (!res.ok) {
+          const msg = await res.text().catch(() => '');
+          throw new Error(msg || 'Delete failed');
+        }
+        // remove the card from the DOM
+        const card = btn.closest('.pl-card');
+        if (card) card.remove();
+      })
+      .catch(err => {
+        alert(err.message || 'Could not delete playlist.');
+      });
+  });

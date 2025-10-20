@@ -1,39 +1,93 @@
-<div>
-  <h1>You are logged in</h1>
-  <button onclick="window.location.href='/auth/logout'">Logout</button>
-  {{#if error}}
-    <p class="error">{{error}}</p>
-  {{/if}}
-  <div>
-    <h1>Account info: </h1>
-    <p>Username: {{user.username}}</p>
-    {{#if user.profile_picture}}
-      <img src="{{user.profile_picture}}" alt="Profile picture" />
-    {{else}}
-      <p>No profile picture uploaded</p>
-    {{/if}}
-  </div>
-  <div>
-    <h1>List of Playlists</h1>
-    <div>
-      <ul>
+<main class="account-page">
+
+  <!-- top profile section -->
+  <section class="profile-hero">
+    <div class="profile-banner" aria-hidden="true"></div>
+
+    <!-- photo and profile info -->
+    <div class="wrap profile-hero-inner">
+      <div class="profile-photo-wrap">
+        <img src="/images/angelica.jpg" alt="Profile photo">
+        <label class="photo-change">
+          <input type="file" accept="image/*" hidden>
+          Change photo
+        </label>
+      </div>
+
+      <!-- user name + logout -->
+      <div class="profile-meta">
+        <span class="profile-meta-label">Profile</span>
+        <h1 class="profile-name">Angélica</h1>
+        <p class="profile-stats">My private collection</p>
+
+        <div class="profile-actions">
+          <button class="btn logout-btn" onclick="window.location.href='/auth/logout'">Logout</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- playlists section -->
+  <section class="playlist-gallery">
+    <div class="wrap">
+      <h2 class="playlist-heading">Playlists</h2>
+
+      <!-- playlist cards -->
+      <div class="playlist-grid">
         {{#each playlists}}
-          <li>
-            {{title}}
-            — Created at:
-            {{created_at}}
-            <a href="/playlists/{{playlist_id}}" class="btn">Open</a>
-          </li>
+          <div class="pl-card">
+
+            <!-- small delete button -->
+            <button class="pl-del" data-id="{{playlist_id}}" aria-label="Delete {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}" title="Delete">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+                <path fill="currentColor" d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 1 0 5.7 7.1L10.6 12l-4.9 4.9a1 1 0 1 0 1.4 1.4L12 13.4l4.9 4.9a1 1 0 0 0 1.4-1.4L13.4 12l4.9-4.9a1 1 0 0 0 0-1.4Z"/>
+              </svg>
+            </button>
+
+            <!-- playlist cover -->
+            <a class="pl-cover" href="/playlists/{{playlist_id}}">
+              {{#if cover_url}}
+                <img src="{{cover_url}}" alt="{{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}">
+              {{else}}
+                <span class="cover-fallback" aria-hidden="true"></span>
+              {{/if}}
+            </a>
+
+            <!-- play circle icon -->
+            <a class="pl-play" href="/playlists/{{playlist_id}}" aria-label="Play {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <polygon points="6,4 20,12 6,20" fill="currentColor"></polygon>
+              </svg>
+            </a>
+
+            <!-- title + description -->
+            <div class="pl-meta">
+              <a class="pl-title" href="/playlists/{{playlist_id}}">
+                {{#if title}}
+                  {{title}}
+                {{else}}
+                  Untitled Playlist
+                {{/if}}
+              </a>
+              <p class="pl-desc">
+                {{#if description}}
+                  {{description}}
+                {{else}}
+                  Your day in a playlist.
+                {{/if}}
+              </p>
+            </div>
+          </div>
         {{/each}}
-      </ul>
-      <form action="/playlists" method="post" id="createPlaylistForm">
-        <fieldset>
-          <legend>Create new playlist</legend>
-          <label for="title">Title:</label>
-          <input type="text" name="title" id="title" />
-          <input type="submit" value="CreatePlaylist" />
-        </fieldset>
+      </div>
+
+      <!-- create new playlist form -->
+      <form action="/playlists" method="post" id="createPlaylistForm" class="playlist-form">
+        <h3 class="playlist-form-heading">Create new playlist</h3>
+        <label for="title" class="playlist-form-label">Title</label>
+        <input type="text" name="title" id="title" placeholder="Enter playlist name" required>
+        <input type="submit" value="Create Playlist" class="btn">
       </form>
     </div>
-  </div>
-</div>
+  </section>
+</main>

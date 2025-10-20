@@ -1,13 +1,30 @@
+<!-- whole register page -->
 <main class="register-page">
+
+  <!-- register box centered -->
   <div class="register-container">
     <h1 class="brand-title">MYSONGS</h1>
+
+    <!-- register form -->
     <form class="register-form" action="/auth/register" method="POST" novalidate>
       <input type="text" name="username" placeholder="Username" required>
       <input type="password" name="password" placeholder="Password" required>
       <input type="password" name="confirm_password" placeholder="Confirm password" required>
+
+      <!-- main register button -->
       <button type="submit" class="register-submit">Create account</button>
-      <button type="button" class="back-login-btn" onclick="window.location.href='/auth/login'">Back to login</button>
+
+      <!-- go back to login -->
+      <button 
+        type="button" 
+        class="back-login-btn" 
+        onclick="window.location.href='/auth/login'"
+      >
+        Back to login
+      </button>
     </form>
+
+    <!-- error message -->
     {{#if error}}
       <p class="error">{{error}}</p>
     {{/if}}
