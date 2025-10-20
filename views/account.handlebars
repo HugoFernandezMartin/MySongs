@@ -7,21 +7,30 @@
     <!-- photo and profile info -->
     <div class="wrap profile-hero-inner">
       <div class="profile-photo-wrap">
-        <img src="/images/angelica.jpg" alt="Profile photo">
+        <img src="{{user.profile_picture}}" alt="Profile photo">
         <label class="photo-change">
-          <input type="file" accept="image/*" hidden>
-          Change photo
+          <form
+      action="/me/upload_picture"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="avatar" />
+      <button type="submit">Upload</button>
+    </form>
         </label>
       </div>
 
       <!-- user name + logout -->
       <div class="profile-meta">
         <span class="profile-meta-label">Profile</span>
-        <h1 class="profile-name">Angélica</h1>
+        <h1 class="profile-name">{{user.username}}</h1>
         <p class="profile-stats">My private collection</p>
 
         <div class="profile-actions">
           <button class="btn logout-btn" onclick="window.location.href='/auth/logout'">Logout</button>
+          {{#if user.is_admin}}
+            <button onclick="window.location.href='/me/admin'">Admin Menu</button>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -38,11 +47,14 @@
           <div class="pl-card">
 
             <!-- small delete button -->
-            <button class="pl-del" data-id="{{playlist_id}}" aria-label="Delete {{#if title}}{{title}}{{else}}Untitled Playlist{{/if}}" title="Delete">
-              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
-                <path fill="currentColor" d="M18.3 5.7a1 1 0 0 0-1.4 0L12 10.6 7.1 5.7A1 1 0 1 0 5.7 7.1L10.6 12l-4.9 4.9a1 1 0 1 0 1.4 1.4L12 13.4l4.9 4.9a1 1 0 0 0 1.4-1.4L13.4 12l4.9-4.9a1 1 0 0 0 0-1.4Z"/>
-              </svg>
-            </button>
+            <form
+            action="/playlists/delete"
+            method="POST"
+            style="display:inline;"
+          >
+            <input type="hidden" name="playlist_id" value="{{playlist_id}}" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
 
             <!-- playlist cover -->
             <a class="pl-cover" href="/playlists/{{playlist_id}}">
