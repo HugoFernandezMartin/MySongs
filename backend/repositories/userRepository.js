@@ -64,9 +64,4 @@ async function updatePassword(userId, newPasswordHash) {
   });
 }
 
-//Update profile picture
-async function update_profile_picture() {
-  //TODO
-}
-
 module.exports = { createUser, getUsers, deleteUser, updatePassword };

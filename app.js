@@ -67,6 +67,10 @@ app.get("/contact", (req, res) => {
   res.render("contact");
 });
 
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
 //*API Routes
 app.use("/api/songs", songsRouterApi);
 app.use("/api/users", userRouterApi);

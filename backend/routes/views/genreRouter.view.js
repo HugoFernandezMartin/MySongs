@@ -8,13 +8,14 @@ const {
 } = require("../../handlers/views/genderHandler.view");
 const {
   adminAuthMiddlewareView,
+  userAuthMiddlewareView,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
   GET /genres/:genre_id
   Render genre page 
 */
-router.get("/:genre_id", GetGenreHandler);
+router.get("/:genre_id", userAuthMiddlewareView, GetGenreHandler);
 
 /*
   POST /genres

@@ -1,5 +1,8 @@
 const { GetGenreById } = require("../../commons/utils/genreUtils");
 const {
+  GetPlaylistsController,
+} = require("../../controllers/accountController");
+const {
   CreateGenreController,
   DeleteGenreController,
 } = require("../../controllers/genreController");
@@ -7,6 +10,12 @@ const { GetSongsController } = require("../../controllers/songController");
 
 async function GetGenreHandler(req, res) {
   try {
+    //Get id from session
+    const userId = req.session.userId;
+
+    //Get playlists
+    const playlists = await GetPlaylistsController(userId);
+
     const { genre_id } = req.params;
     const genreData = await GetGenreById(genre_id);
     const page = parseInt(req.query.page) || 1;
@@ -18,7 +27,7 @@ async function GetGenreHandler(req, res) {
       page,
       limit
     );
-    model = { genre: genreData, songs, pagination };
+    model = { genre: genreData, songs, pagination, playlists };
     res.render("genre", model);
   } catch (err) {
     console.log("GetGenreHandler Error: ", err.message);

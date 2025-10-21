@@ -8,13 +8,14 @@ const {
 } = require("../../handlers/views/songHandler.view");
 const {
   adminAuthMiddlewareView,
+  userAuthMiddlewareView,
 } = require("../../commons/middlewares/authMiddleware");
 
 /*
   GET /songs/search
   Render songSearch page 
 */
-router.get("/search", GetSongSearchHandler);
+router.get("/search", userAuthMiddlewareView, GetSongSearchHandler);
 
 /*
   POST /songs

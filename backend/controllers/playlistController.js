@@ -1,5 +1,3 @@
-const makeResponse = require("../commons/models/response");
-const { getSongById } = require("../commons/utils/songUtils");
 const {
   AddPlaylist,
   DeletePlaylist,
@@ -23,73 +21,18 @@ async function DeletePlaylistController(playlist_id) {
   await DeletePlaylist(playlist_id);
 }
 
-async function AddSongController(req, res) {
-  try {
-    //Get playlist and song from request
-    const { playlist_id } = req.params;
-    const { songId } = req.body;
+async function AddSongToPlaylistController(playlist_id, song_id) {
+  //Check existing playlist
+  await getPlaylistById(playlist_id);
 
-    //Check existing playlist
-    await getPlaylistById(playlist_id);
-
-    //Check existing song
-    await getSongById(songId);
-
-    //Add song to Playlist
-    await AddSongToPlaylist(playlist_id, songId);
-
-    res
-      .status(200)
-      .json(makeResponse(true, "Song added to playlist succesfully"), 200);
-  } catch (err) {
-    if (err.code === "NOT FOUND") {
-      res
-        .status(401)
-        .json(
-          makeResponse(false, "Unable to find resources", err.message, 401)
-        );
-    }
-    res
-      .status(500)
-      .json(
-        makeResponse(false, "Unable to add song to playlist", err.message, 500)
-      );
-  }
+  await AddSongToPlaylist(playlist_id, song_id);
 }
 
-async function RemoveSongController(req, res) {
-  try {
-    const { playlist_id, song_id } = req.params;
-    console.log(`Check params: ${playlist_id}, ${song_id}`);
+async function RemoveSongController(playlist_id, song_id) {
+  //Check if playlist exists
+  await getPlaylistById(playlist_id);
 
-    //Check playlist exists
-    await getPlaylistById(playlist_id);
-
-    //Delete song from playlist
-    await DeleteSongFromPlaylist(playlist_id, song_id);
-
-    res
-      .status(200)
-      .json(makeResponse(true, "Song removed from playlist succesfully", 200));
-  } catch (err) {
-    if (err.code === "NOT_FOUND") {
-      res
-        .status(401)
-        .json(
-          makeResponse(false, "Unable to find resources", err.message, 401)
-        );
-    }
-    res
-      .status(500)
-      .json(
-        makeResponse(
-          false,
-          "Unable to remove song from playlist",
-          err.message,
-          500
-        )
-      );
-  }
+  await DeleteSongFromPlaylist(playlist_id, song_id);
 }
 
 async function GetSongsFromPlaylistController(playlist_id) {
@@ -105,7 +48,7 @@ async function GetSongsFromPlaylistController(playlist_id) {
 module.exports = {
   CreatePlaylistController,
   DeletePlaylistController,
-  AddSongController,
+  AddSongToPlaylistController,
   RemoveSongController,
   GetSongsFromPlaylistController,
 };

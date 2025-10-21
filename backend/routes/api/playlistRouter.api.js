@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  AddSongController,
-  RemoveSongController,
-} = require("../../controllers/playlistController");
+const { AddSongController } = require("../../controllers/playlistController");
 const {
   CreatePlaylistHandler,
   GetSongsFromPlaylistHandler,
   DeletePlaylistHandler,
+  RemoveSongFromPlaylistHandler,
+  AddSongToPlaylistHandler,
 } = require("../../handlers/api/playlistHandler.api");
 const {
   userAuthMiddlewareApi,
@@ -84,7 +83,7 @@ router.delete("/:playlist_id", DeletePlaylistHandler);
         statusCode: 200
       } 
 */
-router.post("/:playlist_id/songs", AddSongController);
+router.post("/:playlist_id/songs", AddSongToPlaylistHandler);
 
 /*
     DELETE /api/playlists/:playlist_id/songs/:song_id
@@ -106,7 +105,7 @@ router.post("/:playlist_id/songs", AddSongController);
         statusCode: 200
       } 
 */
-router.delete("/:playlist_id/songs/:song_id", RemoveSongController);
+router.delete("/:playlist_id/songs/:song_id", RemoveSongFromPlaylistHandler);
 
 /*
     GET /api/playlists/:playlist_id/songs

@@ -37,7 +37,7 @@ if (featuredTrack && featuredLeft && featuredRight) {
 /* =========================
       DEEZER 30s PREVIEW LOOKUP
       ========================= */
-//Helped by ChatGPT
+
 function dzPreview(query) {
   return new Promise(function (resolve) {
     const cb = "dzcb_" + Math.random().toString(36).slice(2);
@@ -70,6 +70,7 @@ function dzPreview(query) {
 /* =========================
       MINI PLAYER (ONE <audio>)
       ========================= */
+
 const player = document.getElementById("song-player");
 const rows = document.querySelectorAll(".song-row");
 
@@ -189,4 +190,48 @@ function wireRow(row) {
 
   // then: wire all rows (works for both preview + local)
   rows.forEach(wireRow);
+})();
+
+/* =========================
+   ADD-TO-PLAYLIST MODAL
+   ========================= */
+(function () {
+  const modal = document.getElementById("playlistModal");
+  if (!modal) return; // modal not present on this page
+
+  const closeTargets = modal.querySelectorAll('[data-close="true"]');
+  const songIdInput = modal.querySelector("#songIdInput");
+  const openBtnsSel = ".add-to-playlist-btn";
+
+  function openModal(songId) {
+    if (songIdInput) songIdInput.value = songId || "";
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+
+    // focus the select if present
+    const sel = modal.querySelector("#playlistSelect");
+    if (sel) setTimeout(() => sel.focus(), 0);
+  }
+
+  function closeModal() {
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  // open (event delegation so it works on dynamically rendered items too)
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(openBtnsSel);
+    if (!btn) return;
+
+    const songId = btn.getAttribute("data-song-id");
+    openModal(songId);
+  });
+
+  // close (x button and backdrop)
+  closeTargets.forEach((el) => el.addEventListener("click", closeModal));
+
+  // close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+  });
 })();

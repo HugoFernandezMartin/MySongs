@@ -3,6 +3,8 @@ const {
   CreatePlaylistController,
   GetSongsFromPlaylistController,
   DeletePlaylistController,
+  RemoveSongController,
+  AddSongToPlaylistController,
 } = require("../../controllers/playlistController");
 
 async function CreatePlaylistHandler(req, res) {
@@ -75,8 +77,70 @@ async function DeletePlaylistHandler(req, res) {
       .json(makeResponse(false, "Unable to delete playlist", err.message, 500));
   }
 }
+
+async function RemoveSongFromPlaylistHandler(req, res) {
+  try {
+    const { playlist_id, song_id } = req.params;
+    console.log(`Check params: ${playlist_id}, ${song_id}`);
+
+    //Delete song from playlist
+    await RemoveSongController(playlist_id, song_id);
+
+    res
+      .status(200)
+      .json(makeResponse(true, "Song removed from playlist succesfully", 200));
+  } catch (err) {
+    if (err.code === "NOT_FOUND") {
+      res
+        .status(401)
+        .json(
+          makeResponse(false, "Unable to find resources", err.message, 401)
+        );
+    }
+    res
+      .status(500)
+      .json(
+        makeResponse(
+          false,
+          "Unable to remove song from playlist",
+          err.message,
+          500
+        )
+      );
+  }
+}
+
+async function AddSongToPlaylistHandler(req, res) {
+  try {
+    //Get playlist and song from request
+    const { playlist_id } = req.params;
+    const { songId } = req.body;
+
+    //Add song to Playlist
+    await AddSongToPlaylistController(playlist_id, songId);
+
+    res
+      .status(200)
+      .json(makeResponse(true, "Song added to playlist succesfully"), 200);
+  } catch (err) {
+    if (err.code === "NOT FOUND") {
+      res
+        .status(401)
+        .json(
+          makeResponse(false, "Unable to find resources", err.message, 401)
+        );
+    }
+    res
+      .status(500)
+      .json(
+        makeResponse(false, "Unable to add song to playlist", err.message, 500)
+      );
+  }
+}
 module.exports = {
   CreatePlaylistHandler,
   GetSongsFromPlaylistHandler,
   DeletePlaylistHandler,
+  RemoveSongFromPlaylistHandler,
+  AddSongToPlaylistHandler,
 };

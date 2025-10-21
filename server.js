@@ -15,11 +15,15 @@ async function start_server() {
   //Try to init database
   try {
     db = initDB();
-    await resetDB(); //FIXME Debug
+
+    //Testing
+    /*
+    await resetDB();
     (async () => {
       const password_hash = await hashPassword("wdf#2025");
       await createUser("admin", password_hash, true);
     })();
+    */
     console.log("Conected to MySongs database");
   } catch (err) {
     console.error("Unable to start server, DB failed: ", err.message);
