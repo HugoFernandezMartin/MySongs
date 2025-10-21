@@ -5,7 +5,7 @@ const {
   GetGenreHandler,
   CreateGenreHandler,
   DeleteGenreHandler,
-} = require("../../handlers/views/genderHandler.view");
+} = require("../../handlers/views/genreHandler.view");
 const {
   adminAuthMiddlewareView,
   userAuthMiddlewareView,

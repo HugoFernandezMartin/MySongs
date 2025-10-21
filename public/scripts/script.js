@@ -1,7 +1,4 @@
-/* =========================
-   FEATURED ALBUMS CAROUSEL
-   ========================= */
-
+/* featured albums caroussel */
 const featuredTrack = document.querySelector(".featured-track");
 const featuredLeft = document.querySelector(".featured-left");
 const featuredRight = document.querySelector(".featured-right");
@@ -23,10 +20,10 @@ function updateCarouselArrows() {
 }
 
 if (featuredTrack && featuredLeft && featuredRight) {
-  featuredRight.addEventListener("click", function () {
+  featuredRight.addEventListener("click", () => {
     featuredTrack.scrollBy({ left: getCardStep(), behavior: "smooth" });
   });
-  featuredLeft.addEventListener("click", function () {
+  featuredLeft.addEventListener("click", () => {
     featuredTrack.scrollBy({ left: -getCardStep(), behavior: "smooth" });
   });
   featuredTrack.addEventListener("scroll", updateCarouselArrows);
@@ -34,12 +31,9 @@ if (featuredTrack && featuredLeft && featuredRight) {
   updateCarouselArrows();
 }
 
-/* =========================
-      DEEZER 30s PREVIEW LOOKUP
-      ========================= */
-
+/* DEEZER 30s PREVIEW LOOKUP, got helped by chatGPT for this feature */
 function dzPreview(query) {
-  return new Promise(function (resolve) {
+  return new Promise((resolve) => {
     const cb = "dzcb_" + Math.random().toString(36).slice(2);
     window[cb] = function (json) {
       try {
@@ -67,137 +61,121 @@ function dzPreview(query) {
   });
 }
 
-/* =========================
-      MINI PLAYER (ONE <audio>)
-      ========================= */
+/* HOME PREVIEW MINI PLAYER */
+(function initHomePreview() {
+  const player = document.getElementById("hp-player");
+  const rows = document.querySelectorAll(".hp-row");
+  if (!player || rows.length === 0) return;
 
-const player = document.getElementById("song-player");
-const rows = document.querySelectorAll(".song-row");
+  let currentRow = null;
 
-let currentRow = null;
+  const fmt = (sec) => {
+    if (isNaN(sec)) return "–:–";
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${m}:${s}`;
+  };
 
-function fmt(sec) {
-  if (isNaN(sec)) return "–:–";
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60)
-    .toString()
-    .padStart(2, "0");
-  return m + ":" + s;
-}
-
-function wireRow(row) {
-  const btn = row.querySelector(".song-btn");
-  const time = row.querySelector(".song-time");
-  const bar = row.querySelector(".song-bar span");
-
-  if (!btn || !time || !bar) return;
-
-  // enable if we already have a src
-  if (row.dataset.src) {
-    btn.disabled = false;
-    time.textContent = "0:30"; // previews are ~30s
-  }
-
-  btn.addEventListener("click", function () {
-    const src = row.dataset.src || "";
-    if (!src) return;
-
-    // new row selected
-    if (currentRow !== row) {
-      if (currentRow) {
-        const pbtn = currentRow.querySelector(".song-btn");
-        const pbar = currentRow.querySelector(".song-bar span");
-        if (pbtn) pbtn.textContent = "►";
-        if (pbar) pbar.style.width = "0%";
-      }
-      currentRow = row;
-      player.src = src;
-      player.currentTime = 0;
-      player.play();
-      btn.textContent = "❚❚";
-      return;
-    }
-
-    // toggle play/pause on same row
-    if (player.paused) {
-      player.play();
-      btn.textContent = "❚❚";
-    } else {
-      player.pause();
-      btn.textContent = "►";
-    }
-  });
-
-  // update progress while this row is current
-  player.addEventListener("timeupdate", function () {
-    if (currentRow !== row) return;
+  player.addEventListener("timeupdate", () => {
+    if (!currentRow) return;
+    const bar = currentRow.querySelector(".hp-bar span");
+    const time = currentRow.querySelector(".hp-time");
     const dur = player.duration || 1;
     const pct = (player.currentTime / dur) * 100;
-    bar.style.width = pct + "%";
-    time.textContent = fmt(dur - player.currentTime);
+    if (bar) bar.style.width = pct + "%";
+    if (time) time.textContent = fmt(dur - player.currentTime);
   });
 
-  player.addEventListener("ended", function () {
+  player.addEventListener("ended", () => {
     if (!currentRow) return;
-    const cbtn = currentRow.querySelector(".song-btn");
-    const cbar = currentRow.querySelector(".song-bar span");
-    if (cbtn) cbtn.textContent = "►";
-    if (cbar) cbar.style.width = "0%";
+    const btn = currentRow.querySelector(".hp-btn");
+    const bar = currentRow.querySelector(".hp-bar span");
+    if (btn) btn.textContent = "►";
+    if (bar) bar.style.width = "0%";
   });
-}
 
-/* =========================================
-      INIT: fetch previews, then wire the rows
-      ========================================= */
+  function wireRow(row) {
+    const btn = row.querySelector(".hp-btn");
+    const time = row.querySelector(".hp-time");
+    const bar = row.querySelector(".hp-bar span");
+    if (!btn || !time || !bar) return;
 
-(async function initSongs() {
-  if (!rows || rows.length === 0 || !player) return;
-
-  // first: try to fetch preview URLs for rows that have data-query
-  for (const row of rows) {
-    const btn = row.querySelector(".song-btn");
-    const time = row.querySelector(".song-time");
-
-    if (btn) btn.disabled = true;
-
-    // if row already has data-src (local mp3), keep it
+    // if a URL already exists, enable immediately
     if (row.dataset.src) {
-      if (time) time.textContent = "0:30";
-      if (btn) btn.disabled = false;
-      continue;
+      btn.disabled = false;
+      time.textContent = "0:30";
     }
 
-    const q = row.getAttribute("data-query");
-    if (!q) {
-      if (btn) btn.disabled = true;
-      continue;
-    }
+    btn.addEventListener("click", () => {
+      const src = row.dataset.src || "";
+      if (!src) return;
 
-    const url = await dzPreview(q);
-    if (url) {
-      row.dataset.src = url;
-      if (time) time.textContent = "0:30";
-      if (btn) btn.disabled = false;
-    } else {
-      if (time) time.textContent = "N/A";
-      if (btn) {
-        btn.textContent = "—";
-        btn.disabled = true;
-        btn.title = "Preview not available";
+      // switching to a different row
+      if (currentRow !== row) {
+        if (currentRow) {
+          const pbtn = currentRow.querySelector(".hp-btn");
+          const pbar = currentRow.querySelector(".hp-bar span");
+          if (pbtn) pbtn.textContent = "►";
+          if (pbar) pbar.style.width = "0%";
+        }
+        currentRow = row;
+        player.src = src;
+        player.currentTime = 0;
+        player.play();
+        btn.textContent = "❚❚";
+        return;
       }
-    }
+
+      // toggle same row
+      if (player.paused) {
+        player.play();
+        btn.textContent = "❚❚";
+      } else {
+        player.pause();
+        btn.textContent = "►";
+      }
+    });
   }
 
-  // then: wire all rows (works for both preview + local)
-  rows.forEach(wireRow);
+  // resolve previews (one by one), then wire the rows
+  (async function resolveAndWire() {
+    for (const row of rows) {
+      const btn = row.querySelector(".hp-btn");
+      const time = row.querySelector(".hp-time");
+      if (btn) btn.disabled = true;
+
+      // keep any pre-set data-src, otherwise look up by data-query
+      if (!row.dataset.src) {
+        const q = row.getAttribute("data-query") || "";
+        const url = q ? await dzPreview(q) : null;
+        if (url) {
+          row.dataset.src = url;
+          if (time) time.textContent = "0:30";
+          if (btn) btn.disabled = false;
+        } else {
+          if (time) time.textContent = "N/A";
+          if (btn) {
+            btn.textContent = "—";
+            btn.disabled = true;
+            btn.title = "preview not available";
+          }
+        }
+      } else {
+        if (time) time.textContent = "0:30";
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    rows.forEach(wireRow);
+  })();
 })();
 
-/* =========================
-   ADD-TO-PLAYLIST MODAL
-   ========================= */
+/* ADD-TO-PLAYLIST */
 (function () {
   const modal = document.getElementById("playlistModal");
-  if (!modal) return; // modal not present on this page
+  if (!modal) return;
 
   const closeTargets = modal.querySelectorAll('[data-close="true"]');
   const songIdInput = modal.querySelector("#songIdInput");

@@ -62,15 +62,28 @@ async function CreateSongController(title, author, genre, album, release_date) {
   //Get ids
   const authorData = await GetAuthorByName(author);
   const genreData = await GetGenreByName(genre);
-  const albumData = await GetAlbumByName(album);
 
-  const songId = await createSong(
-    title,
-    authorData.author_id,
-    genreData.genre_id,
-    albumData.album_id,
-    release_date
-  );
+  let songId;
+  if (album) {
+    const albumData = await GetAlbumByName(album);
+
+    songId = await createSong(
+      title,
+      authorData.author_id,
+      genreData.genre_id,
+      albumData.album_id,
+      release_date
+    );
+  } else {
+    songId = await createSong(
+      title,
+      authorData.author_id,
+      genreData.genre_id,
+      null,
+      release_date
+    );
+  }
+
   return songId;
 }
 

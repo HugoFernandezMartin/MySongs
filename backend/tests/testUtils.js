@@ -30,7 +30,7 @@ async function resetDB() {
         db.run("DELETE FROM sqlite_sequence");
 
         const sql = fs.readFileSync(
-          "./backend/db/scripts/test_data.sql",
+          "./backend/db/scripts/initial_data.sql",
           "utf8"
         );
 

@@ -1,6 +1,5 @@
 const { initDB } = require("../db/database");
 const db = initDB();
-exports.db = db;
 
 async function AddGenre(name, description) {
   return new Promise((resolve, reject) => {

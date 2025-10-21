@@ -1,82 +1,70 @@
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{pageTitle}}</title>
 
-    <title>Document</title>
+    <!-- global css -->
     <link rel="stylesheet" href="/css/main.css" />
   </head>
-  <!-- Add-to-Playlist Modal (shared) -->
-  <div id="playlistModal" class="ms-modal" aria-hidden="true">
-    <div class="ms-modal__backdrop" data-close="true"></div>
 
-    <div
-      class="ms-modal__card"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="ms-modal-title"
-    >
-      <button
-        class="ms-modal__close"
-        type="button"
-        aria-label="Close"
-        data-close="true"
-      >✕</button>
-
-      <h3 id="ms-modal-title" class="ms-modal__title">add to playlist</h3>
-
-      {{! If you pass the user's playlists from the server as "playlists" }}
-      {{#if playlists.length}}
-        <form
-          class="ms-modal__form"
-          action="/playlists/songs/add"
-          method="POST"
-        >
-          <input id="songIdInput" type="hidden" name="song_id" value="" />
-
-          <label class="ms-modal__label" for="playlistSelect">choose playlist</label>
-          <select
-            id="playlistSelect"
-            name="playlist_id"
-            required
-            class="ms-modal__select"
-          >
-            {{#each playlists}}
-              <option value="{{playlist_id}}">{{title}}</option>
-            {{/each}}
-          </select>
-
-          <button class="ms-modal__submit" type="submit">add</button>
-        </form>
-      {{else}}
-        <p class="ms-modal__empty">
-          no playlists yet.
-          <a class="ms-modal__link" href="/account">create one in your account</a>.
-        </p>
-      {{/if}}
-    </div>
-  </div>
   <body>
-
+    <!-- site header + primary nav -->
     <header class="site-header">
       <div class="wrap header-inner">
         <a class="logo" href="/">MYSONGS</a>
-        <nav class="site-nav" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/songs/search">Songs</a>
-          <a href="/about">About</a>
-          <a href="/contact" aria-current="page">Contact</a>
-          <a href="/auth/login">Account</a>
 
+        <nav class="site-nav" aria-label="primary">
+          <a href="/"               {{#if isHome}}aria-current="page"{{/if}}>Home</a>
+          <a href="/songs/search"   {{#if isSongs}}aria-current="page"{{/if}}>Songs</a>
+          <a href="/about"          {{#if isAbout}}aria-current="page"{{/if}}>About</a>
+          <a href="/contact"        {{#if isContact}}aria-current="page"{{/if}}>Contact</a>
+          <a href="/auth/login"     {{#if isAccount}}aria-current="page"{{/if}}>Account</a>
         </nav>
       </div>
     </header>
 
+    <!-- page content -->
     {{{body}}}
 
+    <!-- site footer -->
     <footer class="foot">
       <p>© MySongs 2025</p>
     </footer>
-    <script src="/scripts/script.js"></script>
+
+    <!-- add-to-playlist modal (shared) -->
+    <div id="playlistModal" class="ms-modal" aria-hidden="true">
+      <div class="ms-modal__backdrop" data-close="true"></div>
+
+      <div class="ms-modal__card" role="dialog" aria-modal="true" aria-labelledby="ms-modal-title">
+        <button class="ms-modal__close" type="button" aria-label="close" data-close="true">✕</button>
+
+        <h3 id="ms-modal-title" class="ms-modal__title">add to playlist</h3>
+
+        {{!-- playlists expected as "playlists" from server --}}
+        {{#if playlists.length}}
+          <form class="ms-modal__form" action="/playlists/songs/add" method="POST">
+            <input id="songIdInput" type="hidden" name="song_id" value="" />
+
+            <label class="ms-modal__label" for="playlistSelect">choose playlist</label>
+            <select id="playlistSelect" name="playlist_id" required class="ms-modal__select">
+              {{#each playlists}}
+                <option value="{{playlist_id}}">{{title}}</option>
+              {{/each}}
+            </select>
+
+            <button class="ms-modal__submit" type="submit">add</button>
+          </form>
+        {{else}}
+          <p class="ms-modal__empty">
+            no playlists yet. <a class="ms-modal__link" href="/account">create one in your account</a>.
+          </p>
+        {{/if}}
+      </div>
+    </div>
+
+    <!-- app js -->
+    <script src="/scripts/script.js" defer></script>
   </body>
 </html>

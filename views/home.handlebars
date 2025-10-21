@@ -1,5 +1,4 @@
 <!-- genres navigation -->
-<!-- genres navigation -->
 <nav class="genres" aria-label="browse by genre">
   {{#each genres}}
     <a href="/genres/{{genre_id}}">{{name}}</a>
@@ -11,7 +10,7 @@
   <h1 class="hero-word">MySongs</h1>
 </section>
 
-<!-- main intro photo + vol text (no negative offsets) -->
+<!-- main intro photo + vol text -->
 <section class="hero-split">
   <img class="hero-img" src="/images/VOL.11.jpg" alt="Listening to music" />
   <div class="hero-right">
@@ -79,7 +78,7 @@
           src="/images/guns-album.jpg"
           alt="Guns N' Roses — Use Your Illusion"
         />
-        <p class="album-meta">Guns N' Roses • Use your Ilusion</p>
+        <p class="album-meta">Guns N' Roses • Use your Illusion</p>
       </article>
 
       <article class="album" role="listitem">
@@ -114,80 +113,55 @@
     <div class="featured-fade featured-fade-r"></div>
   </div>
 </section>
-
-<!-- songs list with floating player -->
-<section class="songs-section">
+<!-- image + floating mini player -->
+<section class="home-preview">
+  <!-- background photo -->
   <img
-    class="songs-bg"
-    src="/images/young-women-wearing-2000s-fashion.jpg"
-    alt="Fashion background"
+    class="hp-bg"
+    src="/images/homeFoot.jpg"
+    alt="night city photo backdrop"
   />
 
-  <!-- floating card -->
-  <div class="songs-card">
-    <h3 class="songs-title">My Favorite Songs</h3>
+  <!-- compact card on the right -->
+  <div class="hp-card" aria-label="preview some tracks">
+    <h3 class="hp-title">Our favorite songs</h3>
 
-    <!-- songs list -->
-    <ul class="songs-list">
-      <li class="song-row" data-query="Post Malone Circles">
-        <button
-          class="song-btn"
-          aria-label="Play or pause Circles by Post Malone"
-        >►</button>
-        <img
-          class="song-cover"
-          src="/images/album-img1.jpg"
-          alt="Cover art for Circles"
-        />
-        <div class="song-info">
-          <strong>Post Malone</strong>
-          <span>Circles</span>
+    <ul class="hp-list">
+      <li class="hp-row" data-query="Notion The Days">
+        <button class="hp-btn" aria-label="play or pause">►</button>
+        <img class="hp-cover" src="/images/notion.jpg" alt="" />
+        <div class="hp-meta">
+          <strong>The Days</strong>
+          <span>Chrystal, Notion</span>
         </div>
-        <span class="song-time">–:–</span>
-        <div class="song-bar"><span></span></div>
+        <span class="hp-time">–:–</span>
+        <div class="hp-bar"><span></span></div>
       </li>
 
-      <li class="song-row" data-query="Olivia Rodrigo deja vu">
-        <button
-          class="song-btn"
-          aria-label="Play or pause deja vu by Olivia Rodrigo"
-        >►</button>
-        <img
-          class="song-cover"
-          src="/images/album-img2.jpg"
-          alt="Cover art for deja vu"
-        />
-        <div class="song-info">
-          <strong>Olivia Rodrigo</strong>
-          <span>deja vu</span>
+      <li class="hp-row" data-query="Kanye Carnival">
+        <button class="hp-btn" aria-label="play or pause">►</button>
+        <img class="hp-cover" src="/images/carnival.jpg.webp" alt="" />
+        <div class="hp-meta">
+          <strong>Carnival</strong>
+          <span>Kanye West</span>
         </div>
-        <span class="song-time">–:–</span>
-        <div class="song-bar"><span></span></div>
+        <span class="hp-time">–:–</span>
+        <div class="hp-bar"><span></span></div>
       </li>
 
-      <li class="song-row" data-query="Harry Styles As It Was">
-        <button
-          class="song-btn"
-          aria-label="Play or pause As It Was by Harry Styles"
-        >►</button>
-        <img
-          class="song-cover"
-          src="/images/album-img3.jpg"
-          alt="Cover art for As It Was"
-        />
-        <div class="song-info">
-          <strong>Harry Styles</strong>
-          <span>As It Was</span>
+      <li class="hp-row" data-query="Swae Unforgettable">
+        <button class="hp-btn" aria-label="play or pause">►</button>
+        <img class="hp-cover" src="/images/unforgettable.jpg" alt="" />
+        <div class="hp-meta">
+          <strong>Unforgettable</strong>
+          <span>French Montana, Swae Lee</span>
         </div>
-        <span class="song-time">–:–</span>
-        <div class="song-bar"><span></span></div>
+        <span class="hp-time">–:–</span>
+        <div class="hp-bar"><span></span></div>
       </li>
     </ul>
-
-    <!-- button to full page -->
-    <button class="songs-cta" type="button">SEE FULL LIST</button>
   </div>
 
-  <!-- hidden audio player -->
-  <audio id="song-player" preload="metadata"></audio>
+  <!-- hidden audio element -->
+  <audio id="hp-player" preload="metadata"></audio>
 </section>
