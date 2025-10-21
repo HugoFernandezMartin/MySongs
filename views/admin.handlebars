@@ -10,7 +10,7 @@
   <section class="admin-hero">
     <div class="wrap admin-hero-inner">
       <h1 class="admin-title">Admin Menu</h1>
-      <p class="admin-sub">Manage songs & genres</p>
+      <p class="admin-sub">Manage songs, genres & authors</p>
     </div>
   </section>
 
@@ -94,7 +94,7 @@
                   rows="5"
                 ></textarea>
               </div>
-              <button type="submit" class="btn create-song-submit">Create Genre</button>
+              <button type="submit" class="btn create-genre-submit">Create Genre</button>
             </form>
           </div>
 
@@ -113,6 +113,52 @@
                   type="submit"
                   class="btn-outline btn-danger delete-genre-submit"
                 >Delete Genre</button>
+              </div>
+            </form>
+          </div>
+        </article>
+
+        <!-- AUTHOR MANAGER -->
+        <article class="admin-card">
+          <h1 class="brand-title">AUTHOR MANAGER</h1>
+
+          <!-- CREATE AUTHOR -->
+          <div class="admin-block">
+            <h3 class="admin-h2">Create Author</h3>
+            <form
+              class="admin-form create-author-form"
+              action="/authors"
+              method="POST"
+              novalidate
+            >
+              <div class="field-grid">
+                <input type="text" name="name" placeholder="Name" required />
+                <textarea
+                  name="description"
+                  placeholder="Description"
+                  rows="5"
+                ></textarea>
+              </div>
+              <button type="submit" class="btn create-author-submit">Create
+                Author</button>
+            </form>
+          </div>
+
+          <!-- DELETE AUTHOR -->
+          <div class="admin-block">
+            <h3 class="admin-h2">Delete Author</h3>
+            <form
+              class="admin-form delete-author-form"
+              action="/authors/delete"
+              method="POST"
+              novalidate
+            >
+              <div class="field-row">
+                <input type="text" name="name" placeholder="Name" required />
+                <button
+                  type="submit"
+                  class="btn-outline btn-danger delete-author-submit"
+                >Delete Author</button>
               </div>
             </form>
           </div>

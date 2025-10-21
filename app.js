@@ -19,6 +19,7 @@ const authRouterView = require("./backend/routes/views/authRouter.view.js");
 const playlistRouterView = require("./backend/routes/views/playlistRouter.view.js");
 const songRouterView = require("./backend/routes/views/songRouter.view.js");
 const genreRouterView = require("./backend/routes/views/genreRouter.view.js");
+const authorRouterView = require("./backend/routes/views/authorRouter.view.js");
 const { GetGenres } = require("./backend/repositories/genreRepository.js");
 
 //Session database
@@ -85,5 +86,6 @@ app.use("/auth", authRouterView);
 app.use("/playlists", playlistRouterView);
 app.use("/songs", songRouterView);
 app.use("/genres", genreRouterView);
+app.use("/authors", authorRouterView);
 
 module.exports = app;
