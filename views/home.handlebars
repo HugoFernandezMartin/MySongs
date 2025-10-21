@@ -1,5 +1,6 @@
 <!-- genres navigation -->
-<nav class="genres">
+<!-- genres navigation -->
+<nav class="genres" aria-label="browse by genre">
   {{#each genres}}
     <a href="/genres/{{genre_id}}">{{name}}</a>
   {{/each}}
@@ -10,38 +11,16 @@
   <h1 class="hero-word">MySongs</h1>
 </section>
 
-<!-- main intro photo + vol text -->
+<!-- main intro photo + vol text (no negative offsets) -->
 <section class="hero-split">
-  <img class="hero-img" src="/images/VOL.11.jpg" alt="Listening to music" />
+  <img class="hero-img" src="/images/VOL.11.jpg" alt="Listening to music">
   <div class="hero-right">
     <p class="hero-copy">
-      Music isn’t just sound, it’s the chaos, the calm, and the vibe we live
+      Music isn't just sound, it's the chaos, the calm, and the vibe we live
       for. A Gen-Z diary written in basslines, late nights, and lyrics that hit
       like texts from a best friend.
     </p>
     <h2 class="hero-title">VOL.1</h2>
-  </div>
-</section>
-
-<!-- short about section -->
-<section class="intro">
-  <div class="intro-text">
-    <h2>Hi, we are Hugo & Angelica</h2>
-    <p>
-      We are the creators of
-      <strong>MySongs</strong>, a student project born from our passion for
-      music and design. Our goal is to build a space where music discovery feels
-      modern, bold, and inspiring. With Hugo focused on the technical side and
-      Angelica on the design and aesthetics, we teamed up to create a site that
-      not only showcases music releases but also reflects the creative energy
-      behind them.
-    </p>
-  </div>
-
-  <!-- images of founders -->
-  <div class="intro-images">
-    <img src="/images/hugo.jpg" alt="Hugo" />
-    <img src="/images/angelica.jpg" alt="Angelica" />
   </div>
 </section>
 
@@ -51,82 +30,47 @@
 
   <div class="featured-wrap">
     <!-- arrow buttons -->
-    <button
-      class="featured-arrow featured-left"
-      aria-label="Previous"
-    >‹</button>
+    <button class="featured-arrow featured-left" aria-label="Previous">‹</button>
 
     <!-- album list -->
     <div class="featured-track" role="list">
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/drake-album.jpg"
-          alt="Artist • Album 1"
-        />
+        <img class="album-img" src="/images/drake-album.jpg" alt="Drake ft. 21 Savage — Her Loss">
         <p class="album-meta">Drake ft. 21 Savage • Her Loss</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/tyler-album.jpg"
-          alt="Artist • Album 2"
-        />
+        <img class="album-img" src="/images/tyler-album.jpg" alt="Tyler, The Creator — IGOR">
         <p class="album-meta">Tyler, The Creator • IGOR</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/imapala-album.jpg"
-          alt="Artist • Album 3"
-        />
+        <img class="album-img" src="/images/imapala-album.jpg" alt="Tame Impala — The Slow Rush">
         <p class="album-meta">Tame Impala • The Slow Rush</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/kanye-album.jpg"
-          alt="Artist • Album 4"
-        />
+        <img class="album-img" src="/images/kanye-album.jpg" alt="Kanye West — Graduation">
         <p class="album-meta">Kanye West • Graduation</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/guns-album.jpg"
-          alt="Artist • Album 5"
-        />
+        <img class="album-img" src="/images/guns-album.jpg" alt="Guns N' Roses — Use Your Illusion">
         <p class="album-meta">Guns N' Roses • Use your Ilusion</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/sza-album.jpg"
-          alt="Artist • Album 6"
-        />
+        <img class="album-img" src="/images/sza-album.jpg" alt="SZA — Ctrl">
         <p class="album-meta">SZA • Ctrl</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/gambino-album.jpg"
-          alt="Artist • Album 7"
-        />
+        <img class="album-img" src="/images/gambino-album.jpg" alt="Childish Gambino — Awaken, My Love!">
         <p class="album-meta">Childish Gambino • Awaken, My Love!</p>
       </article>
 
       <article class="album" role="listitem">
-        <img
-          class="album-img"
-          src="/images/quevedo-album.jpg"
-          alt="Artist • Album 8"
-        />
+        <img class="album-img" src="/images/quevedo-album.jpg" alt="Quevedo — Donde quiero estar">
         <p class="album-meta">Quevedo • Donde quiero estar</p>
       </article>
     </div>
@@ -144,8 +88,8 @@
 <section class="songs-section">
   <img
     class="songs-bg"
-    src="/young-women-wearing-2000s-fashion.jpg"
-    alt="Background"
+    src="/images/young-women-wearing-2000s-fashion.jpg"
+    alt="Fashion background"
   />
 
   <!-- floating card -->
@@ -155,12 +99,8 @@
     <!-- songs list -->
     <ul class="songs-list">
       <li class="song-row" data-query="Post Malone Circles">
-        <button class="song-btn" aria-label="Play/Pause">►</button>
-        <img
-          class="song-cover"
-          src="/album-img1.jpg"
-          alt="Post Malone Circles"
-        />
+        <button class="song-btn" aria-label="Play or pause Circles by Post Malone">►</button>
+        <img class="song-cover" src="/images/album-img1.jpg" alt="Cover art for Circles">
         <div class="song-info">
           <strong>Post Malone</strong>
           <span>Circles</span>
@@ -170,12 +110,8 @@
       </li>
 
       <li class="song-row" data-query="Olivia Rodrigo deja vu">
-        <button class="song-btn" aria-label="Play/Pause">►</button>
-        <img
-          class="song-cover"
-          src="/album-img2.jpg"
-          alt="Olivia Rodrigo deja vu"
-        />
+        <button class="song-btn" aria-label="Play or pause deja vu by Olivia Rodrigo">►</button>
+        <img class="song-cover" src="/images/album-img2.jpg" alt="Cover art for deja vu">
         <div class="song-info">
           <strong>Olivia Rodrigo</strong>
           <span>deja vu</span>
@@ -185,12 +121,8 @@
       </li>
 
       <li class="song-row" data-query="Harry Styles As It Was">
-        <button class="song-btn" aria-label="Play/Pause">►</button>
-        <img
-          class="song-cover"
-          src="/album-img3.jpg"
-          alt="Harry Styles As It Was"
-        />
+        <button class="song-btn" aria-label="Play or pause As It Was by Harry Styles">►</button>
+        <img class="song-cover" src="/images/album-img3.jpg" alt="Cover art for As It Was">
         <div class="song-info">
           <strong>Harry Styles</strong>
           <span>As It Was</span>
@@ -201,7 +133,7 @@
     </ul>
 
     <!-- button to full page -->
-    <button class="songs-cta">SEE FULL LIST</button>
+    <button class="songs-cta" type="button">SEE FULL LIST</button>
   </div>
 
   <!-- hidden audio player -->

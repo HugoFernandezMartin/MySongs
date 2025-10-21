@@ -1,35 +1,62 @@
-<div>
-  <h1>{{genre.name}}</h1>
-  <div>
-    <ul>
-      {{#each songs}}
-        <li>{{song_title}}
-          Author:
-          {{author_name}}
-          Genre:
-          {{genre_name}}
-          Album:
-          {{album_title}}
-          Release Date:
-          {{release_date}}</li>
-      {{/each}}
-    </ul>
-    {{#if error}}
-      <p class="error">{{error}}</p>
-    {{/if}}
-  </div>
-  <div>
-    <div class="pagination">
-      {{#if pagination.hasPrevPage}}
-        <a href="{{genre.genre_id}}?page={{pagination.prevPage}}">Previous</a>
-      {{/if}}
-
-      <span>Page {{pagination.currentPage}} of {{pagination.totalPages}}</span>
-
-      {{#if pagination.hasNextPage}}
-        <a href="{{genre.genre_id}}?page={{pagination.nextPage}}">Next</a>
-      {{/if}}
+<main class="genre-page">
+  <!-- header -->
+  <section class="genre-hero">
+    <div class="wrap">
+      <span class="genre-label">Genre</span>
+      <h1 class="genre-title">{{genre.name}}</h1>
     </div>
+  </section>
 
-  </div>
-</div>
+  <!-- results -->
+  <section class="genre-results">
+    <div class="wrap">
+
+      {{#if songs.length}}
+        <ul class="song-grid">
+          {{#each songs}}
+            <li class="song-card">
+              <!-- cover blob (same as search cards) -->
+              <div class="song-cover" aria-hidden="true"></div>
+
+              <!-- meta -->
+              <div class="song-meta">
+                <h3 class="song-title">{{song_title}}</h3>
+                <p class="song-line"><span class="k">artist</span> <span class="v">{{author_name}}</span></p>
+                <p class="song-line"><span class="k">genre</span>  <span class="v">{{genre_name}}</span></p>
+                <p class="song-line"><span class="k">album</span>  <span class="v">{{album_title}}</span></p>
+                <p class="song-line"><span class="k">released</span> <span class="v">{{release_date}}</span></p>
+              </div>
+
+              <!-- play btn (purely visual; logic unchanged) -->
+              <button class="song-play" title="play preview" aria-label="play preview">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <polygon points="6,4 20,12 6,20" fill="currentColor"></polygon>
+                </svg>
+              </button>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p class="search-empty">no songs in this genre yet.</p>
+      {{/if}}
+
+      {{#if error}}
+        <p class="error">{{error}}</p>
+      {{/if}}
+
+      <!-- pagination (logic untouched) -->
+      <nav class="pager">
+        {{#if pagination.hasPrevPage}}
+          <a href="{{genre.genre_id}}?page={{pagination.prevPage}}">prev</a>
+        {{/if}}
+
+        <span class="page-dot">Page {{pagination.currentPage}} of {{pagination.totalPages}}</span>
+
+        {{#if pagination.hasNextPage}}
+          <a href="{{genre.genre_id}}?page={{pagination.nextPage}}">next</a>
+        {{/if}}
+      </nav>
+
+    </div>
+  </section>
+</main>
