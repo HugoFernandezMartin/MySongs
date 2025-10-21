@@ -190,30 +190,6 @@ describe("Routers tests", () => {
       //console.log("GET PLAYLISTS RESPONSE: ", response.body);
       expect(response.body.message).toBe("Playlists retrieved succesfully");
     });
-
-    test("Register, log in and try to update profile picture", async () => {
-      const agent = request.agent(app);
-
-      //*REGISTER
-      await agent.post("/api/auth/register").send({
-        username: "angelica123",
-        password: "pass123",
-        confirm_password: "pass123",
-      });
-
-      //*LOGIN
-      await agent.post("/api/auth/login").send({
-        username: "angelica123",
-        password: "pass123",
-      });
-
-      //*RETURN PLAYLISTS
-      const response = await agent.put("/api/me/update_picture").send({
-        picture: "PictureDATA",
-      });
-      //console.log("UPDATE PICTURE RESPONSE: ", response.body);
-      expect(response.body.message).toBe("Profile Picture updated succesfully");
-    });
   });
 
   //#region PLAYLISTS

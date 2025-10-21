@@ -6,6 +6,56 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/main.css" />
   </head>
+  <!-- Add-to-Playlist Modal (shared) -->
+  <div id="playlistModal" class="ms-modal" aria-hidden="true">
+    <div class="ms-modal__backdrop" data-close="true"></div>
+
+    <div
+      class="ms-modal__card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ms-modal-title"
+    >
+      <button
+        class="ms-modal__close"
+        type="button"
+        aria-label="Close"
+        data-close="true"
+      >✕</button>
+
+      <h3 id="ms-modal-title" class="ms-modal__title">add to playlist</h3>
+
+      {{! If you pass the user's playlists from the server as "playlists" }}
+      {{#if playlists.length}}
+        <form
+          class="ms-modal__form"
+          action="/playlists/songs/add"
+          method="POST"
+        >
+          <input id="songIdInput" type="hidden" name="song_id" value="" />
+
+          <label class="ms-modal__label" for="playlistSelect">choose playlist</label>
+          <select
+            id="playlistSelect"
+            name="playlist_id"
+            required
+            class="ms-modal__select"
+          >
+            {{#each playlists}}
+              <option value="{{playlist_id}}">{{title}}</option>
+            {{/each}}
+          </select>
+
+          <button class="ms-modal__submit" type="submit">add</button>
+        </form>
+      {{else}}
+        <p class="ms-modal__empty">
+          no playlists yet.
+          <a class="ms-modal__link" href="/account">create one in your account</a>.
+        </p>
+      {{/if}}
+    </div>
+  </div>
   <body>
 
     <header class="site-header">

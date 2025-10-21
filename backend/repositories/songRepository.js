@@ -4,7 +4,6 @@ const db = initDB();
 //Create new song
 async function createSong(title, author_id, genre_id, album_id, release_date) {
   return new Promise((resolve, reject) => {
-    //TODO CHECK RELEASE DATE (db too)
     db.run(
       `INSERT INTO songs (title, author_id, genre_id, album_id, release_date) VALUES (?, ?, ?, ?, ?)`,
       [title, author_id, genre_id, album_id, release_date],
@@ -29,9 +28,6 @@ async function createSong(title, author_id, genre_id, album_id, release_date) {
 
 //Get songs with optional filters, null if filter is not applied
 async function getSongs(author, genre, album, limit, offset) {
-  console.log(
-    `Get Songs: author: ${author}, genre: ${genre}, album: ${album}, limit: ${limit}, offset: ${offset}`
-  );
   //Adding parameters if filter applied
   let query = `SELECT 
         s.song_id,

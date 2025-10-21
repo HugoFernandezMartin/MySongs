@@ -43,9 +43,23 @@ async function SearchSongController(q, limit) {
 }
 
 async function CreateSongController(title, author, genre, album, release_date) {
-  if (!title || !author || !genre || !album || !release_date) {
+  if (!title || !author || !genre || !release_date) {
     throw new Error("Missing data for creating song");
   }
+
+  //Check valid release date
+  const releaseDate = new Date(release_date);
+  const now = new Date();
+
+  if (isNaN(releaseDate.getTime())) {
+    throw new Error("Invalid release date format");
+  }
+
+  if (releaseDate > now) {
+    throw new Error("Not valid date");
+  }
+
+  //Get ids
   const authorData = await GetAuthorByName(author);
   const genreData = await GetGenreByName(genre);
   const albumData = await GetAlbumByName(album);

@@ -5,6 +5,8 @@ const {
   CreatePlaylistHandler,
   GetPlaylistHandler,
   DeletePlaylistHandler,
+  AddSongToPlaylistHandler,
+  RemoveSongFromPlaylistHandler,
 } = require("../../handlers/views/playlistHandler.view");
 
 /*
@@ -24,16 +26,16 @@ router.get("/:playlist_id", GetPlaylistHandler);
   Delete a playlist
 */
 router.post("/delete", DeletePlaylistHandler);
-/*
-/*
-  POST /playlists/:playlist_id/songs
-  Add song to playlist
 
-router.post("/:playlist_id/songs", AddSongToPlaylistHandler);
+/*
+  POST /playlists/songs/add
+  Add song to playlist
+*/
+router.post("/songs/add", AddSongToPlaylistHandler);
 
 /*
   POST /playlists/:playlist_id/songs/remove
   Remove song from playlist
-
-router.post("/:playlist_id/songs/remove", RemoveSongFromPlaylistHandler);*/
+*/
+router.post("/:playlist_id/songs/remove", RemoveSongFromPlaylistHandler);
 module.exports = router;

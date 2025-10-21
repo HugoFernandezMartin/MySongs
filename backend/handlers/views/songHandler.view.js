@@ -1,4 +1,7 @@
 const {
+  GetPlaylistsController,
+} = require("../../controllers/accountController");
+const {
   SearchSongController,
   CreateSongController,
   DeleteSongController,
@@ -6,9 +9,15 @@ const {
 
 async function GetSongSearchHandler(req, res) {
   try {
+    //Get id from session
+    const userId = req.session.userId;
+
+    //Get playlists
+    const playlists = await GetPlaylistsController(userId);
+
     const { query } = req.query;
     const songs = await SearchSongController(query);
-    model = { songs };
+    model = { songs, playlists };
     res.render("songsSearch", model);
   } catch (err) {
     if (err.code === "NOT_FOUND") {

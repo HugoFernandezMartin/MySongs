@@ -67,21 +67,25 @@
               </div>
 
               <!-- quick action -->
+              <!-- quick action: add to playlist -->
               <button
-                class="song-play"
-                title="play preview"
-                aria-label="play preview"
+                class="song-add add-to-playlist-btn"
+                type="button"
+                title="add to playlist"
+                aria-label="add to playlist"
+                data-song-id="{{song_id}}"
               >
+                <!-- plus icon -->
                 <svg
                   viewBox="0 0 24 24"
                   width="18"
                   height="18"
                   aria-hidden="true"
                 >
-                  <polygon
-                    points="6,4 20,12 6,20"
+                  <path
                     fill="currentColor"
-                  ></polygon>
+                    d="M11 5a1 1 0 1 1 2 0v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5z"
+                  />
                 </svg>
               </button>
             </li>
