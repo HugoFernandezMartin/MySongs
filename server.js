@@ -1,6 +1,19 @@
+/*
+Hugo Fernández Martín - fehu25cr@student.ju.se
+Angelica Salazar Strelschenko - saan24fr@student.ju.se
+
+Target grade 5
+
+Project Web Dev Fun 2025
+
+Administrator login: admin
+Administrator password: wdf#2025 -> $2b$10$x57IbwN2W0Ua1MiSzCstQuwkBCo0h.x.0Il1zlQGb5zs0Ho2YCf0m
+
+- Some code in this projecto were generated with the help of ChatGPT.
+- Several images come from the web (not made by us): pinterest, google images.
+
+*/
 const app = require("./app");
-const { hashPassword } = require("./backend/commons/utils/hash.js");
-const { createUser } = require("./backend/repositories/userRepository.js");
 const { initDB } = require("./backend/db/database.js");
 const { resetDB } = require("./backend/tests/testUtils.js");
 

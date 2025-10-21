@@ -16,6 +16,7 @@ function adminAuthMiddlewareApi(req, res, next) {
   next();
 }
 
+//Authentication middlewares
 function userAuthMiddlewareApi(req, res, next) {
   if (!req.session || !req.session.userId) {
     return res
@@ -29,12 +30,12 @@ function userAuthMiddlewareApi(req, res, next) {
 function adminAuthMiddlewareView(req, res, next) {
   if (!req.session || !req.session.userId) {
     req.session.info = "You must log in";
-    res.redirect("/auth/login");
+    return res.redirect("/auth/login");
   }
 
   if (!req.session.isAdmin) {
     req.session.info = "You must be admin";
-    res.redirect("/");
+    return res.redirect("/");
   }
 
   next();
@@ -43,9 +44,8 @@ function adminAuthMiddlewareView(req, res, next) {
 function userAuthMiddlewareView(req, res, next) {
   if (!req.session || !req.session.userId) {
     req.session.info = "You must log in";
-    res.redirect("/auth/login");
+    return res.redirect("/auth/login");
   }
-
   next();
 }
 
